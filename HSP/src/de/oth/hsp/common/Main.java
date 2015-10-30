@@ -1,4 +1,4 @@
-package de.oth.hsp.clsp;
+package de.oth.hsp.common;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
