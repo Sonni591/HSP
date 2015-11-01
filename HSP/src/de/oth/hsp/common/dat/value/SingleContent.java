@@ -1,5 +1,6 @@
 package de.oth.hsp.common.dat.value;
 
+import de.oth.hsp.common.dat.DatUtil;
 import de.oth.hsp.common.dat.IContent;
 
 /**
@@ -10,7 +11,7 @@ import de.oth.hsp.common.dat.IContent;
  * 
  * @author Thomas Butz
  */
-public class SingleContent<E extends Number> implements IContent<E> {
+public class SingleContent<E extends Number> implements IContent<E> {	
 	private E value;
 
 	public SingleContent(E value) {
@@ -30,7 +31,7 @@ public class SingleContent<E extends Number> implements IContent<E> {
 		if (value instanceof Integer) {
 			return Integer.toString((Integer) value);
 		}
-		return Double.toString((Double) value);
+		return DatUtil.toString((Double)value);
 	}
 	
 	@Override

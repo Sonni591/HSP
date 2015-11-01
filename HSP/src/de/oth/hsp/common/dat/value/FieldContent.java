@@ -1,7 +1,7 @@
 package de.oth.hsp.common.dat.value;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,12 +19,14 @@ import de.oth.hsp.common.dat.IContent;
  * @author Thomas Butz
  */
 public class FieldContent<E> implements IContent<E>, Iterable<IContent<E>> {
-	/** the template used to format the String representation */
-	private static final String TEMPLATE = "#[\n{0}]#";
+	/** Declares the start of a field */
+	private static final String FIELD_OPEN = "#[";
+	/** Declares the end of a field */
+	private static final String FIELD_END  = "]#";
+	/** Used to prettify the structure of nested elements */
+	private static final String INDENTATION = "   ";
 	/** separator between index and content */
 	private static final String INDEX_SEPARATOR = ": ";
-	/** number of strings used for indentation */
-	private static final int INDENTATION_SIZE = 3;
 	
 	private final Map<Integer, IContent<E>> values;
 
@@ -63,19 +65,18 @@ public class FieldContent<E> implements IContent<E>, Iterable<IContent<E>> {
 	public String getStringRepresentation(int level) {
 		
 		StringBuilder fieldBuilder = new StringBuilder();
-		
-		StringBuilder indentation = new StringBuilder();
-		for (int i = 0; i < (INDENTATION_SIZE * (level+1)); i++) {
-			indentation.append(" ");
-		}
+		fieldBuilder.append(FIELD_OPEN);
 		
 		for (Entry<Integer, IContent<E>> entry : values.entrySet()) {
-			fieldBuilder.append(indentation).append(entry.getKey()).append(INDEX_SEPARATOR);
-			fieldBuilder.append(entry.getValue().getStringRepresentation(level+1));
 			fieldBuilder.append(System.lineSeparator());
+			fieldBuilder.append(String.join("", Collections.nCopies(level+1, INDENTATION))).append(entry.getKey()).append(INDEX_SEPARATOR);
+			fieldBuilder.append(entry.getValue().getStringRepresentation(level+1));
 		}
+
+		fieldBuilder.append(System.lineSeparator());
+		fieldBuilder.append(String.join("", Collections.nCopies(level, INDENTATION))).append(FIELD_END);
 		
-		return MessageFormat.format(TEMPLATE, fieldBuilder);
+		return fieldBuilder.toString();
 	}
 
 	@Override

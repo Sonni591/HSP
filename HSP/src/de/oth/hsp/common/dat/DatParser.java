@@ -7,8 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.oth.hsp.common.dat.value.ArrayContent;
+import de.oth.hsp.common.dat.value.FieldContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 
 /**
@@ -25,8 +27,10 @@ public class DatParser {
 	private static final String ENTRY_DELIMITER = ";";
 	/** indicates the declaration of a field */
 	private static final String FIELD_INDICATOR = "#";
-	/** indicates the declaration of an array */
-	private static final String ARRAY_INDICATOR = "[";
+	/** indicates the start of an array or field */
+	private static final String STRUCTURE_START_INDICATOR = "[";
+	/** indicates the end of an array or field */
+	private static final String STRUCTURE_END_INDICATOR = "]";
 	
 	/** used to split an array string to single values */
 	private static final String ARRAY_SPLIT_REGEX = "[, ]+";
@@ -57,8 +61,7 @@ public class DatParser {
 	public void parse(Path path) throws DatParseException {
 		entries.clear();
 
-		try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-
+		try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.ISO_8859_1)) {
 			StringBuilder element = new StringBuilder();
 			while (reader.ready()) {
 				final String line = stripComments(reader.readLine());
@@ -109,10 +112,10 @@ public class DatParser {
 	 * @return the parsed content
 	 */
 	private IContent<?> parseContent(String contentString) {
-		String firstLetter = contentString.substring(0, 0);
+		String firstLetter = contentString.substring(0, 1);
 		
 		switch (firstLetter) {
-		case ARRAY_INDICATOR:
+		case STRUCTURE_START_INDICATOR:
 			return parseArrayContent(contentString);
 		case FIELD_INDICATOR:
 			return parseFieldContent(contentString);
@@ -139,20 +142,127 @@ public class DatParser {
 	 * @param contentString the representation of the content
 	 * @return the parsed content as a {@link ArrayContent} instance
 	 */
-	private ArrayContent<? extends Number> parseFieldContent(String contentString) {
+	private ArrayContent<? extends Number> parseArrayContent(String contentString) {
 		// strip brackets
 		String line = contentString.substring(1, contentString.length()-1).trim();
 		
 		String[] values = line.split(ARRAY_SPLIT_REGEX);
 		
-		// TODO
+		ArrayContent<?> content;
+		if (values[0].contains(".")) {
+			List<Double> doubleValues = new ArrayList<>();
+			for (String repr : values) {
+				doubleValues.add(Double.parseDouble(repr));
+			}
+			
+			content = new ArrayContent<Double>(doubleValues);
+		} else {
+			List<Integer> intValues = new ArrayList<>();
+			for (String repr : values) {
+				intValues.add(Integer.parseInt(repr));
+			}
+			
+			content = new ArrayContent<Integer>(intValues);
+		}
 		
-		return null;
+		return content;
 	}
 
-	private IContent<?> parseArrayContent(String contentString) {
-		// TODO Automatisch generierter Methodenstub
-		return null;
+	/**
+	 * Creates an {@link FieldContent} from its String representation.
+	 * @param contentString the representation of the content
+	 * @return the parsed content as a {@link FieldContent} instance
+	 */
+	@SuppressWarnings("unchecked")
+	private FieldContent<?> parseFieldContent(String contentString) {
+		final FieldContent<Number> content = new FieldContent<>();
+		
+		final StringBuilder indexBuilder = new StringBuilder();
+		final StringBuilder fieldEntry = new StringBuilder();
+
+		State state = State.PRE_INDEX;
+		int level = 0;
+		
+		for (int pos = 0; pos < contentString.length(); pos++) {
+			char character = contentString.charAt(pos);
+			
+			switch (state) {
+			case PRE_INDEX:
+				if (Character.isDigit(character)) {
+					indexBuilder.append(character);
+					state = State.INDEX;
+				}
+				break;
+			case INDEX:
+				if (Character.isDigit(character)) {
+					indexBuilder.append(character);
+				} else {
+					state = State.ASSIGNMENT;
+				}
+				break;
+			case ASSIGNMENT:
+				if (Character.isDigit(character) || Objects.equals(character, '-')) {
+					state = State.SINGLE_ENTRY;
+				} else if (String.valueOf(character).startsWith(STRUCTURE_START_INDICATOR)) {
+					state = State.ARRAY_ENTRY;
+				} else if (String.valueOf(character).startsWith(FIELD_INDICATOR)) {
+					state = State.FIELD_ENTRY;
+				} else {
+					continue;
+				}
+				
+				fieldEntry.append(character);
+				break;
+			case SINGLE_ENTRY:
+				if (Character.isDigit(character) || character == '.') {
+					fieldEntry.append(character);
+				} else {
+					state = State.FINISHED;
+				}
+				break;
+			case ARRAY_ENTRY:
+				if (String.valueOf(character).equals(STRUCTURE_END_INDICATOR)) {
+					state = State.FINISHED;
+				}
+				fieldEntry.append(character);
+				break;
+			case FIELD_ENTRY:
+				String nextChar = String.valueOf(contentString.charAt(pos+1));
+				String prevChar = String.valueOf(contentString.charAt(pos-1));
+				
+				if (String.valueOf(character).equals(FIELD_INDICATOR)) {
+					if (nextChar.equals(STRUCTURE_START_INDICATOR)) {
+						level++;
+					}
+					
+					if (prevChar.equals(STRUCTURE_END_INDICATOR)) {
+						if (level == 0) {
+							state = State.FINISHED;
+						} else {
+							level--;
+						}
+					}
+				}
+				
+				fieldEntry.append(character);
+				break;
+			case FINISHED:
+				int index = Integer.parseInt(indexBuilder.toString());
+				IContent<?> subContent = parseContent(fieldEntry.toString());
+				
+				content.put(index, (IContent<Number>) subContent);
+				
+				indexBuilder.setLength(0);
+				fieldEntry.setLength(0);
+				state  = State.PRE_INDEX;
+				break;
+			default:
+				break;
+			}
+		}
+		
+
+		return content;
 	}
 
 	/**
@@ -166,5 +276,16 @@ public class DatParser {
 		String stripped = line.split(COMMENT_IDENTIFIER)[0];
 
 		return stripped.trim();
+	}
+	
+	/** States while parsing the content of a field  */
+	private enum State {
+		PRE_INDEX,
+		INDEX,
+		ASSIGNMENT,
+		SINGLE_ENTRY,
+		ARRAY_ENTRY,
+		FIELD_ENTRY,
+		FINISHED;
 	}
 }

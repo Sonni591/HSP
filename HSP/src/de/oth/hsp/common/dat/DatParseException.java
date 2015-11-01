@@ -1,5 +1,11 @@
 package de.oth.hsp.common.dat;
 
+/**
+ * Wraps exceptions which have been encountered while parsing a <i>.dat</i> file with a {@link DatParser}.
+ * 
+ * @author Thomas Butz
+ *
+ */
 public class DatParseException extends Exception {
 	private static final long serialVersionUID = 6164804636098844318L;
 
