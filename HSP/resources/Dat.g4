@@ -4,7 +4,7 @@
 *
 * Author: Thomas Butz
 */
-grammar dat;
+grammar Dat;
 
 // a dat file consists of multiple variable declarations
 datBody
@@ -49,7 +49,7 @@ fieldEntry
     :   IntegerLiteral ':' varValue
     ;
 
-//////////////// Token definition
+//////////////// Token definitions
 ASSIGN : '=';
 COMMA  : ',';
 SEMI   : ';';
