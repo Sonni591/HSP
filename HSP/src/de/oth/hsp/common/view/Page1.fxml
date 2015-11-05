@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.common.view.PaginationController">
+   <children>
+      <Label layoutX="23.0" layoutY="33.0" prefHeight="37.0" prefWidth="209.0" text="Länge des Planungszeitraums" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+      <TextField layoutX="45.0" layoutY="70.0" prefHeight="26.0" prefWidth="86.0" text="0" />
+      <Label layoutX="25.0" layoutY="75.0" text="T" AnchorPane.leftAnchor="25.0" />
+      <Label layoutX="23.0" layoutY="96.0" prefHeight="37.0" prefWidth="209.0" text="Anzahl an Produkten" AnchorPane.leftAnchor="25.0" />
+      <Label layoutX="29.0" layoutY="138.0" text="K" AnchorPane.leftAnchor="25.0" />
+      <TextField layoutX="49.0" layoutY="133.0" prefHeight="26.0" prefWidth="86.0" />
+   </children>
+</AnchorPane>
