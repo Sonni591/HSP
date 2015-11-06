@@ -1,41 +1,35 @@
 package de.oth.hsp.common.dat.value;
 
-import de.oth.hsp.common.dat.DatUtil;
-import de.oth.hsp.common.dat.IContent;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /**
- * Wraps a single integer or double value.
- * 
- * @param <E>
- *            the type of the value (Integer/Double)
+ * Wraps a single value.
  * 
  * @author Thomas Butz
  */
-public class SingleContent<E extends Number> implements IContent<E> {	
-	private E value;
+public class SingleContent extends DatContent {	
+	/** used to format floating point numbers */
+	public static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("##0.00000",
+			DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	
+	private double value;
 
-	public SingleContent(E value) {
+	public SingleContent(double value) {
 		this.value = value;
 	}
 
-	public E getValue() {
+	public double getValue() {
 		return value;
 	}
 
-	public void setValue(E value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 
 	@Override
-	public String getStringRepresentation(int level) {
-		if (value instanceof Integer) {
-			return Integer.toString((Integer) value);
-		}
-		return DatUtil.toString((Double)value);
-	}
-	
-	@Override
-	public String toString() {
-		return getStringRepresentation(0);
+	protected String getStringRepresentation(int level) {
+		return NUMBER_FORMAT.format(value);
 	}
 }

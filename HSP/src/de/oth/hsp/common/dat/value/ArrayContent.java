@@ -1,55 +1,44 @@
 package de.oth.hsp.common.dat.value;
 
 import java.text.MessageFormat;
-import java.util.List;
-
-import de.oth.hsp.common.dat.IContent;
 
 /**
  * Encapsulates one-dimensional fields of data.
  *
- * @param <E>
- *            the type of the values (Integer/Double)
- * 
  * @author Thomas Butz
  */
-public class ArrayContent<E extends Number> implements IContent<E> {
+public class ArrayContent extends DatContent {
 	/** the template used to format the String representation */
 	private static final String TEMPLATE  = "[ {0} ]";
 	/** the separator used between field entries */
 	private static final String SEPARATOR = ", ";
 
-	private List<E> values;
+	private double[] values;
 
-	public ArrayContent(List<E> values) {
+	public ArrayContent(double[] values) {
 		this.values = values;
 	}
 	
-	public List<E> getValues() {
+	public double[] getValues() {
 		return values;
 	}
 
-	public void setValues(List<E> values) {
+	public void setValues(double[] values) {
 		this.values = values;
 	}
 	
 	@Override
-	public String getStringRepresentation(int level) {
+	protected String getStringRepresentation(int level) {
 		StringBuilder fieldBuilder = new StringBuilder();
 		
-		for (int i = 0; i < values.size(); i++) {
-			fieldBuilder.append(values.get(i).toString());
+		for (int i = 0; i < values.length; i++) {
+			fieldBuilder.append(SingleContent.NUMBER_FORMAT.format(values[i]));
 			
-			if ((i+1) < values.size()) {
+			if ((i+1) < values.length) {
 				fieldBuilder.append(SEPARATOR);
 			}
 		}
 		
 		return MessageFormat.format(TEMPLATE, fieldBuilder);
-	}
-	
-	@Override
-	public String toString() {
-		return getStringRepresentation(0);
 	}
 }
