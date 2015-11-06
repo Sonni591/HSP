@@ -2,6 +2,8 @@ package de.oth.hsp.common.dat;
 
 import java.text.MessageFormat;
 
+import de.oth.hsp.common.dat.value.DatContent;
+
 /**
  * Represents entries in a <i>.dat</i> file.
  * 
@@ -10,7 +12,7 @@ import java.text.MessageFormat;
  * 
  * @author Thomas Butz
  */
-public class DatEntry<E extends IContent<?>> {
+public class DatEntry<E extends DatContent> {
 	/** defines the structure of the entry */
 	private static final String TEMPLATE = "{0} = {1};";
 

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import de.oth.hsp.common.dat.value.ArrayContent;
+import de.oth.hsp.common.dat.value.DatContent;
 import de.oth.hsp.common.dat.value.FieldContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 
@@ -31,7 +32,7 @@ public class DatParser {
 	private static final String STRUCTURE_START_INDICATOR = "[";
 	/** indicates the end of an array or field */
 	private static final String STRUCTURE_END_INDICATOR = "]";
-	
+
 	/** used to split an array string to single values */
 	private static final String ARRAY_SPLIT_REGEX = "[, ]+";
 
@@ -101,19 +102,19 @@ public class DatParser {
 		// remove trailing semicolon
 		content = content.substring(0, content.length() - 1);
 
-		return new DatEntry<IContent<?>>(name, parseContent(content));
+		return new DatEntry<DatContent>(name, parseContent(content));
 	}
 
 	/**
-	 * Creates an {@link IContent} instance from its String representation
+	 * Creates an {@link DatContent} instance from its String representation
 	 * 
 	 * @param contentString
 	 *            the representation of the content
 	 * @return the parsed content
 	 */
-	private IContent<?> parseContent(String contentString) {
+	private DatContent parseContent(String contentString) {
 		String firstLetter = contentString.substring(0, 1);
-		
+
 		switch (firstLetter) {
 		case STRUCTURE_START_INDICATOR:
 			return parseArrayContent(contentString);
@@ -126,66 +127,58 @@ public class DatParser {
 
 	/**
 	 * Creates a {@link SingleContent} from its String representation.
-	 * @param contentString the representation of the content
+	 * 
+	 * @param contentString
+	 *            the representation of the content
 	 * @return the parsed content as a {@link SingleContent} instance
 	 */
-	private SingleContent<? extends Number> parseSingleValueContent(String contentString) {
-		if (contentString.contains(".")) {
-			return new SingleContent<Double>(Double.parseDouble(contentString));
-		}
-		
-		return new SingleContent<Integer>(Integer.parseInt(contentString));
+	private SingleContent parseSingleValueContent(String contentString) {
+		return new SingleContent(Double.parseDouble(contentString));
 	}
 
 	/**
 	 * Creates an {@link ArrayContent} from its String representation.
-	 * @param contentString the representation of the content
+	 * 
+	 * @param contentString
+	 *            the representation of the content
 	 * @return the parsed content as a {@link ArrayContent} instance
 	 */
-	private ArrayContent<? extends Number> parseArrayContent(String contentString) {
+	private ArrayContent parseArrayContent(String contentString) {
 		// strip brackets
-		String line = contentString.substring(1, contentString.length()-1).trim();
-		
-		String[] values = line.split(ARRAY_SPLIT_REGEX);
-		
-		ArrayContent<?> content;
-		if (values[0].contains(".")) {
-			List<Double> doubleValues = new ArrayList<>();
-			for (String repr : values) {
-				doubleValues.add(Double.parseDouble(repr));
-			}
-			
-			content = new ArrayContent<Double>(doubleValues);
-		} else {
-			List<Integer> intValues = new ArrayList<>();
-			for (String repr : values) {
-				intValues.add(Integer.parseInt(repr));
-			}
-			
-			content = new ArrayContent<Integer>(intValues);
+		String line = contentString.substring(1, contentString.length() - 1).trim();
+
+		String[] valuesRepr = line.split(ARRAY_SPLIT_REGEX);
+
+		ArrayContent content;
+		double[] values = new double[valuesRepr.length];
+		for (int i = 0; i < values.length; i++) {
+			values[i] = Double.parseDouble(valuesRepr[i]);
 		}
-		
+
+		content = new ArrayContent(values);
+
 		return content;
 	}
 
 	/**
 	 * Creates an {@link FieldContent} from its String representation.
-	 * @param contentString the representation of the content
+	 * 
+	 * @param contentString
+	 *            the representation of the content
 	 * @return the parsed content as a {@link FieldContent} instance
 	 */
-	@SuppressWarnings("unchecked")
-	private FieldContent<?> parseFieldContent(String contentString) {
-		final FieldContent<Number> content = new FieldContent<>();
-		
+	private FieldContent<DatContent> parseFieldContent(String contentString) {
+		final FieldContent<DatContent> content = new FieldContent<>();
+
 		final StringBuilder indexBuilder = new StringBuilder();
 		final StringBuilder fieldEntry = new StringBuilder();
 
 		State state = State.PRE_INDEX;
 		int level = 0;
-		
+
 		for (int pos = 0; pos < contentString.length(); pos++) {
 			char character = contentString.charAt(pos);
-			
+
 			switch (state) {
 			case PRE_INDEX:
 				if (Character.isDigit(character)) {
@@ -210,7 +203,7 @@ public class DatParser {
 				} else {
 					continue;
 				}
-				
+
 				fieldEntry.append(character);
 				break;
 			case SINGLE_ENTRY:
@@ -227,14 +220,14 @@ public class DatParser {
 				fieldEntry.append(character);
 				break;
 			case FIELD_ENTRY:
-				String nextChar = String.valueOf(contentString.charAt(pos+1));
-				String prevChar = String.valueOf(contentString.charAt(pos-1));
-				
+				String nextChar = String.valueOf(contentString.charAt(pos + 1));
+				String prevChar = String.valueOf(contentString.charAt(pos - 1));
+
 				if (String.valueOf(character).equals(FIELD_INDICATOR)) {
 					if (nextChar.equals(STRUCTURE_START_INDICATOR)) {
 						level++;
 					}
-					
+
 					if (prevChar.equals(STRUCTURE_END_INDICATOR)) {
 						if (level == 0) {
 							state = State.FINISHED;
@@ -243,24 +236,23 @@ public class DatParser {
 						}
 					}
 				}
-				
+
 				fieldEntry.append(character);
 				break;
 			case FINISHED:
 				int index = Integer.parseInt(indexBuilder.toString());
-				IContent<?> subContent = parseContent(fieldEntry.toString());
-				
-				content.put(index, (IContent<Number>) subContent);
-				
+				DatContent subContent = parseContent(fieldEntry.toString());
+
+				content.put(index, (DatContent) subContent);
+
 				indexBuilder.setLength(0);
 				fieldEntry.setLength(0);
-				state  = State.PRE_INDEX;
+				state = State.PRE_INDEX;
 				break;
 			default:
 				break;
 			}
 		}
-		
 
 		return content;
 	}
@@ -277,15 +269,9 @@ public class DatParser {
 
 		return stripped.trim();
 	}
-	
-	/** States while parsing the content of a field  */
+
+	/** States while parsing the content of a field */
 	private enum State {
-		PRE_INDEX,
-		INDEX,
-		ASSIGNMENT,
-		SINGLE_ENTRY,
-		ARRAY_ENTRY,
-		FIELD_ENTRY,
-		FINISHED;
+		PRE_INDEX, INDEX, ASSIGNMENT, SINGLE_ENTRY, ARRAY_ENTRY, FIELD_ENTRY, FINISHED;
 	}
 }
