@@ -11,7 +11,7 @@ import java.util.Locale;
  */
 public class SingleContent extends DatContent {	
 	/** used to format floating point numbers */
-	public static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("##0.00000",
+	public static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.#####",
 			DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	
 	private double value;
