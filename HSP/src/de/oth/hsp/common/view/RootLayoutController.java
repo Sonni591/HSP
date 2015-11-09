@@ -142,13 +142,10 @@ public class RootLayoutController {
 	
 	/**
      * Method to examine if the selection of a tab from the tab bar has changed.
-     * When that is the case (1) the "edit"-Menu is enabled/disabled; (2) the
-     * status lable in the south-left corner is changed and also the content of
-     * the explanation component is updated
      */
     @FXML
     private void onTabSelectionChanged() {
-    	System.out.println("on tab selection changed");
+//    	System.out.println("on tab selection changed");
     }
 
 	

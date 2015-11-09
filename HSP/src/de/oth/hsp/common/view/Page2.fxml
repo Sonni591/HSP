@@ -5,14 +5,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
+
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.common.view.PaginationController">
    <children>
-      <Label layoutX="26.0" layoutY="22.0" text="Nettobedarfsmenge" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
-      <TableView layoutX="26.0" layoutY="40.0" prefHeight="182.0" prefWidth="200.0" AnchorPane.topAnchor="45.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
+      <ScrollPane prefHeight="341.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane>
+               <children>
+                  <Label layoutX="26.0" layoutY="22.0" text="Nettobedarfsmenge" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <TableView layoutX="26.0" layoutY="40.0" prefHeight="182.0" prefWidth="200.0" AnchorPane.topAnchor="45.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

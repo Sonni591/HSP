@@ -1,31 +1,16 @@
 package de.oth.hsp.common.view;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
 public class PaginationController {
 
+	// References to elements of the FXML Layouts of all Paginaton-Pages
 	@FXML
 	private TextField T;
 	@FXML
 	private TextField K;
+	// -> TODO: add all fields of the pageX.fxml files
 	
     private RootLayoutController root;
     
@@ -38,22 +23,40 @@ public class PaginationController {
     }
     
     /**
+	 * @return the t
+	 */
+	public TextField getT() {
+		return T;
+	}
+
+	/**
+	 * @param t the t to set
+	 */
+	public void setT(TextField t) {
+		T = t;
+	}
+
+	/**
+	 * @return the k
+	 */
+	public TextField getK() {
+		return K;
+	}
+
+	/**
+	 * @param k the k to set
+	 */
+	public void setK(TextField k) {
+		K = k;
+	}
+
+	/**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @FXML
     private void initialize() {
     		
-
-    		System.out.println("pagination controller");
-    		
-    		
-//	    		// Handle TextField text changes.
-//	    		T.textProperty().addListener((observable, oldValue, newValue) -> {
-//	    		    System.out.println("TextField Text Changed (newValue: " + newValue + ")");
-//	    		});
-    		
-    	
     }
    
 	/**
@@ -62,7 +65,5 @@ public class PaginationController {
     public void init(RootLayoutController rootLayoutController) {
     	root = rootLayoutController;
     }
-
-
     
 }

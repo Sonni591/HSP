@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,123 +23,141 @@ import javafx.util.Callback;
 
 public class Tab1Controller {
 
-    // References for the FXML layout
-	
-    @FXML
-    private Pagination myPagination;
-  
-    
-   
+	// References for the FXML layout
+	@FXML
+	private Pagination pagination;
 
-    private RootLayoutController root;
-    
-    /**
-     * The constructor. The constructor is called before the initialize()
-     * method.
-     */
-    public Tab1Controller() {
+	// References to FXML controllers
+	private RootLayoutController root;
+	private PaginationController paginationController;
 
-    }
-    
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-    @FXML
-    private void initialize() {
-    	
-//    	myPagination.setPrefHeight(root.getTabPane().getHeight());
-    	
-    	//myPagination.setPrefSize(myPagination.getParent().getScene().getWidth(), myPagination.getParent().getScene().getHeight());
-//    	System.out.println(myPagination.getCurrentPageIndex());
-    	
-    	myPagination.setPageFactory(new Callback<Integer, Node>() {
-            @Override
-            public Node call(Integer pageIndex) {
-            	System.out.println(myPagination.getCurrentPageIndex());
-                return createPage(pageIndex);
-            }
-        });
-    	
-    	
-    	
-    }
-    
-    public AnchorPane createPage(int index) {
-    	AnchorPane myPane = new AnchorPane();
-    	AnchorPane myPagePane1 = new AnchorPane();
-    	FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource(
-				"Page1.fxml"));
-    	try {
-			myPagePane1 = fxmlLoader1.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	AnchorPane myPagePane2 = new AnchorPane();
-    	FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource(
-				"Page2.fxml"));
-    	try {
-			myPagePane2 = fxmlLoader2.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	AnchorPane myPagePane3 = new AnchorPane();
-    	AnchorPane myPagePane4 = new AnchorPane();
-//    	FXMLLoader fxmlLoader = null;
-    	
-    	switch (index) {
+	// Pages of the Pagination
+	private AnchorPane pagePane1;
+	private AnchorPane pagePane2;
+
+	/**
+	 * The constructor. The constructor is called before the initialize()
+	 * method.
+	 */
+	public Tab1Controller() {
+
+	}
+
+	/**
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
+	 */
+	@FXML
+	private void initialize() {
+
+		customizePagination();
+
+	}
+
+	/**
+	 * 
+	 */
+	private void customizePagination() {
+		// create the PageFactory to handle the Pages of the Pagination-Control
+		pagination.setPageFactory(new Callback<Integer, Node>() {
+			@Override
+			public Node call(Integer pageIndex) {
+				return createPage(pageIndex);
+			}
+		});
+
+		// add a Listener on the Pagination-Control to get to know changed
+		// indexes
+		pagination.currentPageIndexProperty().addListener(
+				new ChangeListener<Number>() {
+					@Override
+					public void changed(
+							ObservableValue<? extends Number> observable,
+							Number oldValue, Number newValue) {
+						// System.out.println("Oldvalue: " + oldValue.intValue()
+						// + " NewValue: " + newValue.intValue());
+						
+						// Test Output
+						// System.out.println("T: " +
+						// paginationController.getT().getText());
+						// System.out.println("K: " +
+						// paginationController.getK().getText());
+
+					}
+
+				});
+	}
+
+	/**
+	 * Method returns an AnchorPane containing the layout for the current page
+	 * index. If the pane does not exist yet, it is loaded from the fxml-Layout.
+	 * Otherwise the existing pane is used.
+	 * 
+	 * @param index
+	 *            of the current Page
+	 * @return AnchorPane of the current Page
+	 */
+	public AnchorPane createPage(int index) {
+
+		AnchorPane myPane = new AnchorPane();
+
+		// Change on Page-Index
+		switch (index) {
 		case 0:
-			 myPane =  myPagePane1;
+			// load pane from fxml-definiton
+			if (pagePane1 == null) {
+				pagePane1 = loadPaneFromFXML("Page1.fxml");
+			}
+			// set the pane
+			myPane = pagePane1;
 			break;
-
 		case 1:
-			myPane =  myPagePane2;
+			// load pane from fxml-definiton
+			if (pagePane2 == null) {
+				pagePane2 = loadPaneFromFXML("Page2.fxml");
+			}
+			// set the pane
+			myPane = pagePane2;
 			break;
-			
 		default:
 			break;
 		}
-    	return myPane;  
-    	
-    	
-    	 
-    	 
-    	 
-//    	if(index==0) {
-//    		System.out.println("yay");
-//    		
-//    		
-//    		 try {
-//				myPane = fxmlLoader.load();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//    		 
-//    		 System.out.println(root.getTabPane().getHeight());
-//    		 
-////		 myPane.setPrefHeight(root.getTabPane().getHeight() - 80);
-////    		 
-////    		 myPane.setPrefWidth(myPagination.getScene().getWidth());
-//    		 
-//    		 return myPane;
-//    	   
-//			
-//			
-//    	}
-//    	return new AnchorPane();
-    }
-    
-    
+
+		return myPane;
+
+	}
+
 	/**
-     * @param rootLayoutController
-     */
-    public void init(RootLayoutController rootLayoutController) {
-    	root = rootLayoutController;
-    }
+	 * Returns an AnchorPane with the Layout of the given FXML-Layout and saves a reference to the Pagination-Controller
+	 * @param fxmlLayout - String of the FXML-Layout to use
+	 * @return AnchorPane containing the layout
+	 */
+	private AnchorPane loadPaneFromFXML(String fxmlLayout) {
 
+		// load the pane from the fxml-layout
+		AnchorPane pane = new AnchorPane();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+				fxmlLayout));
+		try {
+			pane = fxmlLoader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    
+		// also save a reference to PaginationController
+		if (paginationController == null && fxmlLoader != null) {
+			paginationController = fxmlLoader.getController();
+		}
+
+		return pane;
+	}
+
+	/**
+	 * @param rootLayoutController
+	 */
+	public void init(RootLayoutController rootLayoutController) {
+		root = rootLayoutController;
+	}
+
 }
