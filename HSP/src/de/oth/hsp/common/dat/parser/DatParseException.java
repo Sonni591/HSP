@@ -1,6 +1,6 @@
-package de.oth.hsp.common.dat;
+package de.oth.hsp.common.dat.parser;
 
-import de.oth.hsp.common.dat.parser.DatFileParser;
+import de.oth.hsp.common.dat.DatFileParser;
 
 /**
  * Wraps exceptions which have been encountered while parsing a <i>.dat</i> file with a {@link DatFileParser}.

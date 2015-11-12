@@ -1,4 +1,4 @@
-package de.oth.hsp.common.dat.parser;
+package de.oth.hsp.common.dat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -20,8 +21,8 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.DatParseException;
+import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.dat.parser.DatParseListener;
 import de.oth.hsp.common.dat.parser.gen.DatLexer;
 import de.oth.hsp.common.dat.parser.gen.DatParser;
 import de.oth.hsp.common.dat.parser.gen.DatParser.DatBodyContext;
@@ -35,6 +36,11 @@ import de.oth.hsp.common.dat.value.DatContent;
 public class DatFileParser {
 	/** the charset used by dat files */
 	private static final Charset DAT_CHARSET = StandardCharsets.ISO_8859_1;
+	
+	/** prohibit initialization */
+	private DatFileParser() {
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * Parses the file at the given path.
@@ -47,6 +53,7 @@ public class DatFileParser {
 	 *             if an error occurred while trying to parse the file
 	 */
 	public static List<DatEntry<DatContent>> parse(Path path) throws DatParseException {
+		Objects.requireNonNull(path);
 
 		try (Reader reader = createTolerantReader(path)) {
 			// create the lexer
