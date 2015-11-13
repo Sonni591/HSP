@@ -7,61 +7,55 @@ import de.oth.hsp.common.dat.value.DatContent;
 /**
  * Represents entries in a <i>.dat</i> file.
  * 
- * @param <E>
- *            the type of value stored in this entity
- * 
  * @author Thomas Butz
  */
-public class DatEntry<E extends DatContent> {
-	/** defines the structure of the entry */
-	private static final String TEMPLATE = "{0} = {1};";
+public class DatEntry {
+    /** defines the structure of the entry */
+    private static final String TEMPLATE = "{0} = {1};";
 
-	private final String name;
-	private E value;
+    private final String name;
+    private final DatContent content;
 
-	/**
-	 * @param name
-	 *            the name of the represented entry
-	 */
-	public DatEntry(String name) {
-		this.name = name;
-	}
+    /**
+     * @param name
+     *            the name of the represented entry
+     * @param content
+     *            the content of the entry
+     */
+    public DatEntry(String name, DatContent content) {
+        this.name = name;
+        this.content = content;
+    }
 
-	/**
-	 * @param name
-	 *            the name of the represented entry
-	 * @param value
-	 *            the value of the entry
-	 */
-	public DatEntry(String name, E value) {
-		this.name = name;
-		this.value = value;
-	}
+    /**
+     * @return the name of the entry
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the name of the entry
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * @return the content of this entry
+     */
+    public DatContent getContent() {
+        return content;
+    }
 
-	/**
-	 * @return the value associated with this entry
-	 */
-	public E get() {
-		return value;
-	}
+    /**
+     * @param type
+     *            the type of content
+     * @return the content casted to the specified type or <i>null</i>
+     */
+    public <T extends DatContent> T getContent(Class<T> type) {
+        try {
+            return type.cast(content);
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
 
-	/**
-	 * @param value
-	 *            the new value for the entry
-	 */
-	public void set(E value) {
-		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return MessageFormat.format(TEMPLATE, name, value);
-	}
+    @Override
+    public String toString() {
+        return MessageFormat.format(TEMPLATE, name, content);
+    }
 }
