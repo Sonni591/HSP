@@ -51,7 +51,7 @@ public class DatFileParser {
      * @throws DatParseException
      *             if an error occurred while trying to parse the file
      */
-    public static List<DatEntry> parse(Path path) throws DatParseException {
+    public static List<DatEntry<?>> parse(Path path) throws DatParseException {
         Objects.requireNonNull(path);
 
         try (Reader reader = createTolerantReader(path)) {

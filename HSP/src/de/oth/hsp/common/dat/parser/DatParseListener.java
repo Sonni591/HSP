@@ -3,6 +3,7 @@ package de.oth.hsp.common.dat.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import de.oth.hsp.common.dat.DatEntry;
@@ -25,7 +26,7 @@ import de.oth.hsp.common.dat.value.SingleContent;
  *
  */
 public class DatParseListener extends DatBaseListener {
-    private final List<DatEntry> entries = new ArrayList<>();
+    private final List<DatEntry<?>> entries = new ArrayList<>();
 
     @Override
     public void exitVarDeclaration(VarDeclarationContext ctx) {
@@ -33,9 +34,20 @@ public class DatParseListener extends DatBaseListener {
             return;
         }
         String name = ctx.varName().getText();
-        DatContent content = getContent(ctx.varValue());
+        ParserRuleContext valueContext = (ParserRuleContext) ctx.varValue().getChild(0);
 
-        entries.add(new DatEntry(name, content));
+        DatEntry<?> entry;
+        if (valueContext instanceof SingleValueContext) {
+            entry = new DatEntry<SingleContent>(name, getSingleContent((SingleValueContext) valueContext));
+        }
+
+        if (valueContext instanceof ArrayValueContext) {
+            entry = new DatEntry<ArrayContent>(name, getArrayContent((ArrayValueContext) valueContext));
+        } else {
+            entry = new DatEntry<FieldContent>(name, getFieldContent((FieldValueContext) valueContext));
+        }
+
+        entries.add(entry);
     }
 
     /**
@@ -117,7 +129,7 @@ public class DatParseListener extends DatBaseListener {
     /**
      * @return the entries created by visiting the ParseTree nodes.
      */
-    public List<DatEntry> getEntries() {
+    public List<DatEntry<?>> getEntries() {
         return entries;
     }
 }

@@ -7,14 +7,17 @@ import de.oth.hsp.common.dat.value.DatContent;
 /**
  * Represents entries in a <i>.dat</i> file.
  * 
+ * @param <T>
+ *            the type of {@link DatContent}
+ * 
  * @author Thomas Butz
  */
-public class DatEntry {
+public class DatEntry<T extends DatContent> {
     /** defines the structure of the entry */
     private static final String TEMPLATE = "{0} = {1};";
 
     private final String name;
-    private final DatContent content;
+    private final T content;
 
     /**
      * @param name
@@ -22,7 +25,7 @@ public class DatEntry {
      * @param content
      *            the content of the entry
      */
-    public DatEntry(String name, DatContent content) {
+    public DatEntry(String name, T content) {
         this.name = name;
         this.content = content;
     }
@@ -37,21 +40,8 @@ public class DatEntry {
     /**
      * @return the content of this entry
      */
-    public DatContent getContent() {
+    public T getContent() {
         return content;
-    }
-
-    /**
-     * @param type
-     *            the type of content
-     * @return the content casted to the specified type or <i>null</i>
-     */
-    public <T extends DatContent> T getContent(Class<T> type) {
-        try {
-            return type.cast(content);
-        } catch (ClassCastException e) {
-            return null;
-        }
     }
 
     @Override
