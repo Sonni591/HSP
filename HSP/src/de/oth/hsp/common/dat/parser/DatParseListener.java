@@ -39,9 +39,7 @@ public class DatParseListener extends DatBaseListener {
         DatEntry<?> entry;
         if (valueContext instanceof SingleValueContext) {
             entry = new DatEntry<SingleContent>(name, getSingleContent((SingleValueContext) valueContext));
-        }
-
-        if (valueContext instanceof ArrayValueContext) {
+        } else if (valueContext instanceof ArrayValueContext) {
             entry = new DatEntry<ArrayContent>(name, getArrayContent((ArrayValueContext) valueContext));
         } else {
             entry = new DatEntry<FieldContent>(name, getFieldContent((FieldValueContext) valueContext));
