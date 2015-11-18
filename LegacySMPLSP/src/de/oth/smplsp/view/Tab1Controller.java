@@ -678,7 +678,7 @@ public class Tab1Controller {
      */
     private void setCellFactoryAllColumns(
 	    Callback<TableColumn<Product, Number>, TableCell<Product, Number>> cellFactory) {
-	column1.(cellFactory);
+	column1.setCellFactory(cellFactory);
 	column2.setCellFactory(cellFactory);
 	column3.setCellFactory(cellFactory);
 	column4.setCellFactory(cellFactory);
