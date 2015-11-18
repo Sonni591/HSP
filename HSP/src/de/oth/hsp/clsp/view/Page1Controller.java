@@ -1,9 +1,11 @@
-package de.oth.hsp.common.view;
+package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import de.oth.hsp.clsp.model.CLSPModel;
+import de.oth.hsp.common.view.IPageController;
 
-public class Page1Controller {
+public class Page1Controller implements IPageController {
 
     // References to elements of the FXML Layout of Page1
     @FXML
@@ -17,6 +19,9 @@ public class Page1Controller {
     @FXML
     private TextField C; // Verfügbare Kapaziät der Ressource
 
+    private CLSPModel clspModel;
+
+    private PaginationController paginationController;
     private RootLayoutController root;
 
     /**
@@ -71,6 +76,35 @@ public class Page1Controller {
      */
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
+        clspModel = root.getClspModel();
+    }
+
+    /**
+     * @return the paginationController
+     */
+    public PaginationController getPaginationController() {
+        return paginationController;
+    }
+
+    /**
+     * @param paginationController
+     *            the paginationController to set
+     */
+    public void setPaginationController(PaginationController paginationController) {
+        this.paginationController = paginationController;
+    }
+
+    @Override
+    public void outEvent() {
+        clspModel.setK(Integer.valueOf(K.getText()));
+        clspModel.setT(Integer.valueOf(T.getText()));
+        clspModel.createdMatrix();
+    }
+
+    @Override
+    public void inEvent() {
+        System.out.println("inEvent von Page1Ctrl");
+
     }
 
 }

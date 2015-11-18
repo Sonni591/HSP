@@ -1,4 +1,4 @@
-package de.oth.hsp.common;
+package de.oth.hsp.clsp;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import de.oth.hsp.common.view.RootLayoutController;
-import de.oth.hsp.common.view.Tab1Controller;
-import de.oth.hsp.common.view.Tab2Controller;
+import de.oth.hsp.clsp.view.RootLayoutController;
+import de.oth.hsp.clsp.view.Tab1Controller;
+import de.oth.hsp.clsp.view.Tab2Controller;
 
 public class Main extends Application {
 

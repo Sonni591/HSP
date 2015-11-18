@@ -1,4 +1,4 @@
-package de.oth.hsp.common.view;
+package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
