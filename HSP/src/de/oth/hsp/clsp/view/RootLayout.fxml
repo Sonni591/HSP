@@ -33,32 +33,7 @@
 								<KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem mnemonicParsing="false" onAction="#onActionTestData" text="Menu_File_TestData">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Menu_File_Settings" />
 						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Menu_File_Exit" />
-					</items>
-				</Menu>
-				<Menu fx:id="menuEdit" mnemonicParsing="false" text="Menu_Edit">
-					<items>
-						<MenuItem mnemonicParsing="false" text="Menu_Edit_Add">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="PLUS" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Menu_Edit_Delete">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="MINUS" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Menu_Edit_DeleteAll">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
 					</items>
 				</Menu>
 				<Menu fx:id="menuZoom" mnemonicParsing="false" text="Zoom">

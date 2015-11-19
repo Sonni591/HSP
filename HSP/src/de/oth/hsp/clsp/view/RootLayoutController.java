@@ -1,14 +1,20 @@
 package de.oth.hsp.clsp.view;
 
+import java.io.File;
+
+import de.oth.hsp.clsp.model.CLSPModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import de.oth.hsp.clsp.model.CLSPModel;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class RootLayoutController {
 
@@ -31,8 +37,6 @@ public class RootLayoutController {
     private Button btnZoomPlus;
     @FXML
     private Button btnZoomMinus;
-    @FXML
-    private Menu menuEdit;
     @FXML
     private Menu menuZoom;
     @FXML
@@ -70,16 +74,50 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionFileOpen() {
-        System.out.println("File open");
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Datei laden");
+
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat", "*.dat"));
+
+        File selectedDatFile = fileChooser.showOpenDialog(null);
+
+        // TODO load data from loaded file.
     }
 
     /**
-     * Calls a method to open and save the current data in a file. Method is
-     * called in the menu bar.
+     * Calls a method to save the current data in a file. Method is called in
+     * the menu bar.
      */
     @FXML
     private void onActionFileSave() {
-        System.out.println("File save");
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Datei speichern");
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
+
+        File selectedFile = fileChooser.showSaveDialog(null);
+
+        // Create the new file. If there is already one, delete it.
+        try {
+            if (!selectedFile.createNewFile()) {
+                if (selectedFile.delete()) {
+                    selectedFile.createNewFile();
+                } else {
+                    throw new Exception(
+                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht löschen lässt.");
+                }
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Fehler");
+            alert.setHeaderText("Fehler beim Speichern der Datei");
+            alert.setContentText(e.getMessage());
+
+            alert.showAndWait();
+        }
+
+        // TODO Save data in created file.
     }
 
     /**
@@ -88,16 +126,10 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionCalculate() {
+        // TODO 1. ask user if he wants to save the changes
+        // 2. ask user, where he wants to save the result
+        // 3. call ILog Framework
         System.out.println("Calculate");
-    }
-
-    /**
-     * Calls a method to import and show the available test data. Method is
-     * called in the menu bar.
-     */
-    @FXML
-    private void onActionTestData() {
-        System.out.println("Test Data");
     }
 
     /**
@@ -119,7 +151,7 @@ public class RootLayoutController {
 
     /**
      * Returns a reference of the Tab1Controller
-     * 
+     *
      * @return Tab1Controller
      */
     public Tab1Controller getTab1Controller() {
@@ -128,7 +160,7 @@ public class RootLayoutController {
 
     /**
      * Returns a reference of the Tab2Controller
-     * 
+     *
      * @return Tab2Controller
      */
     public Tab2Controller getTab2Controller() {
