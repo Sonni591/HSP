@@ -35,9 +35,9 @@ public abstract class AbstractTableViewPage {
      */
     // TODO: Comment method
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected void addColumnWithRowNumber(TableView<String[]> tableView) {
-        TableColumn numberCol = new TableColumn("#");
-        numberCol.setMinWidth(30);
+    protected void addColumnWithRowNumber(TableView<String[]> tableView, String rowText) {
+        TableColumn numberCol = new TableColumn("");
+
         numberCol.setCellValueFactory(new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
@@ -51,9 +51,10 @@ public abstract class AbstractTableViewPage {
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
+                        this.setStyle(" -fx-font-weight: BOLD;-fx-alignment: CENTER;-fx-background-color: -fx-body-color;-fx-padding: 0;-fx-border-style: solid; -fx-border-color: derive(-fx-base, 80%)  linear-gradient(to bottom, derive(-fx-base,80%) 20%, derive(-fx-base,-10%) 90%)derive(-fx-base, 10%) linear-gradient(to bottom, derive(-fx-base,80%) 20%, derive(-fx-base,-10%) 90%),transparent -fx-table-header-border-color -fx-table-header-border-color transparent;");
 
                         if (this.getTableRow() != null && item != null) {
-                            setText(this.getTableRow().getIndex() + 1 + "");
+                            setText(rowText + (this.getTableRow().getIndex() + 1) + "");
                         } else {
                             setText("");
                         }
@@ -61,7 +62,10 @@ public abstract class AbstractTableViewPage {
                 };
             }
         });
+
         numberCol.setSortable(false);
+        numberCol.setMinWidth(30);
+        tableView.setColumnResizePolicy((param) -> true);
         tableView.getColumns().add(numberCol);
     }
 

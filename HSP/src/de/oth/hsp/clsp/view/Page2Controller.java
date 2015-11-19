@@ -81,7 +81,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         table.setEditable(true);
 
         // add a column with row numbers
-        addColumnWithRowNumber(table);
+        addColumnWithRowNumber(table, "t: ");
 
         // get the data from the model and add it to the TableView
         String[][] d = clspModel.getD();
