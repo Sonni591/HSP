@@ -1,4 +1,4 @@
-package de.oth.hsp.clsp.view;
+package de.oth.hsp.hpplan.view;
 
 import java.io.File;
 
@@ -105,7 +105,7 @@ public class RootLayoutController {
                     selectedFile.createNewFile();
                 } else {
                     throw new Exception(
-                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht löschen lässt.");
+                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht l�schen l�sst.");
                 }
             }
         } catch (Exception e) {
