@@ -8,14 +8,14 @@ public class CLSPModel {
 
     private int K;
     private int T;
-    private String[][] d;
+    private Number[][] d;
 
-    public String[][] createdMatrix() {
-        d = new String[T][K];
+    public Number[][] createdMatrix() {
+        d = new Number[T][K];
         int t = 0;
         for (int i = 0; i < T; i++) {
             for (int j = 0; j < K; j++) {
-                d[i][j] = String.valueOf(t);
+                d[i][j] = t;
                 t++;
             }
         }
@@ -25,7 +25,7 @@ public class CLSPModel {
     /**
      * @return the d
      */
-    public String[][] getD() {
+    public Number[][] getD() {
         return d;
     }
 

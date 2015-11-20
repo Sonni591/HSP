@@ -4,13 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import de.oth.hsp.clsp.model.CLSPModel;
+import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 
 public class Page2Controller extends AbstractTableViewPage implements IPageController {
 
     // References to elements of the FXML Layout of Page2
     @FXML
-    private TableView<String[]> table; // Nettobedarfsmenge des Produkts k in
+    private TableView<Number[]> table; // Nettobedarfsmenge des Produkts k in
                                        // Periode t
     @FXML
     private Button testButton;
@@ -84,8 +85,9 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         addColumnWithRowNumber(table, "t: ");
 
         // get the data from the model and add it to the TableView
-        String[][] d = clspModel.getD();
-        addTableViewContent(d, table);
+        Number[][] d = clspModel.getD();
+        Decimals decimals = new Decimals(2);
+        addTableViewContent(d, table, decimals);
 
     }
 
