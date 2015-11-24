@@ -16,14 +16,14 @@
 	<top>
 		<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
 			<menus>
-				<Menu mnemonicParsing="false" text="Menu_File">
+				<Menu mnemonicParsing="false" text="Datei">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#onActionFileOpen" text="Menu_File_Open">
+						<MenuItem mnemonicParsing="false" onAction="#onActionFileOpen" text="Öffnen">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem mnemonicParsing="false" onAction="#onActionFileSave" text="Menu_File_Save">
+						<MenuItem mnemonicParsing="false" onAction="#onActionFileSave" text="Speichern">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
@@ -33,7 +33,8 @@
 								<KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Menu_File_Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#onActionBatchProcessing" text="Stapelverarbeitung" />
+						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Schließen" />
 					</items>
 				</Menu>
 				<Menu fx:id="menuZoom" mnemonicParsing="false" text="Zoom">
@@ -55,9 +56,9 @@
 						</MenuItem>
 					</items>
 				</Menu>
-				<Menu mnemonicParsing="false" text="Menu_Help">
+				<Menu mnemonicParsing="false" text="Hilfe">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#onActionHelpAbout" text="Menu_Help_About" />
+						<MenuItem mnemonicParsing="false" onAction="#onActionHelpAbout" text="Über" />
 					</items>
 				</Menu>
 			</menus>

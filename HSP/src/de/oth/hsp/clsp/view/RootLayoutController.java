@@ -1,6 +1,8 @@
 package de.oth.hsp.clsp.view;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import de.oth.hsp.clsp.model.CLSPModel;
 import javafx.application.Platform;
@@ -74,40 +76,94 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionFileOpen() {
-        FileChooser fileChooser = new FileChooser();
+        loadDataFromFile(openFileChooserDialog());
+    }
 
-        fileChooser.setTitle("Datei laden");
+    /**
+     * Loads the data from selechtedFile to the GUI
+     *
+     * @param selechtedFile
+     */
+    private void loadDataFromFile(File selechtedFile) {
+        // TODO load data from file to GUI
+        System.out.println(selechtedFile);
 
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat", "*.dat"));
-
-        File selectedDatFile = fileChooser.showOpenDialog(null);
-
-        // TODO load data from loaded file.
     }
 
     /**
      * Calls a method to save the current data in a file. Method is called in
-     * the menu bar.
+     * the menu bar. Opens a FileChooser.
      */
     @FXML
     private void onActionFileSave() {
+        saveDataToFile(createNewFile(openSaveDialog()));
+
+    }
+
+    /**
+     * Saves the data from the GUI to the selectedFile.
+     *
+     * @param selectedFile
+     */
+    private void saveDataToFile(File selectedFile) {
+        if (selectedFile != null && selectedFile.exists()) {
+            try {
+                // TODO Call parser
+                // TODO Save data in created file.
+                FileWriter fw = new FileWriter(selectedFile);
+                System.out.println(selectedFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * Opens a SaveDialog for dat files.
+     *
+     * @return selected File
+     */
+    private File openSaveDialog() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Datei speichern");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
 
-        File selectedFile = fileChooser.showSaveDialog(null);
+        return fileChooser.showSaveDialog(null);
+    }
 
-        // Create the new file. If there is already one, delete it.
+    /**
+     * Opens a FileChooser Dialog for dat files.
+     *
+     * @return selected File
+     */
+    private File openFileChooserDialog() {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Datei speichern");
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
+
+        return fileChooser.showOpenDialog(null);
+    }
+
+    /**
+     * Create the new file. If there is already one, it will be deleted.
+     *
+     * @param selectedFile
+     */
+    private File createNewFile(File selectedFile) {
+        File file = null;
         try {
-            if (!selectedFile.createNewFile()) {
-                if (selectedFile.delete()) {
-                    selectedFile.createNewFile();
+            if (selectedFile != null && !selectedFile.createNewFile()) {
+                if (selectedFile.delete() && selectedFile.createNewFile()) {
+                    file = selectedFile;
                 } else {
                     throw new Exception(
-                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht löschen lässt.");
+                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht löschen lasst.");
                 }
             }
+            file = selectedFile;
         } catch (Exception e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Fehler");
@@ -116,8 +172,7 @@ public class RootLayoutController {
 
             alert.showAndWait();
         }
-
-        // TODO Save data in created file.
+        return file;
     }
 
     /**
@@ -127,9 +182,15 @@ public class RootLayoutController {
     @FXML
     private void onActionCalculate() {
         // TODO 1. ask user if he wants to save the changes
-        // 2. ask user, where he wants to save the result
-        // 3. call ILog Framework
+        // TODO 2. ask user, where he wants to save the result
+        // TODO 3. call ILog Framework
         System.out.println("Calculate");
+    }
+
+    @FXML
+    private void onActionBatchProcessing() {
+        BatchProcessingDialog dia = new BatchProcessingDialog(this);
+        dia.showAndWait();
     }
 
     /**
