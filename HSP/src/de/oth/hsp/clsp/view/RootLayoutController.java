@@ -207,7 +207,13 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionHelpAbout() {
-        System.out.println("About");
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText(
+                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText(
+                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.showAndWait();
     }
 
     /**
