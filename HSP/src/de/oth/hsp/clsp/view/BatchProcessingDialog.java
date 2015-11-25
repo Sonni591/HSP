@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class BatchProcessingDialog extends Stage implements Initializable {
@@ -30,6 +31,7 @@ public class BatchProcessingDialog extends Stage implements Initializable {
 
         try {
             setScene(new Scene((Parent) fxmlLoader.load()));
+            this.initModality(Modality.APPLICATION_MODAL);
         } catch (IOException e) {
             e.printStackTrace();
         }
