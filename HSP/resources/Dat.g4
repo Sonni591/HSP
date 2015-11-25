@@ -25,7 +25,9 @@ varName
 varValue
     :   singleValue
     |   arrayValue
-    |   fieldValue
+    |   oneDimFieldValue
+    |   twoDimFieldValue
+    |   threeDimFieldValue
     ;
 
 // the structure of a single value
@@ -38,15 +40,20 @@ singleValue
 arrayValue
     :   '[' (singleValue ','?)* singleValue ']'
     ;
-    
-// the structure of a field
-fieldValue
-    :   '#[' fieldEntry+ ']#'
+
+// one dimensional field
+oneDimFieldValue
+    :   '#[' (IntegerLiteral ':' singleValue)+ ']#'
     ;
 
-// the structure of an entry in a field
-fieldEntry
-    :   IntegerLiteral ':' varValue
+// two dimensional field
+twoDimFieldValue
+    :   '#[' (IntegerLiteral ':' arrayValue)+ ']#'
+    ;
+
+// three dimensional field
+threeDimFieldValue
+    :   '#[' (IntegerLiteral ':' twoDimFieldValue)+ ']#'
     ;
 
 //////////////// Token definitions

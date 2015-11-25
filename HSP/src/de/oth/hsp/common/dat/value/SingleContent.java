@@ -9,27 +9,32 @@ import java.util.Locale;
  * 
  * @author Thomas Butz
  */
-public class SingleContent extends DatContent {	
-	/** used to format floating point numbers */
-	public static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.#####",
-			DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-	
-	private double value;
+public class SingleContent extends DatContent {
+    /** used to format floating point numbers */
+    public static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.#####",
+            DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
-	public SingleContent(double value) {
-		this.value = value;
-	}
+    private double value;
 
-	public double getValue() {
-		return value;
-	}
+    public SingleContent(double value, NumericalType type) {
+        super(type);
+        this.value = value;
+    }
 
-	public void setValue(double value) {
-		this.value = value;
-	}
+    public double getDoubleValue() {
+        return value;
+    }
 
-	@Override
-	protected String getStringRepresentation(int level) {
-		return NUMBER_FORMAT.format(value);
-	}
+    public int getIntValue() {
+        return (int) value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    @Override
+    protected String getStringRepresentation() {
+        return NUMBER_FORMAT.format(value);
+    }
 }

@@ -26,6 +26,7 @@ import de.oth.hsp.common.dat.parser.DatParseListener;
 import de.oth.hsp.common.dat.parser.gen.DatLexer;
 import de.oth.hsp.common.dat.parser.gen.DatParser;
 import de.oth.hsp.common.dat.parser.gen.DatParser.DatBodyContext;
+import de.oth.hsp.common.model.AbstractModelDesc;
 
 /**
  * Handles the parsing of <i>.dat</i> files.
@@ -46,12 +47,15 @@ public class DatFileParser {
      * 
      * @param path
      *            the path of the file to be parsed
+     * @param modelDesc
+     *            the model description to be used when parsing the <i>dat</i>
+     *            file
      * 
      * @return the List of encountered {@link DatEntry} entities
      * @throws DatParseException
      *             if an error occurred while trying to parse the file
      */
-    public static List<DatEntry<?>> parse(Path path) throws DatParseException {
+    public static List<DatEntry<?>> parse(Path path, AbstractModelDesc modelDesc) throws DatParseException {
         Objects.requireNonNull(path);
 
         try (Reader reader = createTolerantReader(path)) {
@@ -77,7 +81,7 @@ public class DatFileParser {
             }
 
             // create DatEntry objects
-            DatParseListener listener = new DatParseListener();
+            DatParseListener listener = new DatParseListener(modelDesc);
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(listener, tree);
 

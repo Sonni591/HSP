@@ -8,15 +8,19 @@ import java.util.Map;
 public abstract class AbstractModelDesc {
     private Map<String, EntryDesc> entryMap = new LinkedHashMap<>();
 
-    protected void register(EntryDesc entry) {
-        entryMap.put(entry.getName(), entry);
+    protected void register(String name, EntryDesc entry) {
+        entryMap.put(name, entry);
     }
 
-    public List<EntryDesc> getEntries() {
-        return new ArrayList<>(entryMap.values());
+    public EntryDesc getEntry(String name) {
+        return entryMap.get(name);
     }
 
     public boolean contains(String name) {
         return entryMap.containsKey(name);
+    }
+
+    public List<EntryDesc> getEntries() {
+        return new ArrayList<>(entryMap.values());
     }
 }
