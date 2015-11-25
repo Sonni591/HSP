@@ -5,6 +5,7 @@ package de.oth.hsp.clsp.view;
 
 import java.util.Arrays;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
@@ -67,8 +68,10 @@ public abstract class AbstractTableViewPage {
 
         numberCol.setSortable(false);
         numberCol.setMinWidth(30);
-        tableView.setColumnResizePolicy((param) -> true);
+        numberCol.setMaxWidth(30);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getColumns().add(numberCol);
+
     }
 
     /**
@@ -104,8 +107,20 @@ public abstract class AbstractTableViewPage {
             tableColumn.setSortable(false);
             tableColumn.setMinWidth(75);
             tableView.getColumns().add(tableColumn);
+            ;
         }
         tableView.setItems(dataList);
+
+        resizeTableRowHeight(tableView);
+
+    }
+
+    protected void resizeTableRowHeight(TableView tableView) {
+        tableView.setFixedCellSize(28);
+        tableView.prefHeightProperty().bind(
+                tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(2)));
+        tableView.minHeightProperty().bind(tableView.prefHeightProperty());
+        tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
     }
 
 }

@@ -38,6 +38,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         table.getColumns().clear();
         table.getItems().clear();
         table.setEditable(true);
+
     }
 
     /**
@@ -90,5 +91,4 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         addTableViewContent(d, table, decimals);
 
     }
-
 }
