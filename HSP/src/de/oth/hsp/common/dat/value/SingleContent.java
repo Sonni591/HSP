@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import de.oth.hsp.common.dat.desc.NumericalType;
+
 /**
  * Wraps a single value.
  * 

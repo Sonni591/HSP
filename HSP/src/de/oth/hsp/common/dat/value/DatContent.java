@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Locale;
 
 import de.oth.hsp.common.dat.DatEntry;
+import de.oth.hsp.common.dat.desc.NumericalType;
 
 /**
  * Abstract base class for all kind of content in a {@link DatEntry}.

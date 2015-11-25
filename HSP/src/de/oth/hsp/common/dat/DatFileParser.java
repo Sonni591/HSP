@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -21,12 +19,12 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.dat.parser.DatParseException;
 import de.oth.hsp.common.dat.parser.DatParseListener;
 import de.oth.hsp.common.dat.parser.gen.DatLexer;
 import de.oth.hsp.common.dat.parser.gen.DatParser;
 import de.oth.hsp.common.dat.parser.gen.DatParser.DatBodyContext;
-import de.oth.hsp.common.model.AbstractModelDesc;
 
 /**
  * Handles the parsing of <i>.dat</i> files.
@@ -34,8 +32,6 @@ import de.oth.hsp.common.model.AbstractModelDesc;
  * @author Thomas Butz
  */
 public class DatFileParser {
-    /** the charset used by dat files */
-    private static final Charset DAT_CHARSET = StandardCharsets.ISO_8859_1;
 
     /** prohibit initialization */
     private DatFileParser() {
@@ -43,7 +39,49 @@ public class DatFileParser {
     }
 
     /**
-     * Parses the file at the given path.
+     * Creates a {@link ClspDatFile} from its file representation.
+     * 
+     * @param path
+     *            the path of the dat file
+     * @return a {@link ClspDatFile} containing the parsed content of the
+     *         <i>dat</i> file
+     * @throws DatParseException
+     *             if an error occurred while parsing the file
+     */
+    public static ClspDatFile parseClsp(Path path) throws DatParseException {
+        return parseDatFile(path, ClspDatFile.class);
+    }
+
+    /**
+     * Uses reflection to parse <i>dat</i> files which are children of
+     * {@link AbstractDatFile}.
+     * 
+     * @param <T>
+     *            the class of dat file
+     * @param path
+     *            the path of the dat file
+     * @param clazz
+     *            the Class of file to be parsed
+     * @return an object of a child class of {@link AbstractDatFile}
+     * @throws DatParseException
+     *             if an error occurred while parsing the file
+     */
+    private static <T extends AbstractDatFile> T parseDatFile(Path path, Class<T> clazz) throws DatParseException {
+        T datFile = null;
+        try {
+            List<DatEntry<?>> entries = parseEntries(path, clazz);
+
+            datFile = clazz.newInstance();
+            datFile.setEntries(entries);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new DatParseException("Error caught while processing entries", e);
+        }
+
+        return datFile;
+    }
+
+    /**
+     * Parses the file at the given path for its {@link DatEntry} objects.
      * 
      * @param path
      *            the path of the file to be parsed
@@ -55,7 +93,8 @@ public class DatFileParser {
      * @throws DatParseException
      *             if an error occurred while trying to parse the file
      */
-    public static List<DatEntry<?>> parse(Path path, AbstractModelDesc modelDesc) throws DatParseException {
+    private static List<DatEntry<?>> parseEntries(Path path, Class<? extends AbstractDatFile> datClass)
+            throws DatParseException {
         Objects.requireNonNull(path);
 
         try (Reader reader = createTolerantReader(path)) {
@@ -81,7 +120,7 @@ public class DatFileParser {
             }
 
             // create DatEntry objects
-            DatParseListener listener = new DatParseListener(modelDesc);
+            DatParseListener listener = new DatParseListener(datClass);
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(listener, tree);
 
@@ -102,7 +141,7 @@ public class DatFileParser {
      *             if the creation of the reader fails
      */
     private static Reader createTolerantReader(Path path) throws IOException {
-        CharsetDecoder decoder = DAT_CHARSET.newDecoder();
+        CharsetDecoder decoder = AbstractDatFile.DAT_CHARSET.newDecoder();
         decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
 
         Reader reader = new InputStreamReader(Files.newInputStream(path), decoder);

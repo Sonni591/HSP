@@ -1,4 +1,4 @@
-package de.oth.hsp.common.model;
+package de.oth.hsp.common.dat.desc;
 
 /**
  * Defines the type of content of associated with a {@link EntryDesc}.

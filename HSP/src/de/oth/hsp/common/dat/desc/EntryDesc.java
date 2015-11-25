@@ -1,6 +1,4 @@
-package de.oth.hsp.common.model;
-
-import de.oth.hsp.common.dat.value.NumericalType;
+package de.oth.hsp.common.dat.desc;
 
 /**
  * Describes an entry as specified by a <i>.mod</i> file.

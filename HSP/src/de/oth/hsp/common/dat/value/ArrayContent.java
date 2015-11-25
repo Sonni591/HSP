@@ -1,5 +1,7 @@
 package de.oth.hsp.common.dat.value;
 
+import de.oth.hsp.common.dat.desc.NumericalType;
+
 /**
  * Encapsulates one-dimensional fields of data.
  *

@@ -1,5 +1,7 @@
 package de.oth.hsp.common.dat.value;
 
+import de.oth.hsp.common.dat.desc.NumericalType;
+
 /**
  * Represents two-dimensional datastructures in <i>.dat</i> entries.
  * 
