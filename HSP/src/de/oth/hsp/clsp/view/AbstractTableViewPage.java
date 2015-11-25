@@ -85,11 +85,12 @@ public abstract class AbstractTableViewPage {
      */
     // TODO: Comment method
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected void addTableViewContent(Number[][] inputData, TableView<Number[]> tableView, Decimals decimals) {
+    protected void addTableViewContent(Number[][] inputData, TableView<Number[]> tableView, Decimals decimals,
+            String columnHeader) {
         ObservableList<Number[]> dataList = FXCollections.observableArrayList();
         dataList.addAll(Arrays.asList(inputData));
         for (int i = 0; i < inputData[0].length; i++) {
-            TableColumn tableColumn = new TableColumn("k: " + String.valueOf(i + 1));
+            TableColumn tableColumn = new TableColumn(columnHeader + String.valueOf(i + 1));
             final int colNo = i;
             // tableColumn.setCellFactory(TextFieldTableCell.<String>
             // forTableColumn());

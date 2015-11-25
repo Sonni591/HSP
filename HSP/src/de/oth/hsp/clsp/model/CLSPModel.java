@@ -33,7 +33,7 @@ public class CLSPModel {
         h = new Number[1][K];
         int t = 0;
         for (int j = 0; j < K; j++) {
-            h[1][j] = t;
+            h[0][j] = t;
             t++;
         }
         return h;
@@ -43,7 +43,7 @@ public class CLSPModel {
         s = new Number[1][K];
         int t = 0;
         for (int j = 0; j < K; j++) {
-            s[1][j] = t;
+            s[0][j] = t;
             t++;
         }
         return s;

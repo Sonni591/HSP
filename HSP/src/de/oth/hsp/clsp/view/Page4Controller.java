@@ -75,7 +75,6 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        System.out.println("OutEvent von Page2Ctrl");
 
     }
 
@@ -94,16 +93,9 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
         addColumnWithRowNumber(tableTr, "j: ");
 
         // get the data from the model and add it to the TableView
-        Number[][] d = clspModel.getD();
-
-        Number[][] tr = { { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 } };
-
         Decimals decimals = new Decimals(2);
-        addTableViewContent(tr, tableTb, decimals);
-        addTableViewContent(d, tableTr, decimals);
+        addTableViewContent(clspModel.getTb(), tableTb, decimals, "k: ");
+        addTableViewContent(clspModel.getTr(), tableTr, decimals, "k: ");
 
     }
 }

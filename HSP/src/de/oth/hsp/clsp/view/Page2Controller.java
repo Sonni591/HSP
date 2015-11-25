@@ -68,7 +68,6 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        System.out.println("OutEvent von Page2Ctrl");
 
     }
 
@@ -85,7 +84,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         // get the data from the model and add it to the TableView
         Number[][] d = clspModel.getD();
         Decimals decimals = new Decimals(2);
-        addTableViewContent(d, table, decimals);
+        addTableViewContent(d, table, decimals, "k: ");
 
     }
 }

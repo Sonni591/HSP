@@ -98,6 +98,8 @@ public class Page1Controller implements IPageController {
     public void outEvent() {
         clspModel.setK(Integer.valueOf(K.getText()));
         clspModel.setT(Integer.valueOf(T.getText()));
+        clspModel.setJ(Integer.valueOf(J.getText()));
+        clspModel.setM(Integer.valueOf(M.getText()));
         clspModel.createdTestMatrixD();
         clspModel.createdTestMatrixH();
         clspModel.createdTestMatrixS();
@@ -108,8 +110,6 @@ public class Page1Controller implements IPageController {
 
     @Override
     public void inEvent() {
-        System.out.println("inEvent von Page1Ctrl");
-
     }
 
 }
