@@ -151,28 +151,6 @@ public class DatBaseListener implements DatListener {
      * </p>
      */
     @Override
-    public void enterOneDimFieldValue(DatParser.OneDimFieldValueContext ctx) {
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>
-     * The default implementation does nothing.
-     * </p>
-     */
-    @Override
-    public void exitOneDimFieldValue(DatParser.OneDimFieldValueContext ctx) {
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>
-     * The default implementation does nothing.
-     * </p>
-     */
-    @Override
     public void enterTwoDimFieldValue(DatParser.TwoDimFieldValueContext ctx) {
     }
 

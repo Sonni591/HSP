@@ -25,7 +25,6 @@ varName
 varValue
     :   singleValue
     |   arrayValue
-    |   oneDimFieldValue
     |   twoDimFieldValue
     |   threeDimFieldValue
     ;
@@ -39,11 +38,7 @@ singleValue
 // the structure of an array
 arrayValue
     :   '[' (singleValue ','?)* singleValue ']'
-    ;
-
-// one dimensional field
-oneDimFieldValue
-    :   '#[' (IntegerLiteral ':' singleValue)+ ']#'
+    |   '#[' (IntegerLiteral ':' singleValue)+ ']#'
     ;
 
 // two dimensional field

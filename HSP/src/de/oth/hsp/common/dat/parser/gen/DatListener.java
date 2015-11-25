@@ -105,22 +105,6 @@ public interface DatListener extends ParseTreeListener {
     void exitArrayValue(DatParser.ArrayValueContext ctx);
 
     /**
-     * Enter a parse tree produced by {@link DatParser#oneDimFieldValue}.
-     * 
-     * @param ctx
-     *            the parse tree
-     */
-    void enterOneDimFieldValue(DatParser.OneDimFieldValueContext ctx);
-
-    /**
-     * Exit a parse tree produced by {@link DatParser#oneDimFieldValue}.
-     * 
-     * @param ctx
-     *            the parse tree
-     */
-    void exitOneDimFieldValue(DatParser.OneDimFieldValueContext ctx);
-
-    /**
      * Enter a parse tree produced by {@link DatParser#twoDimFieldValue}.
      * 
      * @param ctx

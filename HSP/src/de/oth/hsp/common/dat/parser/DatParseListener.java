@@ -16,7 +16,6 @@ import de.oth.hsp.common.dat.desc.ContentType;
 import de.oth.hsp.common.dat.desc.NumericalType;
 import de.oth.hsp.common.dat.parser.gen.DatBaseListener;
 import de.oth.hsp.common.dat.parser.gen.DatParser.ArrayValueContext;
-import de.oth.hsp.common.dat.parser.gen.DatParser.OneDimFieldValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.SingleValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.ThreeDimFieldValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.TwoDimFieldValueContext;
@@ -66,9 +65,6 @@ public class DatParseListener extends DatBaseListener {
         } else if (valueContext instanceof ArrayValueContext) {
             entry = new DatEntry<ArrayContent>(name,
                     getArrayContent((ArrayValueContext) valueContext, name, entryDesc));
-        } else if (valueContext instanceof OneDimFieldValueContext) {
-            entry = new DatEntry<ArrayContent>(name,
-                    getOneDimContent((OneDimFieldValueContext) valueContext, name, entryDesc));
         } else if (valueContext instanceof TwoDimFieldValueContext) {
             entry = new DatEntry<TwoDimFieldContent>(name,
                     getTwoDimContent((TwoDimFieldValueContext) valueContext, name, entryDesc));
@@ -121,27 +117,6 @@ public class DatParseListener extends DatBaseListener {
         checkType(name, entryDesc, ContentType.ARRAY);
 
         double[] values = getArrayValues(arrayValueContext.singleValue(), entryDesc.numType());
-
-        return new ArrayContent(values, entryDesc.numType());
-    }
-
-    /**
-     * Creates a {@link ArrayContent} from a {@link OneDimFieldValueContext}
-     * representation.
-     * 
-     * @param singleValueContext
-     *            the context
-     * @param name
-     *            the name of the entry
-     * @param entryDesc
-     *            the description of the entry from the model
-     * @return an {@link SingleContent} object containing the parsed value
-     */
-    private ArrayContent getOneDimContent(OneDimFieldValueContext oneDimFieldValueContext, String name,
-            EntryDesc entryDesc) {
-        checkType(name, entryDesc, ContentType.ARRAY);
-
-        double[] values = getArrayValues(oneDimFieldValueContext.singleValue(), entryDesc.numType());
 
         return new ArrayContent(values, entryDesc.numType());
     }

@@ -57,9 +57,9 @@ public class ThreeDimFieldContent extends DatContent {
             fieldBuilder.append(formatField(field));
             fieldCount++;
         }
-        fieldBuilder.append(FIELD_END);
+        fieldBuilder.append(System.lineSeparator()).append(FIELD_END);
 
-        return null;
+        return fieldBuilder.toString();
     }
 
     private String formatField(double[][] field) {
