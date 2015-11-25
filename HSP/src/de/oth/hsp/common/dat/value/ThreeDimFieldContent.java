@@ -2,6 +2,11 @@ package de.oth.hsp.common.dat.value;
 
 import de.oth.hsp.common.dat.desc.NumericalType;
 
+/**
+ * Represents three-dimensional datastructures in <i>.dat</i> entries.
+ * 
+ * @author Thomas Butz
+ */
 public class ThreeDimFieldContent extends DatContent {
 
     private double values[][][];
