@@ -16,6 +16,8 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  *
  */
 public class ClspDatFile extends AbstractDatFile {
+    private static final String MOD_PATH = "/resources/CLSP.mod";
+
     @EntryDesc(position = 0, name = "CPLEX_EPGAP", conType = ContentType.SINGLE, numType = NumericalType.FLOAT)
     private DatEntry<SingleContent> cplex;
 
@@ -60,6 +62,11 @@ public class ClspDatFile extends AbstractDatFile {
 
     @EntryDesc(position = 14, name = "qMax", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
     private DatEntry<ArrayContent> qMax;
+
+    @Override
+    protected String getModResourcePath() {
+        return MOD_PATH;
+    }
 
     public DatEntry<SingleContent> getCplex() {
         return cplex;

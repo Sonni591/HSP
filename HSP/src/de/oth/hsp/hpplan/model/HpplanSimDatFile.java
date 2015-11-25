@@ -10,7 +10,15 @@ import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.ThreeDimFieldContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 
+/**
+ * Describes a a <i>dat</i> file for HPPLAN-Sim problem solving.
+ * 
+ * @author Thomas Butz
+ *
+ */
 public class HpplanSimDatFile extends AbstractDatFile {
+    private static final String MOD_PATH = "/resources/HPPLAN-PPS.mod";
+
     @EntryDesc(position = 0, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> j;
 
@@ -70,6 +78,11 @@ public class HpplanSimDatFile extends AbstractDatFile {
 
     @EntryDesc(position = 19, name = "Uagg", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> uagg;
+
+    @Override
+    protected String getModResourcePath() {
+        return MOD_PATH;
+    }
 
     public DatEntry<SingleContent> getJ() {
         return j;
