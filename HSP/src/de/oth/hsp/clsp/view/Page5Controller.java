@@ -1,20 +1,26 @@
 package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import de.oth.hsp.clsp.model.CLSPModel;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 
-public class Page2Controller extends AbstractTableViewPage implements IPageController {
+public class Page5Controller extends AbstractTableViewPage implements IPageController {
 
     // References to elements of the FXML Layout of Page2
+
     @FXML
-    private TableView<Number[]> table; // Nettobedarfsmenge des Produkts k in
-                                       // Periode t
+    private TableView<Number[]> tableTb; // Bearbeitungszeit für eine Einheit
+                                         // von Produkt K auf Station J
     @FXML
-    private Button testButton;
+    private TableView<Number[]> tableTr; // Rüstzeit für ein Prudukt K an
+                                         // Station J
+    @FXML
+    private Label labelTb; // Label: Stueckbearbeitungszeiten
+    @FXML
+    private Label labelTr; // Label: Rüstzeiten
 
     private CLSPModel clspModel;
 
@@ -25,7 +31,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
      * The constructor. The constructor is called before the initialize()
      * method.
      */
-    public Page2Controller() {
+    public Page5Controller() {
 
     }
 
@@ -35,7 +41,8 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(table);
+        initTable(tableTb);
+        initTable(tableTr);
     }
 
     /**
@@ -76,16 +83,27 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
 
-        table.getItems().clear();
-        table.getColumns().clear();
+        tableTr.getItems().clear();
+        tableTr.getColumns().clear();
+
+        tableTb.getItems().clear();
+        tableTb.getColumns().clear();
 
         // add a column with row numbers
-        addColumnWithRowNumber(table, "t: ");
+        addColumnWithRowNumber(tableTb, "j: ");
+        addColumnWithRowNumber(tableTr, "j: ");
 
         // get the data from the model and add it to the TableView
         Number[][] d = clspModel.getD();
+
+        Number[][] tr = { { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 } };
+
         Decimals decimals = new Decimals(2);
-        addTableViewContent(d, table, decimals);
+        addTableViewContent(tr, tableTb, decimals);
+        addTableViewContent(d, tableTr, decimals);
 
     }
 }

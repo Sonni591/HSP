@@ -1,23 +1,20 @@
 package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableView;
 import de.oth.hsp.clsp.model.CLSPModel;
+import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 
-public class Page1Controller implements IPageController {
+public class Page3Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page1
+    // References to elements of the FXML Layout of Page2
+
     @FXML
-    private TextField T; // Länge des Planungszeitraums
+    private TableView<Number[]> tableH; // Lagerkostensätze für ein Prudukt K
+
     @FXML
-    private TextField K; // Anzahl an Produkten
-    @FXML
-    private TextField J; // Anzahl der Stationen
-    @FXML
-    private TextField M; // Große Zahl
-    @FXML
-    private TextField C; // Verfügbare Kapaziät der Ressource
+    private TableView<Number[]> tableS; // Rüstkostensätze für ein Prudukt K
 
     private CLSPModel clspModel;
 
@@ -28,38 +25,8 @@ public class Page1Controller implements IPageController {
      * The constructor. The constructor is called before the initialize()
      * method.
      */
-    public Page1Controller() {
+    public Page3Controller() {
 
-    }
-
-    /**
-     * @return the t
-     */
-    public TextField getT() {
-        return T;
-    }
-
-    /**
-     * @param t
-     *            the t to set
-     */
-    public void setT(TextField t) {
-        T = t;
-    }
-
-    /**
-     * @return the k
-     */
-    public TextField getK() {
-        return K;
-    }
-
-    /**
-     * @param k
-     *            the k to set
-     */
-    public void setK(TextField k) {
-        K = k;
     }
 
     /**
@@ -68,7 +35,8 @@ public class Page1Controller implements IPageController {
      */
     @FXML
     private void initialize() {
-
+        initTable(tableH);
+        initTable(tableS);
     }
 
     /**
@@ -94,22 +62,39 @@ public class Page1Controller implements IPageController {
         this.paginationController = paginationController;
     }
 
-    @Override
-    public void outEvent() {
-        clspModel.setK(Integer.valueOf(K.getText()));
-        clspModel.setT(Integer.valueOf(T.getText()));
-        clspModel.createdTestMatrixD();
-        clspModel.createdTestMatrixH();
-        clspModel.createdTestMatrixS();
-        clspModel.createdTestMatrixTR();
-        clspModel.createdTestMatrixTB();
-        clspModel.createdTestMatrixB();
+    @FXML
+    public void fireTestEvent() {
+
     }
 
+    @Override
+    public void outEvent() {
+        System.out.println("OutEvent von Page2Ctrl");
+
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {
-        System.out.println("inEvent von Page1Ctrl");
+
+        tableS.getItems().clear();
+        tableS.getColumns().clear();
+
+        tableH.getItems().clear();
+        tableH.getColumns().clear();
+
+        // add a column with row numbers
+        addColumnWithRowNumber(tableH, "");
+        addColumnWithRowNumber(tableS, "");
+
+        // get the data from the model and add it to the TableView
+        Number[][] d = clspModel.getD();
+
+        Number[][] tr = { { 1, 2, 3, 4, 5, 6, 7, 8, 9 } };
+
+        Decimals decimals = new Decimals(2);
+        addTableViewContent(tr, tableH, decimals);
+        addTableViewContent(tr, tableS, decimals);
 
     }
-
 }

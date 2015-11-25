@@ -33,6 +33,13 @@ public abstract class AbstractTableViewPage {
 
     }
 
+    protected void initTable(TableView<?> tableView) {
+        tableView.getColumns().clear();
+        tableView.getItems().clear();
+        tableView.setEditable(true);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
     /**
      *
      */
@@ -69,7 +76,6 @@ public abstract class AbstractTableViewPage {
         numberCol.setSortable(false);
         numberCol.setMinWidth(30);
         numberCol.setMaxWidth(30);
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getColumns().add(numberCol);
 
     }
