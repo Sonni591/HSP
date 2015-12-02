@@ -10,11 +10,11 @@
    <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <AnchorPane>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="calculateButton" layoutX="87.0" layoutY="126.0" mnemonicParsing="false" onAction="#calculateEvent" prefHeight="88.0" prefWidth="137.0" text="Button" AnchorPane.topAnchor="126.0" />
+                  <Button fx:id="calculateButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="141.0" text="Button" />
                </children>
-            </AnchorPane>
+            </StackPane>
          </content>
       </ScrollPane>
    </children>
