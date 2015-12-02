@@ -16,6 +16,18 @@ public class TwoDimFieldContent extends DatContent {
         this.values = values;
     }
 
+    public Number[][] getValues() {
+        Number[][] numbers = new Number[values.length][values[0].length];
+
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers[0].length; j++) {
+                numbers[i][j] = values[i][j];
+            }
+        }
+
+        return numbers;
+    }
+
     /**
      * @return the content of this field as a map(index -> element)
      */
@@ -45,6 +57,16 @@ public class TwoDimFieldContent extends DatContent {
         for (int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[0].length; j++) {
                 this.values[i][j] = values[i][j];
+            }
+        }
+    }
+
+    public void setValues(Number[][] values) {
+        this.values = new double[values.length][values[0].length];
+
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values[0].length; j++) {
+                this.values[i][j] = values[i][j].doubleValue();
             }
         }
     }

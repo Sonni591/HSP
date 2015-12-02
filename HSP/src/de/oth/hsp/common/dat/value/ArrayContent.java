@@ -16,6 +16,15 @@ public class ArrayContent extends DatContent {
         this.values = values;
     }
 
+    public Number[] getValues() {
+        Number[] numbers = new Number[values.length];
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] = values[i];
+        }
+
+        return numbers;
+    }
+
     public double[] getDoubleValues() {
         return values;
     }
@@ -38,6 +47,14 @@ public class ArrayContent extends DatContent {
 
         for (int i = 0; i < values.length; i++) {
             this.values[i] = values[i];
+        }
+    }
+
+    public void setValues(Number[] values) {
+        this.values = new double[values.length];
+
+        for (int i = 0; i < values.length; i++) {
+            this.values[i] = values[i].doubleValue();
         }
     }
 

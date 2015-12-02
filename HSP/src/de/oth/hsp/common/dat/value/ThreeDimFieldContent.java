@@ -16,6 +16,20 @@ public class ThreeDimFieldContent extends DatContent {
         setValues(values);
     }
 
+    public Number[][][] getValues() {
+        Number[][][] numbers = new Number[values.length][values[0].length][values[0][0].length];
+
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers.length; j++) {
+                for (int k = 0; k < numbers.length; k++) {
+                    numbers[i][j][k] = values[i][j][k];
+                }
+            }
+        }
+
+        return numbers;
+    }
+
     public double[][][] getDoubleValues() {
         return values;
     }
@@ -44,6 +58,17 @@ public class ThreeDimFieldContent extends DatContent {
             for (int j = 0; j < values.length; j++) {
                 for (int k = 0; k < values.length; k++) {
                     this.values[i][j][k] = values[i][j][k];
+                }
+            }
+        }
+    }
+
+    public void setValues(Number[][][] values) {
+        this.values = new double[values.length][values[0].length][values[0][0].length];
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values.length; j++) {
+                for (int k = 0; k < values.length; k++) {
+                    this.values[i][j][k] = values[i][j][k].doubleValue();
                 }
             }
         }

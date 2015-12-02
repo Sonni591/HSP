@@ -59,99 +59,99 @@ public class ClspDatFile extends AbstractDatFile {
         return MOD_PATH;
     }
 
-    public int getT() {
-        return t.getContent().getIntValue();
+    public Number getT() {
+        return t.getContent().getValue();
     }
 
-    public void setT(int t) {
+    public void setT(Number t) {
         this.t.getContent().setValue(t);
     }
 
-    public int getK() {
-        return k.getContent().getIntValue();
+    public Number getK() {
+        return k.getContent().getValue();
     }
 
-    public void setK(int k) {
+    public void setK(Number k) {
         this.k.getContent().setValue(k);
     }
 
-    public int getJ() {
-        return j.getContent().getIntValue();
+    public Number getJ() {
+        return j.getContent().getValue();
     }
 
-    public void setJ(int j) {
+    public void setJ(Number j) {
         this.j.getContent().setValue(j);
     }
 
-    public int getM() {
-        return m.getContent().getIntValue();
+    public Number getM() {
+        return m.getContent().getValue();
     }
 
-    public void setM(int m) {
+    public void setM(Number m) {
         this.m.getContent().setValue(m);
     }
 
-    public double[][] getB() {
-        return b.getContent().getDoubleValues();
+    public Number[][] getB() {
+        return b.getContent().getValues();
     }
 
-    public void setB(double[][] b) {
+    public void setB(Number[][] b) {
         this.b.getContent().setValues(b);
     }
 
-    public int[][] getD() {
-        return d.getContent().getIntValues();
+    public Number[][] getD() {
+        return d.getContent().getValues();
     }
 
-    public void setD(int[][] d) {
+    public void setD(Number[][] d) {
         this.d.getContent().setValues(d);
     }
 
-    public int[] getH() {
-        return h.getContent().getIntValues();
+    public Number[] getH() {
+        return h.getContent().getValues();
     }
 
-    public void setH(int[] h) {
+    public void setH(Number[] h) {
         this.h.getContent().setValues(h);
     }
 
-    public double[] getS() {
-        return s.getContent().getDoubleValues();
+    public Number[] getS() {
+        return s.getContent().getValues();
     }
 
-    public void setS(double[] s) {
+    public void setS(Number[] s) {
         this.s.getContent().setValues(s);
     }
 
-    public double[][] getTb() {
-        return tb.getContent().getDoubleValues();
+    public Number[][] getTb() {
+        return tb.getContent().getValues();
     }
 
-    public void setTb(double[][] tb) {
+    public void setTb(Number[][] tb) {
         this.tb.getContent().setValues(tb);
     }
 
-    public double[][] getTr() {
-        return tr.getContent().getDoubleValues();
+    public Number[][] getTr() {
+        return tr.getContent().getValues();
     }
 
-    public void setTr(double[][] tr) {
+    public void setTr(Number[][] tr) {
         this.tr.getContent().setValues(tr);
     }
 
-    public int[] getZ() {
-        return z.getContent().getIntValues();
+    public Number[] getZ() {
+        return z.getContent().getValues();
     }
 
-    public void setZ(int[] y0) {
+    public void setZ(Number[] y0) {
         this.z.getContent().setValues(y0);
     }
 
-    public int[] getY0() {
-        return y0.getContent().getIntValues();
+    public Number[] getY0() {
+        return y0.getContent().getValues();
     }
 
-    public void setY0(int[] y0) {
+    public void setY0(Number[] y0) {
         this.y0.getContent().setValues(y0);
     }
 

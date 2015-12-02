@@ -23,6 +23,10 @@ public class SingleContent extends DatContent {
         this.value = value;
     }
 
+    public Number getValue() {
+        return value;
+    }
+
     public double getDoubleValue() {
         return value;
     }
@@ -33,6 +37,10 @@ public class SingleContent extends DatContent {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public void setValue(Number value) {
+        this.value = value.doubleValue();
     }
 
     @Override
