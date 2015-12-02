@@ -19,8 +19,6 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
                                          // Station J
     @FXML
     private Label labelTb; // Label: Stueckbearbeitungszeiten
-    @FXML
-    private Label labelTr; // Label: Rüstzeiten
 
     private CLSPModel clspModel;
 
@@ -42,7 +40,6 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     @FXML
     private void initialize() {
         initTable(tableTb);
-        initTable(tableTr);
     }
 
     /**
@@ -82,20 +79,15 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
 
-        tableTr.getItems().clear();
-        tableTr.getColumns().clear();
-
         tableTb.getItems().clear();
         tableTb.getColumns().clear();
 
         // add a column with row numbers
         addColumnWithRowNumber(tableTb, "j: ");
-        addColumnWithRowNumber(tableTr, "j: ");
 
         // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
         addTableViewContent(clspModel.getTb(), tableTb, decimals, "k: ");
-        addTableViewContent(clspModel.getTr(), tableTr, decimals, "k: ");
 
     }
 }
