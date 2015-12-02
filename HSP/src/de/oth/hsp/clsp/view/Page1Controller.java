@@ -99,17 +99,18 @@ public class Page1Controller implements IPageController {
     @Override
     public void outEvent() {
         try {
-            if (Integer.valueOf(K.getText()) != 0 && Integer.valueOf(K.getText()) != 0
-                    && Integer.valueOf(T.getText()) != 0 && Integer.valueOf(M.getText()) != 0) {
+            if ((Integer.valueOf(K.getText()) != 0) && (Integer.valueOf(T.getText()) != 0)
+                    && (Integer.valueOf(J.getText()) != 0) && (Integer.valueOf(M.getText()) != 0)) {
                 clspModel.setK(Integer.valueOf(K.getText()));
                 clspModel.setT(Integer.valueOf(T.getText()));
                 clspModel.setJ(Integer.valueOf(J.getText()));
                 clspModel.setM(Integer.valueOf(M.getText()));
+                clspModel.ensureConstraints();
             } else {
                 throw new Exception();
             }
-            clspModel.ensureConstraints();
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Fehlende Werte");
             alert.setHeaderText("Werte nicht korrekt");
