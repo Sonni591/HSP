@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import de.oth.hsp.clsp.model.CLSPModel;
+import de.oth.hsp.clsp.model.ClspDatFile;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -47,7 +47,7 @@ public class RootLayoutController {
     private MenuBar menuBar;
 
     // References the CLSPModel
-    private CLSPModel clspModel = new CLSPModel();
+    private ClspDatFile clspModel = new ClspDatFile();
 
     /**
      * The constructor. The constructor is called before the initialize()
@@ -250,11 +250,11 @@ public class RootLayoutController {
         // System.out.println("on tab selection changed");
     }
 
-    public CLSPModel getClspModel() {
+    public ClspDatFile getClspModel() {
         return clspModel;
     }
 
-    public void setClspModel(CLSPModel clspModel) {
+    public void setClspModel(ClspDatFile clspModel) {
         this.clspModel = clspModel;
     }
 

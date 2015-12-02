@@ -1,10 +1,10 @@
 package de.oth.hsp.clsp.view;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
-import de.oth.hsp.clsp.model.CLSPModel;
+import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 
 public class Page5Controller extends AbstractTableViewPage implements IPageController {
 
@@ -14,7 +14,7 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     private TableView<Number[]> tableB; // verfügbare Kapazität an der Station j
                                         // in Periode t
 
-    private CLSPModel clspModel;
+    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;

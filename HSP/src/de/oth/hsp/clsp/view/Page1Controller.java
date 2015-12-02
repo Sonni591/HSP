@@ -1,6 +1,6 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.clsp.model.CLSPModel;
+import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,7 +21,7 @@ public class Page1Controller implements IPageController {
     @FXML
     private TextField C; // Verfügbare Kapaziät der Ressource
 
-    private CLSPModel clspModel;
+    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -98,27 +98,25 @@ public class Page1Controller implements IPageController {
 
     @Override
     public void outEvent() {
-        if (true) { // TODO check the values of the fields
-            clspModel.setK(Integer.valueOf(K.getText()));
-            clspModel.setT(Integer.valueOf(T.getText()));
-            clspModel.setJ(Integer.valueOf(J.getText()));
-            clspModel.setM(Integer.valueOf(M.getText()));
-            clspModel.createdTestMatrixD();
-            clspModel.createdTestMatrixH();
-            clspModel.createdTestMatrixS();
-            clspModel.createdTestMatrixTR();
-            clspModel.createdTestMatrixTB();
-            clspModel.createdTestMatrixB();
-        } else {
+        try {
+            if (Integer.valueOf(K.getText()) != 0 && Integer.valueOf(K.getText()) != 0
+                    && Integer.valueOf(T.getText()) != 0 && Integer.valueOf(M.getText()) != 0) {
+                clspModel.setK(Integer.valueOf(K.getText()));
+                clspModel.setT(Integer.valueOf(T.getText()));
+                clspModel.setJ(Integer.valueOf(J.getText()));
+                clspModel.setM(Integer.valueOf(M.getText()));
+            } else {
+                throw new Exception();
+            }
+            clspModel.ensureConstraints();
+        } catch (Exception e) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Fehlende Werte");
-            alert.setHeaderText("Werte nicht vollständig");
-            alert.setContentText(
-                    "Die Werte sind entweder leer, oder mit 0 gefüllt. Bitte geben Sie die richtigen Werte ein.");
-
-            root.getTab1Controller().getPagination().setCurrentPageIndex(0);
+            alert.setHeaderText("Werte nicht korrekt");
+            alert.setContentText("Es dürfen keine Felder leer oder mit 0 belegt sein!");
 
             alert.showAndWait();
+            root.getTab1Controller().getPagination().setCurrentPageIndex(0);
         }
     }
 
