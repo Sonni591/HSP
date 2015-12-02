@@ -37,8 +37,8 @@ public class Tab1Controller {
     }
 
     /**
-	 * 
-	 */
+     *
+     */
     private void customizePagination() {
         // create the PageFactory to handle the Pages of the Pagination-Control
         pagination.setPageFactory(new Callback<Integer, Node>() {
@@ -71,7 +71,7 @@ public class Tab1Controller {
      * Method returns an AnchorPane containing the layout for the current page
      * index. If the pane does not exist yet, it is loaded from the fxml-Layout.
      * Otherwise the existing pane is used.
-     * 
+     *
      * @param index
      *            of the current Page
      * @return AnchorPane of the current Page
@@ -93,5 +93,9 @@ public class Tab1Controller {
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
         paginationController = new PaginationController(root);
+    }
+
+    public Pagination getPagination() {
+        return pagination;
     }
 }

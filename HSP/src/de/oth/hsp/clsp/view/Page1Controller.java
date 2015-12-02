@@ -1,9 +1,11 @@
 package de.oth.hsp.clsp.view;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import de.oth.hsp.clsp.model.CLSPModel;
 import de.oth.hsp.common.view.IPageController;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 
 public class Page1Controller implements IPageController {
 
@@ -96,16 +98,28 @@ public class Page1Controller implements IPageController {
 
     @Override
     public void outEvent() {
-        clspModel.setK(Integer.valueOf(K.getText()));
-        clspModel.setT(Integer.valueOf(T.getText()));
-        clspModel.setJ(Integer.valueOf(J.getText()));
-        clspModel.setM(Integer.valueOf(M.getText()));
-        clspModel.createdTestMatrixD();
-        clspModel.createdTestMatrixH();
-        clspModel.createdTestMatrixS();
-        clspModel.createdTestMatrixTR();
-        clspModel.createdTestMatrixTB();
-        clspModel.createdTestMatrixB();
+        if (true) { // TODO check the values of the fields
+            clspModel.setK(Integer.valueOf(K.getText()));
+            clspModel.setT(Integer.valueOf(T.getText()));
+            clspModel.setJ(Integer.valueOf(J.getText()));
+            clspModel.setM(Integer.valueOf(M.getText()));
+            clspModel.createdTestMatrixD();
+            clspModel.createdTestMatrixH();
+            clspModel.createdTestMatrixS();
+            clspModel.createdTestMatrixTR();
+            clspModel.createdTestMatrixTB();
+            clspModel.createdTestMatrixB();
+        } else {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Fehlende Werte");
+            alert.setHeaderText("Werte nicht vollständig");
+            alert.setContentText(
+                    "Die Werte sind entweder leer, oder mit 0 gefüllt. Bitte geben Sie die richtigen Werte ein.");
+
+            root.getTab1Controller().getPagination().setCurrentPageIndex(0);
+
+            alert.showAndWait();
+        }
     }
 
     @Override
