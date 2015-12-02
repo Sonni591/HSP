@@ -102,6 +102,19 @@ public abstract class AbstractDatFile {
     }
 
     /**
+     * Ensures that all given Constraints are satisfied.
+     */
+    public void ensureConstraints() {
+        // TODO
+    }
+
+    /**
+     * Force child classes to register any constraints on their {@link DatEntry}
+     * objects
+     */
+    protected abstract void registerContstraints();
+
+    /**
      * @return the path to the <i>mod</i> inside the jar
      */
     protected abstract String getModResourcePath();

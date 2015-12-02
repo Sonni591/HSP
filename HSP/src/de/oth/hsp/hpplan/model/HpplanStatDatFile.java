@@ -54,12 +54,12 @@ public class HpplanStatDatFile extends AbstractDatFile {
         return MOD_PATH;
     }
 
-    public DatEntry<SingleContent> getJ() {
-        return j;
+    public double getJ() {
+        return j.getContent().getDoubleValue();
     }
 
-    public void setJ(DatEntry<SingleContent> j) {
-        this.j = j;
+    public void setJ(double j) {
+        this.j.getContent().setValue(j);
     }
 
     public DatEntry<SingleContent> getK() {
@@ -140,5 +140,10 @@ public class HpplanStatDatFile extends AbstractDatFile {
 
     public void setiInit(DatEntry<SingleContent> iInit) {
         this.iInit = iInit;
+    }
+
+    @Override
+    protected void registerContstraints() {
+        // TODO Dummy Code
     }
 }

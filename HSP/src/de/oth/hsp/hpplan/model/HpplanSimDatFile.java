@@ -244,4 +244,9 @@ public class HpplanSimDatFile extends AbstractDatFile {
         this.uagg = uagg;
     }
 
+    @Override
+    protected void registerContstraints() {
+        // TODO Dummy Code
+    }
+
 }
