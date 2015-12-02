@@ -84,164 +84,164 @@ public class HpplanSimDatFile extends AbstractDatFile {
         return MOD_PATH;
     }
 
-    public DatEntry<SingleContent> getJ() {
-        return j;
+    public int getJ() {
+        return j.getContent().getIntValue();
     }
 
-    public void setJ(DatEntry<SingleContent> j) {
-        this.j = j;
+    public void setJ(int j) {
+        this.j.getContent().setValue(j);
     }
 
-    public DatEntry<SingleContent> getK() {
-        return k;
+    public int getK() {
+        return k.getContent().getIntValue();
     }
 
-    public void setK(DatEntry<SingleContent> k) {
-        this.k = k;
+    public void setK(int k) {
+        this.k.getContent().setValue(k);
     }
 
-    public DatEntry<SingleContent> getfBig() {
-        return fBig;
+    public int getfBig() {
+        return fBig.getContent().getIntValue();
     }
 
-    public void setfBig(DatEntry<SingleContent> fBig) {
-        this.fBig = fBig;
+    public void setfBig(int fBig) {
+        this.fBig.getContent().setValue(fBig);
     }
 
-    public DatEntry<SingleContent> gettStart() {
-        return tStart;
+    public int gettStart() {
+        return tStart.getContent().getIntValue();
     }
 
-    public void settStart(DatEntry<SingleContent> tStart) {
-        this.tStart = tStart;
+    public void settStart(int tStart) {
+        this.tStart.getContent().setValue(tStart);
     }
 
-    public DatEntry<SingleContent> gettEnd() {
-        return tEnd;
+    public int gettEnd() {
+        return tEnd.getContent().getIntValue();
     }
 
-    public void settEnd(DatEntry<SingleContent> tEnd) {
-        this.tEnd = tEnd;
+    public void settEnd(int tEnd) {
+        this.tEnd.getContent().setValue(tEnd);
     }
 
-    public DatEntry<TwoDimFieldContent> getB() {
-        return b;
+    public int[][] getB() {
+        return b.getContent().getIntValues();
     }
 
-    public void setB(DatEntry<TwoDimFieldContent> b) {
-        this.b = b;
+    public void setB(int[][] b) {
+        this.b.getContent().setValues(b);
     }
 
-    public DatEntry<TwoDimFieldContent> getuMax() {
-        return uMax;
+    public int[][] getuMax() {
+        return uMax.getContent().getIntValues();
     }
 
-    public void setuMax(DatEntry<TwoDimFieldContent> uMax) {
-        this.uMax = uMax;
+    public void setuMax(int[][] uMax) {
+        this.uMax.getContent().setValues(uMax);
     }
 
-    public DatEntry<TwoDimFieldContent> getU() {
-        return u;
+    public double[][] getU() {
+        return u.getContent().getDoubleValues();
     }
 
-    public void setU(DatEntry<TwoDimFieldContent> u) {
-        this.u = u;
+    public void setU(double[][] u) {
+        this.u.getContent().setValues(u);
     }
 
-    public DatEntry<SingleContent> getzMax() {
-        return zMax;
+    public int getzMax() {
+        return zMax.getContent().getIntValue();
     }
 
-    public void setzMax(DatEntry<SingleContent> zMax) {
-        this.zMax = zMax;
+    public void setzMax(int zMax) {
+        this.zMax.getContent().setValue(zMax);
     }
 
-    public DatEntry<SingleContent> getzMin() {
-        return zMin;
+    public int getzMin() {
+        return zMin.getContent().getIntValue();
     }
 
-    public void setzMin(DatEntry<SingleContent> zMin) {
-        this.zMin = zMin;
+    public void setzMin(int zMin) {
+        this.zMin.getContent().setValue(zMin);
     }
 
-    public DatEntry<ThreeDimFieldContent> getF() {
-        return f;
+    public double[][][] getF() {
+        return f.getContent().getDoubleValues();
     }
 
-    public void setF(DatEntry<ThreeDimFieldContent> f) {
-        this.f = f;
+    public void setF(double[][][] f) {
+        this.f.getContent().setValues(f);
     }
 
-    public DatEntry<TwoDimFieldContent> getD() {
-        return d;
+    public int[][] getD() {
+        return d.getContent().getIntValues();
     }
 
-    public void setD(DatEntry<TwoDimFieldContent> d) {
-        this.d = d;
+    public void setD(int[][] d) {
+        this.d.getContent().setValues(d);
     }
 
-    public DatEntry<ArrayContent> getH() {
-        return h;
+    public int[] getH() {
+        return h.getContent().getIntValues();
     }
 
-    public void setH(DatEntry<ArrayContent> h) {
-        this.h = h;
+    public void setH(int[] h) {
+        this.h.getContent().setValues(h);
     }
 
-    public DatEntry<SingleContent> getiInit() {
-        return iInit;
+    public int getiInit() {
+        return iInit.getContent().getIntValue();
     }
 
-    public void setiInit(DatEntry<SingleContent> iInit) {
-        this.iInit = iInit;
+    public void setiInit(int iInit) {
+        this.iInit.getContent().setValue(iInit);
     }
 
-    public DatEntry<TwoDimFieldContent> getxInit() {
-        return xInit;
+    public int[][] getxInit() {
+        return xInit.getContent().getIntValues();
     }
 
-    public void setxInit(DatEntry<TwoDimFieldContent> xInit) {
-        this.xInit = xInit;
+    public void setxInit(int[][] xInit) {
+        this.xInit.getContent().setValues(xInit);
     }
 
-    public DatEntry<TwoDimFieldContent> getuInit() {
-        return uInit;
+    public int[][] getuInit() {
+        return uInit.getContent().getIntValues();
     }
 
-    public void setuInit(DatEntry<TwoDimFieldContent> uInit) {
-        this.uInit = uInit;
+    public void setuInit(int[][] uInit) {
+        this.uInit.getContent().setValues(uInit);
     }
 
-    public DatEntry<SingleContent> getP() {
-        return p;
+    public int getP() {
+        return p.getContent().getIntValue();
     }
 
-    public void setP(DatEntry<SingleContent> p) {
-        this.p = p;
+    public void setP(int p) {
+        this.p.getContent().setValue(p);
     }
 
-    public DatEntry<TwoDimFieldContent> getN() {
-        return n;
+    public int[][] getN() {
+        return n.getContent().getIntValues();
     }
 
-    public void setN(DatEntry<TwoDimFieldContent> n) {
-        this.n = n;
+    public void setN(int[][] n) {
+        this.n.getContent().setValues(n);
     }
 
-    public DatEntry<ArrayContent> getXagg() {
-        return xagg;
+    public int[] getXagg() {
+        return xagg.getContent().getIntValues();
     }
 
-    public void setXagg(DatEntry<ArrayContent> xagg) {
-        this.xagg = xagg;
+    public void setXagg(int[] xagg) {
+        this.xagg.getContent().setValues(xagg);
     }
 
-    public DatEntry<SingleContent> getUagg() {
-        return uagg;
+    public int getUagg() {
+        return uagg.getContent().getIntValue();
     }
 
-    public void setUagg(DatEntry<SingleContent> uagg) {
-        this.uagg = uagg;
+    public void setUagg(int uagg) {
+        this.uagg.getContent().setValue(uagg);
     }
 
     @Override
