@@ -4,6 +4,7 @@ import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
 public class Page5Controller extends AbstractTableViewPage implements IPageController {
@@ -11,8 +12,11 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableB; // verfügbare Kapazität an der Station j
-                                        // in Periode t
+    private TableView<Number[]> tableTr; // Rüstzeit für ein Prudukt K an
+                                         // Station J
+
+    @FXML
+    private Label labelTr; // Label: Rüstzeiten
 
     private ClspDatFile clspModel;
 
@@ -33,8 +37,8 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableB);
 
+        initTable(tableTr);
     }
 
     /**
@@ -74,14 +78,16 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
 
-        tableB.getItems().clear();
-        tableB.getColumns().clear();
+        tableTr.getItems().clear();
+        tableTr.getColumns().clear();
 
         // add a column with row numbers
-        addColumnWithRowNumber(tableB, "j: ");
+
+        addColumnWithRowNumber(tableTr, "j: ");
 
         // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(clspModel.getB(), tableB, decimals, "t: ");
+        addTableViewContent(clspModel.getTr(), tableTr, decimals, "k: ");
+
     }
 }

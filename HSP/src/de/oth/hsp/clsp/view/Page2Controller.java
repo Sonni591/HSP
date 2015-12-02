@@ -46,26 +46,6 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         clspModel = root.getClspModel();
     }
 
-    /**
-     * @return the paginationController
-     */
-    public PaginationController getPaginationController() {
-        return paginationController;
-    }
-
-    /**
-     * @param paginationController
-     *            the paginationController to set
-     */
-    public void setPaginationController(PaginationController paginationController) {
-        this.paginationController = paginationController;
-    }
-
-    @FXML
-    public void fireTestEvent() {
-
-    }
-
     @Override
     public void outEvent() {
 
@@ -86,5 +66,20 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         Decimals decimals = new Decimals(2);
         addTableViewContent(d, table, decimals, "k: ");
 
+    }
+
+    /**
+     * @return the paginationController
+     */
+    public PaginationController getPaginationController() {
+        return paginationController;
+    }
+
+    /**
+     * @param paginationController
+     *            the paginationController to set
+     */
+    public void setPaginationController(PaginationController paginationController) {
+        this.paginationController = paginationController;
     }
 }
