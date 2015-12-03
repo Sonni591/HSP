@@ -10,31 +10,25 @@ import de.oth.hsp.common.dat.value.SingleContent;
  * @author Thomas Butz
  *
  */
-public class ArrayConstraint extends Constraint {
-
-    private final SingleContent root;
-    private final ArrayContent dependent;
-    private final int offset;
-
-    public ArrayConstraint(SingleContent root, ArrayContent dependent) {
-        this(root, dependent, 0);
-    }
+public class ArrayConstraint extends Constraint<ArrayContent> {
 
     public ArrayConstraint(SingleContent root, ArrayContent dependent, int offset) {
-        this.root = root;
-        this.dependent = dependent;
-        this.offset = offset;
+        super(root, dependent, offset);
+    }
+
+    public ArrayConstraint(SingleContent root, ArrayContent dependent) {
+        super(root, dependent);
     }
 
     @Override
     public boolean isCompliant() {
-        return (root.getIntValue() + offset) == dependent.getIntValues().length;
+        return (getRoot().getIntValue() + getOffset()) == getDependent().getIntValues().length;
     }
 
     @Override
     public void adjust() {
-        final double[] newValues = new double[root.getIntValue() + offset];
-        final double[] oldValues = dependent.getDoubleValues();
+        final double[] newValues = new double[getRoot().getIntValue() + getOffset()];
+        final double[] oldValues = getDependent().getDoubleValues();
 
         int minSize = Math.min(newValues.length, oldValues.length);
 
@@ -42,6 +36,6 @@ public class ArrayConstraint extends Constraint {
             newValues[i] = oldValues[i];
         }
 
-        dependent.setValues(newValues);
+        getDependent().setValues(newValues);
     }
 }
