@@ -156,7 +156,7 @@ public class ClspDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerContstraints() {
+    protected void registerConstraints() {
         // TODO Dummy Code
     }
 }

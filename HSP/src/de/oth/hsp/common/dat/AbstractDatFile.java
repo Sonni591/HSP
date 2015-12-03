@@ -112,7 +112,7 @@ public abstract class AbstractDatFile {
      * Force child classes to register any constraints on their {@link DatEntry}
      * objects
      */
-    protected abstract void registerContstraints();
+    protected abstract void registerConstraints();
 
     /**
      * @return the path to the <i>mod</i> inside the jar

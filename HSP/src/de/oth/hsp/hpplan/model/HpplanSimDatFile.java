@@ -245,7 +245,7 @@ public class HpplanSimDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerContstraints() {
+    protected void registerConstraints() {
         // TODO Dummy Code
     }
 

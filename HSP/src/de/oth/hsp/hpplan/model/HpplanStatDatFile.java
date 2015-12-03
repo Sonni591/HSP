@@ -143,7 +143,7 @@ public class HpplanStatDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerContstraints() {
+    protected void registerConstraints() {
         // TODO Dummy Code
     }
 }
