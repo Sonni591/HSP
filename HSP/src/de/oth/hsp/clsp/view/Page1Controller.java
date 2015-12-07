@@ -111,9 +111,10 @@ public class Page1Controller implements IPageController {
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Fehlende Werte");
+            alert.setTitle("Falsche Werte");
             alert.setHeaderText("Werte nicht korrekt");
-            alert.setContentText("Es dürfen keine Felder leer oder mit 0 belegt sein!");
+            alert.setContentText(
+                    "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
 
             alert.showAndWait();
             root.getTab1Controller().getPagination().setCurrentPageIndex(0);
@@ -123,10 +124,10 @@ public class Page1Controller implements IPageController {
     @Override
     public void inEvent() {
 
-        K.setText(root.getClspModel().getK().toString());
-        T.setText(root.getClspModel().getT().toString());
-        J.setText(root.getClspModel().getJ().toString());
-        M.setText(root.getClspModel().getM().toString());
+        K.setText(Integer.toString(root.getClspModel().getK()));
+        T.setText(Integer.toString(root.getClspModel().getT()));
+        J.setText(Integer.toString(root.getClspModel().getJ()));
+        M.setText(Integer.toString(root.getClspModel().getM()));
     }
 
 }
