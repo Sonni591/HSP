@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import de.oth.hsp.common.dat.desc.NumericalType;
+import de.oth.hsp.common.dat.NumericalType;
 
 /**
  * Wraps a single value.
@@ -17,6 +17,10 @@ public class SingleContent extends DatContent {
             DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
     private double value;
+
+    public SingleContent(NumericalType type) {
+        this(0, type);
+    }
 
     public SingleContent(double value, NumericalType type) {
         super(type);
