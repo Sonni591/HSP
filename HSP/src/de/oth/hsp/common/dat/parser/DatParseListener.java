@@ -11,9 +11,9 @@ import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import de.oth.hsp.common.dat.AbstractDatFile;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.EntryDesc;
+import de.oth.hsp.common.dat.Entry;
+import de.oth.hsp.common.dat.NumericalType;
 import de.oth.hsp.common.dat.desc.ContentType;
-import de.oth.hsp.common.dat.desc.NumericalType;
 import de.oth.hsp.common.dat.parser.gen.DatBaseListener;
 import de.oth.hsp.common.dat.parser.gen.DatParser.ArrayValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.SingleValueContext;
@@ -33,7 +33,7 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  */
 public class DatParseListener extends DatBaseListener {
     private final List<DatEntry<?>> entries = new ArrayList<>();
-    private final Queue<EntryDesc> expectedEntries = new LinkedList<>();
+    private final Queue<Entry> expectedEntries = new LinkedList<>();
 
     public DatParseListener(Class<? extends AbstractDatFile> datClass) {
         expectedEntries.addAll(AbstractDatFile.getEntryDescriptions(datClass));
@@ -48,7 +48,7 @@ public class DatParseListener extends DatBaseListener {
         ParserRuleContext valueContext = (ParserRuleContext) ctx.varValue().getChild(0);
 
         // compare the variable with the one we expected
-        EntryDesc entryDesc = expectedEntries.poll();
+        Entry entryDesc = expectedEntries.poll();
         if (entryDesc == null) {
             throw new ParseCancellationException("Unexpected variable: \"" + name + "\"");
         }
@@ -95,7 +95,7 @@ public class DatParseListener extends DatBaseListener {
      *            the description of the entry from the model
      * @return an {@link SingleContent} object containing the parsed value
      */
-    private SingleContent getSingleContent(SingleValueContext singleValueContext, String name, EntryDesc entryDesc) {
+    private SingleContent getSingleContent(SingleValueContext singleValueContext, String name, Entry entryDesc) {
         checkType(name, entryDesc, ContentType.SINGLE);
 
         return new SingleContent(getValue(singleValueContext, entryDesc.numType()), entryDesc.numType());
@@ -113,7 +113,7 @@ public class DatParseListener extends DatBaseListener {
      *            the description of the entry from the model
      * @return an {@link ArrayContent} object containing the parsed values
      */
-    private ArrayContent getArrayContent(ArrayValueContext arrayValueContext, String name, EntryDesc entryDesc) {
+    private ArrayContent getArrayContent(ArrayValueContext arrayValueContext, String name, Entry entryDesc) {
         checkType(name, entryDesc, ContentType.ARRAY);
 
         double[] values = getArrayValues(arrayValueContext.singleValue(), entryDesc.numType());
@@ -134,7 +134,7 @@ public class DatParseListener extends DatBaseListener {
      * @return an {@link TwoDimFieldContent} object containing the parsed value
      */
     private TwoDimFieldContent getTwoDimContent(TwoDimFieldValueContext twoDimFieldValueContext, String name,
-            EntryDesc entryDesc) {
+            Entry entryDesc) {
         checkType(name, entryDesc, ContentType.TWO_DIM_FIELD);
 
         double[][] field = getTwoDimFieldValues(twoDimFieldValueContext.arrayValue(), entryDesc.numType());
@@ -143,7 +143,7 @@ public class DatParseListener extends DatBaseListener {
     }
 
     private ThreeDimFieldContent getThreeDimContent(ThreeDimFieldValueContext threeDimFieldValueContext, String name,
-            EntryDesc entryDesc) {
+            Entry entryDesc) {
         checkType(name, entryDesc, ContentType.THREE_DIM_FIELD);
 
         double[][][] fieldOfFields = getThreeDimFieldValues(threeDimFieldValueContext.twoDimFieldValue(),
@@ -246,7 +246,7 @@ public class DatParseListener extends DatBaseListener {
      * @param expectedType
      *            the expected content type of the entry
      */
-    private void checkType(String name, EntryDesc entryDesc, ContentType expectedType) {
+    private void checkType(String name, Entry entryDesc, ContentType expectedType) {
         ContentType type = entryDesc.conType();
         if (type != expectedType) {
             throw new ParseCancellationException("Content type missmatch: Variable \"" + name

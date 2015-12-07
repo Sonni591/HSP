@@ -1,6 +1,6 @@
 package de.oth.hsp.common.dat.value;
 
-import de.oth.hsp.common.dat.desc.NumericalType;
+import de.oth.hsp.common.dat.NumericalType;
 
 /**
  * Encapsulates one-dimensional fields of data.
@@ -10,6 +10,10 @@ import de.oth.hsp.common.dat.desc.NumericalType;
 public class ArrayContent extends DatContent {
 
     private double[] values;
+
+    public ArrayContent(NumericalType type) {
+        this(new double[] { 0 }, type);
+    }
 
     public ArrayContent(double[] values, NumericalType type) {
         super(type);

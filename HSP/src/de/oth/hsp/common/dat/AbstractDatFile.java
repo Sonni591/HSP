@@ -1,5 +1,6 @@
 package de.oth.hsp.common.dat;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
@@ -10,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.TreeMap;
  * Steps to implement child classes:<br>
  * <li>provide a constructor without parameters
  * <li>create multiple fields of the type {@link DatEntry}
- * <li>annotate them using {@link EntryDesc} to describe their structure
+ * <li>annotate them using {@link Entry} to describe their structure
  * <li>provide Getters/Setters for convenient access
  * 
  * @author Thomas Butz
@@ -30,6 +32,16 @@ import java.util.TreeMap;
 public abstract class AbstractDatFile {
     /** the charset used by dat files */
     public static final Charset DAT_CHARSET = StandardCharsets.ISO_8859_1;
+    private static final String MOD_PATH_TEMPLATE = "/resources/{0}.mod";
+
+    private final List<Constraint<?>> constraints = new ArrayList<>();
+
+    /**
+     * Force child classes to register any {@link Constraint} relationships.
+     */
+    public AbstractDatFile() {
+        registerConstraints(constraints);
+    }
 
     /**
      * Sets the values of the fields to the given ones
@@ -49,13 +61,25 @@ public abstract class AbstractDatFile {
         }
     }
 
+    public Path createTempModFile() throws IOException {
+        Path tmpModPath = Files.createTempFile(getModName(), "mod");
+
+        try (BufferedWriter writer = Files.newBufferedWriter(tmpModPath)) {
+            writer.append(getModContent());
+        }
+
+        return tmpModPath;
+    }
+
     /**
      * @return the content of the corresponding <i>mod</i> file
      */
-    public String getModContent() {
+    private String getModContent() {
+        String modPathString = MessageFormat.format(MOD_PATH_TEMPLATE, getModName());
+
         List<String> lines;
         try {
-            URL modUrl = getClass().getResource(getModResourcePath());
+            URL modUrl = getClass().getResource(modPathString);
             lines = Files.readAllLines(Paths.get(modUrl.toURI()));
         } catch (IOException | URISyntaxException e) {
             return null;
@@ -89,13 +113,13 @@ public abstract class AbstractDatFile {
     }
 
     /**
-     * @return an ordered and unmodifiable List of {@link EntryDesc} objects
+     * @return an ordered and unmodifiable List of {@link Entry} objects
      */
-    public static List<EntryDesc> getEntryDescriptions(Class<? extends AbstractDatFile> datFileClass) {
-        List<EntryDesc> entryDescs = new ArrayList<>();
+    public static List<Entry> getEntryDescriptions(Class<? extends AbstractDatFile> datFileClass) {
+        List<Entry> entryDescs = new ArrayList<>();
 
         for (Field field : getEntryFields(datFileClass)) {
-            entryDescs.add(field.getAnnotation(EntryDesc.class));
+            entryDescs.add(field.getAnnotation(Entry.class));
         }
 
         return Collections.unmodifiableList(entryDescs);
@@ -109,48 +133,62 @@ public abstract class AbstractDatFile {
     }
 
     /**
-     * Force child classes to register any constraints on their {@link DatEntry}
-     * objects
+     * @return <i>true</i> if all registered {@link Constraint#isCompliant()}
+     *         calls return <i>true</i>, otherwise <i>false</i>
      */
-    protected abstract void registerConstraints();
-
-    /**
-     * @return the path to the <i>mod</i> inside the jar
-     */
-    protected abstract String getModResourcePath();
-
-    /**
-     * @return the fields which are annotated with {@link EntryDesc} ordered by
-     *         their position.
-     */
-    private static List<Field> getEntryFields(Class<? extends AbstractDatFile> datFileClass) {
-        Map<Integer, Field> fieldMap = new TreeMap<>();
-
-        for (Field field : datFileClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(EntryDesc.class)) {
-                EntryDesc desc = field.getAnnotation(EntryDesc.class);
-                fieldMap.put(desc.position(), field);
+    public boolean isValid() {
+        for (Constraint<?> constraint : constraints) {
+            if (!constraint.isCompliant()) {
+                return false;
             }
         }
 
-        return Collections.unmodifiableList(new ArrayList<>(fieldMap.values()));
+        return true;
+    }
+
+    /**
+     * Force child classes to register any constraints on their {@link DatEntry}
+     * objects
+     */
+    protected abstract void registerConstraints(List<Constraint<?>> constraints);
+
+    /**
+     * @return the name of the <i>mod</i> file (without file ending)
+     */
+    protected abstract String getModName();
+
+    /**
+     * @return the fields which are annotated with {@link Entry} ordered by
+     *         their position.
+     */
+    private static List<Field> getEntryFields(Class<? extends AbstractDatFile> datFileClass) {
+        List<Field> fields = new ArrayList<>();
+
+        for (Field field : datFileClass.getDeclaredFields()) {
+            if (field.isAnnotationPresent(Entry.class)) {
+                fields.add(field);
+            }
+        }
+
+        return Collections.unmodifiableList(fields);
     }
 
     /**
      * @return an ordered and unmodifiable List of {@link DatEntry} objects
      */
-    private List<DatEntry<?>> getEntries() {
-        List<DatEntry<?>> entries = new ArrayList<>();
+    public List<DatEntry<?>> getEntries() {
+        Map<Integer, DatEntry<?>> entryMap = new TreeMap<>();
 
         for (Field field : getEntryFields(this.getClass())) {
             try {
                 field.setAccessible(true);
-                entries.add((DatEntry<?>) field.get(this));
+                DatEntry<?> entry = (DatEntry<?>) field.get(this);
+                entryMap.put(entry.getPosition(), entry);
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
-        return Collections.unmodifiableList(entries);
+        return Collections.unmodifiableList(new ArrayList<>(entryMap.values()));
     }
 
     @Override
