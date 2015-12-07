@@ -1,6 +1,5 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
@@ -15,12 +14,7 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     private TableView<Number[]> tableTb; // Bearbeitungszeit für eine Einheit
                                          // von Produkt K auf Station J
     @FXML
-    private TableView<Number[]> tableTr; // Rüstzeit für ein Prudukt K an
-                                         // Station J
-    @FXML
     private Label labelTb; // Label: Stueckbearbeitungszeiten
-
-    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -47,7 +41,6 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
      */
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
-        clspModel = root.getClspModel();
     }
 
     /**
@@ -63,11 +56,6 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
      */
     public void setPaginationController(PaginationController paginationController) {
         this.paginationController = paginationController;
-    }
-
-    @FXML
-    public void fireTestEvent() {
-
     }
 
     @Override
@@ -87,7 +75,7 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
 
         // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(clspModel.getTb(), tableTb, decimals, "k: ");
+        addTableViewContent(root.getClspModel().getTb(), tableTb, decimals, "k: ");
 
     }
 }

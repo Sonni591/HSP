@@ -98,4 +98,12 @@ public class Tab1Controller {
     public Pagination getPagination() {
         return pagination;
     }
+
+    /**
+     * @return the paginationController
+     */
+    public PaginationController getPaginationController() {
+        return paginationController;
+    }
+
 }

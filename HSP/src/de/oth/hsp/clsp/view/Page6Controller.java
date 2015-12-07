@@ -1,6 +1,5 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
@@ -13,8 +12,6 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
     @FXML
     private TableView<Number[]> tableB; // verfügbare Kapazität an der Station j
                                         // in Periode t
-
-    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -42,7 +39,6 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
      */
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
-        clspModel = root.getClspModel();
     }
 
     /**
@@ -58,11 +54,6 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
      */
     public void setPaginationController(PaginationController paginationController) {
         this.paginationController = paginationController;
-    }
-
-    @FXML
-    public void fireTestEvent() {
-
     }
 
     @Override
@@ -82,6 +73,6 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
 
         // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(clspModel.getB(), tableB, decimals, "t: ");
+        addTableViewContent(root.getClspModel().getB(), tableB, decimals, "t: ");
     }
 }
