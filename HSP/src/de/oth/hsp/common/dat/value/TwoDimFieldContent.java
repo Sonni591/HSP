@@ -1,6 +1,6 @@
 package de.oth.hsp.common.dat.value;
 
-import de.oth.hsp.common.dat.NumericalType;
+import de.oth.hsp.common.dat.desc.NumericalType;
 
 /**
  * Represents two-dimensional datastructures in <i>.dat</i> entries.
@@ -10,10 +10,6 @@ import de.oth.hsp.common.dat.NumericalType;
 public class TwoDimFieldContent extends DatContent {
 
     private double[][] values;
-
-    public TwoDimFieldContent(NumericalType type) {
-        this(new double[][] { { 0 } }, type);
-    }
 
     public TwoDimFieldContent(double[][] values, NumericalType type) {
         super(type);

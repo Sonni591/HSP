@@ -1,13 +1,10 @@
 package de.oth.hsp.clsp.model;
 
-import java.util.List;
-
 import de.oth.hsp.common.dat.AbstractDatFile;
-import de.oth.hsp.common.dat.Constraint;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.Entry;
-import de.oth.hsp.common.dat.NumericalType;
+import de.oth.hsp.common.dat.EntryDesc;
 import de.oth.hsp.common.dat.desc.ContentType;
+import de.oth.hsp.common.dat.desc.NumericalType;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
@@ -19,47 +16,47 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  *
  */
 public class ClspDatFile extends AbstractDatFile {
-    private static final String MOD_NAME = "CLSP";
+    private static final String MOD_PATH = "/resources/CLSP.mod";
 
-    @Entry(position = 0, name = "T", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
-    private final DatEntry<SingleContent> t = new DatEntry<>("T", 0, new SingleContent(NumericalType.INTEGER));
+    @EntryDesc(position = 0, name = "T", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    private DatEntry<SingleContent> t;
 
-    @Entry(position = 1, name = "K", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 1, name = "K", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> k;
 
-    @Entry(position = 2, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 2, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> j;
 
-    @Entry(position = 3, name = "M", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 3, name = "M", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> m;
 
-    @Entry(position = 4, name = "b", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 4, name = "b", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
     private DatEntry<TwoDimFieldContent> b;
 
-    @Entry(position = 5, name = "d", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 5, name = "d", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> d;
 
-    @Entry(position = 6, name = "h", conType = ContentType.ARRAY, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 6, name = "h", conType = ContentType.ARRAY, numType = NumericalType.FLOAT)
     private DatEntry<ArrayContent> h;
 
-    @Entry(position = 7, name = "s", conType = ContentType.ARRAY, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 7, name = "s", conType = ContentType.ARRAY, numType = NumericalType.FLOAT)
     private DatEntry<ArrayContent> s;
 
-    @Entry(position = 8, name = "tb", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 8, name = "tb", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
     private DatEntry<TwoDimFieldContent> tb;
 
-    @Entry(position = 9, name = "tr", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 9, name = "tr", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
     private DatEntry<TwoDimFieldContent> tr;
 
-    @Entry(position = 10, name = "z", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 10, name = "z", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
     private DatEntry<ArrayContent> z;
 
-    @Entry(position = 11, name = "y0", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 11, name = "y0", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
     private DatEntry<ArrayContent> y0;
 
     @Override
-    protected String getModName() {
-        return MOD_NAME;
+    protected String getModResourcePath() {
+        return MOD_PATH;
     }
 
     public Number getT() {
@@ -159,7 +156,7 @@ public class ClspDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerConstraints(List<Constraint<?>> constraints) {
+    protected void registerConstraints() {
         // TODO Dummy Code
     }
 }

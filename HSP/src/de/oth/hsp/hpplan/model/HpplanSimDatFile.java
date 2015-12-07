@@ -1,13 +1,10 @@
 package de.oth.hsp.hpplan.model;
 
-import java.util.List;
-
 import de.oth.hsp.common.dat.AbstractDatFile;
-import de.oth.hsp.common.dat.Constraint;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.Entry;
-import de.oth.hsp.common.dat.NumericalType;
+import de.oth.hsp.common.dat.EntryDesc;
 import de.oth.hsp.common.dat.desc.ContentType;
+import de.oth.hsp.common.dat.desc.NumericalType;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.ThreeDimFieldContent;
@@ -22,68 +19,68 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 public class HpplanSimDatFile extends AbstractDatFile {
     private static final String MOD_PATH = "/resources/HPPLAN-PPS.mod";
 
-    @Entry(position = 0, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 0, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> j;
 
-    @Entry(position = 1, name = "K", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 1, name = "K", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> k;
 
-    @Entry(position = 2, name = "F", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 2, name = "F", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> fBig;
 
-    @Entry(position = 3, name = "TStart", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 3, name = "TStart", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> tStart;
 
-    @Entry(position = 4, name = "TEnd", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 4, name = "TEnd", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> tEnd;
 
-    @Entry(position = 5, name = "b", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 5, name = "b", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> b;
 
-    @Entry(position = 6, name = "Umax", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 6, name = "Umax", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> uMax;
 
-    @Entry(position = 7, name = "u", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 7, name = "u", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
     private DatEntry<TwoDimFieldContent> u;
 
-    @Entry(position = 8, name = "ZMax", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 8, name = "ZMax", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> zMax;
 
-    @Entry(position = 9, name = "ZMin", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 9, name = "ZMin", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> zMin;
 
-    @Entry(position = 10, name = "f", conType = ContentType.THREE_DIM_FIELD, numType = NumericalType.FLOAT)
+    @EntryDesc(position = 10, name = "f", conType = ContentType.THREE_DIM_FIELD, numType = NumericalType.FLOAT)
     private DatEntry<ThreeDimFieldContent> f;
 
-    @Entry(position = 11, name = "d", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 11, name = "d", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> d;
 
-    @Entry(position = 12, name = "h", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 12, name = "h", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
     private DatEntry<ArrayContent> h;
 
-    @Entry(position = 13, name = "Iinit", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 13, name = "Iinit", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> iInit;
 
-    @Entry(position = 14, name = "xinit", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 14, name = "xinit", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> xInit;
 
-    @Entry(position = 15, name = "Uinit", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 15, name = "Uinit", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> uInit;
 
-    @Entry(position = 16, name = "P", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 16, name = "P", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> p;
 
-    @Entry(position = 17, name = "n", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 17, name = "n", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
     private DatEntry<TwoDimFieldContent> n;
 
-    @Entry(position = 18, name = "xagg", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 18, name = "xagg", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
     private DatEntry<ArrayContent> xagg;
 
-    @Entry(position = 19, name = "Uagg", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
+    @EntryDesc(position = 19, name = "Uagg", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> uagg;
 
     @Override
-    protected String getModName() {
+    protected String getModResourcePath() {
         return MOD_PATH;
     }
 
@@ -248,7 +245,7 @@ public class HpplanSimDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerConstraints(List<Constraint<?>> constraints) {
+    protected void registerConstraints() {
         // TODO Dummy Code
     }
 
