@@ -1,29 +1,26 @@
 package de.oth.hsp.common.dat;
 
+import de.oth.hsp.common.dat.value.SingleContent;
+
 /**
- * Used to describe relationships between one or multiple {@link DatEntry}
- * objects and one dependent {@link DatEntry}.
+ * Used to describe relationships between one/multiple {@link DatEntry} objects
+ * and one dependent {@link DatEntry}.
  * 
  * @author Thomas Butz
  *
  */
-public interface IConstraint {
+public abstract class AbstractConstraint {
 
     /**
-     * @return the size which is being expected
+     * @return the root of the constraint
      */
-    int getExpectedSize();
-
-    /**
-     * @return the actual size
-     */
-    int getActualSize();
+    public abstract DatEntry<SingleContent> getRoot();
 
     /**
      * @return <i>true</i> if the constraint is being adhered, <i>false</i>
      *         otherwise
      */
-    default boolean isCompliant() {
+    public boolean isCompliant() {
         return getExpectedSize() == getActualSize();
     }
 
@@ -31,17 +28,11 @@ public interface IConstraint {
      * Ensures that the constraint is being satisfied.<br>
      * e.g.: by modifying the content of other {@link DatEntry} objects
      */
-    default void ensure() {
+    public void ensure() {
         if (!isCompliant()) {
             adjust();
         }
     }
-
-    /**
-     * Modifies the size of the dependent {@link DatEntry} so it meets the
-     * constraint.
-     */
-    void adjust();
 
     /**
      * Checks if the constraint is being satisfied and throws an exception
@@ -50,15 +41,31 @@ public interface IConstraint {
      * @throws ConstraintSatisfactionException
      *             if the constraint is not satisfied
      */
-    default void validate() throws ConstraintSatisfactionException {
+    public void validate() throws ConstraintSatisfactionException {
         if (!isCompliant()) {
             throw new ConstraintSatisfactionException(createErrorMessage());
         }
     }
 
     /**
+     * @return the size which is being expected
+     */
+    protected abstract int getExpectedSize();
+
+    /**
+     * @return the actual size
+     */
+    protected abstract int getActualSize();
+
+    /**
+     * Modifies the size of the dependent {@link DatEntry} so it meets the
+     * constraint.
+     */
+    protected abstract void adjust();
+
+    /**
      * @return an error message which can be used to generate a
      *         {@link ConstraintSatisfactionException}
      */
-    String createErrorMessage();
+    protected abstract String createErrorMessage();
 }

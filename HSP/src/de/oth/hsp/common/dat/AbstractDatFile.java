@@ -11,10 +11,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import de.oth.hsp.common.dat.value.SingleContent;
 
 /**
- * Children of this class represent certain <i>.dat</i> files.
+ * Children of this class represent certain kinds <i>.dat</i> files.<br>
+ * <br>
+ * When implementing a new model class make sure to call {@link #initialize()}
+ * at the end of its constructor.
  * 
  * @author Thomas Butz
  */
@@ -29,16 +38,16 @@ public abstract class AbstractDatFile {
     public abstract List<DatEntry<?>> getEntries();
 
     /**
-     * @return an ordered and unmodifiable List of {@link IConstraint} objects
-     *         which define relationships between entries
+     * @return an ordered and unmodifiable List of {@link AbstractConstraint}
+     *         objects which define relationships between entries
      */
-    public abstract List<IConstraint> getConstraints();
+    public abstract List<AbstractConstraint> getConstraints();
 
     /**
      * Ensures that all given Constraints are satisfied.
      */
     public void ensureConstraints() {
-        for (IConstraint constraint : getConstraints()) {
+        for (AbstractConstraint constraint : getConstraints()) {
             constraint.ensure();
         }
     }
@@ -90,6 +99,33 @@ public abstract class AbstractDatFile {
     protected abstract String getModName();
 
     /**
+     * Preallocates the values of the model so that it adheres all
+     * {@link AbstractConstraint} relations.
+     */
+    protected void initialize() {
+        for (DatEntry<SingleContent> rootEntry : getConstraintRoots()) {
+            rootEntry.getContent().setValue(1);
+        }
+
+        ensureConstraints();
+    }
+
+    /**
+     * @return a List with all {@link DatEntry} objects which are the root of
+     *         one or more {@link AbstractConstraint} relations.
+     */
+    private List<DatEntry<SingleContent>> getConstraintRoots() {
+        Map<String, DatEntry<SingleContent>> rootMap = new HashMap<>();
+
+        for (AbstractConstraint constraint : getConstraints()) {
+            DatEntry<SingleContent> root = constraint.getRoot();
+            rootMap.put(root.getName(), root);
+        }
+
+        return Collections.unmodifiableList(new ArrayList<>(rootMap.values()));
+    }
+
+    /**
      * @return the content of the corresponding <i>mod</i> file
      */
     private String getModContent() {
@@ -117,13 +153,13 @@ public abstract class AbstractDatFile {
     }
 
     /**
-     * Checks if all {@link IConstraint} relations are being satisfied.
+     * Checks if all {@link AbstractConstraint} relations are being satisfied.
      * 
      * @throws ConstraintSatisfactionException
      *             if one ore more Constraints are not being satisfied
      */
     public void validate() throws ConstraintSatisfactionException {
-        for (IConstraint constraint : getConstraints()) {
+        for (AbstractConstraint constraint : getConstraints()) {
             constraint.validate();
         }
     }

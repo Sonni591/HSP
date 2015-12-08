@@ -2,12 +2,10 @@ package de.oth.hsp.hpplan.model;
 
 import java.util.List;
 
+import de.oth.hsp.common.dat.AbstractConstraint;
 import de.oth.hsp.common.dat.AbstractDatFile;
-import de.oth.hsp.common.dat.Constraint;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.Entry;
 import de.oth.hsp.common.dat.NumericalType;
-import de.oth.hsp.common.dat.desc.ContentType;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.ThreeDimFieldContent;
@@ -20,7 +18,7 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  *
  */
 public class HpplanSimDatFile extends AbstractDatFile {
-    private static final String MOD_PATH = "/resources/HPPLAN-PPS.mod";
+    private static final String MOD_NAME = "HPPLAN-PPS";
 
     @Entry(position = 0, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
     private DatEntry<SingleContent> j;
@@ -84,7 +82,7 @@ public class HpplanSimDatFile extends AbstractDatFile {
 
     @Override
     protected String getModName() {
-        return MOD_PATH;
+        return MOD_NAME;
     }
 
     public int getJ() {
@@ -248,8 +246,15 @@ public class HpplanSimDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerConstraints(List<Constraint<?>> constraints) {
-        // TODO Dummy Code
+    public List<DatEntry<?>> getEntries() {
+        // TODO Automatisch generierter Methodenstub
+        return null;
+    }
+
+    @Override
+    public List<AbstractConstraint> getConstraints() {
+        // TODO Automatisch generierter Methodenstub
+        return null;
     }
 
 }

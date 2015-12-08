@@ -1,7 +1,7 @@
 package de.oth.hsp.common.dat;
 
 /**
- * Used to indicate an error when validating a {@link IConstraint} relation.
+ * Used to indicate an error when validating a {@link AbstractConstraint} relation.
  */
 public class ConstraintSatisfactionException extends Exception {
 

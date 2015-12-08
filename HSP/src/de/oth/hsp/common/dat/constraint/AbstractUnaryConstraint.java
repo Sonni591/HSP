@@ -1,7 +1,7 @@
 package de.oth.hsp.common.dat.constraint;
 
+import de.oth.hsp.common.dat.AbstractConstraint;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.IConstraint;
 import de.oth.hsp.common.dat.value.DatContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 
@@ -14,7 +14,7 @@ import de.oth.hsp.common.dat.value.SingleContent;
  * 
  * @author Thomas Butz
  */
-public abstract class AbstractUnaryConstraint<T extends DatContent> implements IConstraint {
+public abstract class AbstractUnaryConstraint<T extends DatContent> extends AbstractConstraint {
 
     private final DatEntry<T> dependent;
     private final DatEntry<SingleContent> root;
@@ -30,9 +30,7 @@ public abstract class AbstractUnaryConstraint<T extends DatContent> implements I
         this(dependent, root, 0);
     }
 
-    /**
-     * @return the root of the constraint
-     */
+    @Override
     public DatEntry<SingleContent> getRoot() {
         return root;
     }

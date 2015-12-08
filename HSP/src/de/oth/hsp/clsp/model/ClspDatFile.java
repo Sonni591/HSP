@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import de.oth.hsp.common.dat.AbstractConstraint;
 import de.oth.hsp.common.dat.AbstractDatFile;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.IConstraint;
 import de.oth.hsp.common.dat.NumericalType;
 import de.oth.hsp.common.dat.constraint.ArrayConstraint;
 import de.oth.hsp.common.dat.constraint.TwoDimColConstraint;
@@ -41,7 +41,7 @@ public class ClspDatFile extends AbstractDatFile {
     private final DatEntry<ArrayContent> z = new DatEntry<>("z", new ArrayContent(NumericalType.INTEGER));
     private final DatEntry<ArrayContent> y0 = new DatEntry<>("y0", new ArrayContent(NumericalType.INTEGER));
 
-    private final List<IConstraint> constraints;
+    private final List<AbstractConstraint> constraints;
 
     public ClspDatFile() {
         this.constraints = new ArrayList<>();
@@ -66,7 +66,7 @@ public class ClspDatFile extends AbstractDatFile {
 
         constraints.add(new ArrayConstraint(y0, k));
 
-        ensureConstraints();
+        initialize();
     }
 
     @Override
@@ -176,7 +176,7 @@ public class ClspDatFile extends AbstractDatFile {
     }
 
     @Override
-    public List<IConstraint> getConstraints() {
+    public List<AbstractConstraint> getConstraints() {
         return Collections.unmodifiableList(constraints);
     }
 }

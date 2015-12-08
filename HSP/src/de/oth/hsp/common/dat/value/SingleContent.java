@@ -19,8 +19,7 @@ public class SingleContent extends DatContent {
     private double value;
 
     public SingleContent(NumericalType type) {
-        // avoid zero-sized arrays in dependent entries
-        this(1, type);
+        this(0, type);
     }
 
     public SingleContent(double value, NumericalType type) {
