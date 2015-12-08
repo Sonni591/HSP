@@ -8,6 +8,7 @@ import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.Entry;
 import de.oth.hsp.common.dat.NumericalType;
 import de.oth.hsp.common.dat.desc.ContentType;
+import de.oth.hsp.common.dat.desc.NumericalType;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
@@ -62,32 +63,32 @@ public class ClspDatFile extends AbstractDatFile {
         return MOD_NAME;
     }
 
-    public Number getT() {
-        return t.getContent().getValue();
+    public int getT() {
+        return t.getContent().getIntValue();
     }
 
     public void setT(Number t) {
         this.t.getContent().setValue(t);
     }
 
-    public Number getK() {
-        return k.getContent().getValue();
+    public int getK() {
+        return k.getContent().getIntValue();
     }
 
     public void setK(Number k) {
         this.k.getContent().setValue(k);
     }
 
-    public Number getJ() {
-        return j.getContent().getValue();
+    public int getJ() {
+        return j.getContent().getIntValue();
     }
 
     public void setJ(Number j) {
         this.j.getContent().setValue(j);
     }
 
-    public Number getM() {
-        return m.getContent().getValue();
+    public int getM() {
+        return m.getContent().getIntValue();
     }
 
     public void setM(Number m) {

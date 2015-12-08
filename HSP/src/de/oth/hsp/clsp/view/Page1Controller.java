@@ -1,6 +1,5 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,8 +19,6 @@ public class Page1Controller implements IPageController {
     private TextField M; // Große Zahl
     @FXML
     private TextField C; // Verfügbare Kapaziät der Ressource
-
-    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -78,7 +75,6 @@ public class Page1Controller implements IPageController {
      */
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
-        clspModel = root.getClspModel();
     }
 
     /**
@@ -99,22 +95,26 @@ public class Page1Controller implements IPageController {
     @Override
     public void outEvent() {
         try {
-            if ((Integer.valueOf(K.getText()) != 0) && (Integer.valueOf(T.getText()) != 0)
-                    && (Integer.valueOf(J.getText()) != 0) && (Integer.valueOf(M.getText()) != 0)) {
-                clspModel.setK(Integer.valueOf(K.getText()));
-                clspModel.setT(Integer.valueOf(T.getText()));
-                clspModel.setJ(Integer.valueOf(J.getText()));
-                clspModel.setM(Integer.valueOf(M.getText()));
-                clspModel.ensureConstraints();
+            int kHelp = (int) Double.parseDouble(K.getText());
+            int tHelp = (int) Double.parseDouble(T.getText());
+            int jHelp = (int) Double.parseDouble(J.getText());
+            int mHelp = (int) Double.parseDouble(M.getText());
+            if ((kHelp != 0) && (tHelp != 0) && (jHelp != 0) && (mHelp != 0)) {
+                root.getClspModel().setK(kHelp);
+                root.getClspModel().setT(tHelp);
+                root.getClspModel().setJ(jHelp);
+                root.getClspModel().setM(mHelp);
+                root.getClspModel().ensureConstraints();
             } else {
                 throw new Exception();
             }
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Fehlende Werte");
+            alert.setTitle("Falsche Werte");
             alert.setHeaderText("Werte nicht korrekt");
-            alert.setContentText("Es dürfen keine Felder leer oder mit 0 belegt sein!");
+            alert.setContentText(
+                    "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
 
             alert.showAndWait();
             root.getTab1Controller().getPagination().setCurrentPageIndex(0);
@@ -123,6 +123,11 @@ public class Page1Controller implements IPageController {
 
     @Override
     public void inEvent() {
+
+        K.setText(Integer.toString(root.getClspModel().getK()));
+        T.setText(Integer.toString(root.getClspModel().getT()));
+        J.setText(Integer.toString(root.getClspModel().getJ()));
+        M.setText(Integer.toString(root.getClspModel().getM()));
     }
 
 }

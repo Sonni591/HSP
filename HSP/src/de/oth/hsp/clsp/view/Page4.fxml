@@ -23,8 +23,7 @@
                                  </columnResizePolicy>
                               </TableView>
                            </children>
-                        </AnchorPane>
-                        <AnchorPane />
+                    	</AnchorPane>
                      </children>
                   </VBox>
                </children>

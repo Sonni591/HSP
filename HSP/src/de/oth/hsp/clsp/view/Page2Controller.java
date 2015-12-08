@@ -1,10 +1,8 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 
 public class Page2Controller extends AbstractTableViewPage implements IPageController {
@@ -13,10 +11,6 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
     @FXML
     private TableView<Number[]> table; // Nettobedarfsmenge des Produkts k in
                                        // Periode t
-    @FXML
-    private Button testButton;
-
-    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -43,7 +37,6 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
      */
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
-        clspModel = root.getClspModel();
     }
 
     @Override
@@ -62,7 +55,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         addColumnWithRowNumber(table, "t: ");
 
         // get the data from the model and add it to the TableView
-        Number[][] d = clspModel.getD();
+        Number[][] d = root.getClspModel().getD();
         Decimals decimals = new Decimals(2);
         addTableViewContent(d, table, decimals, "k: ");
 

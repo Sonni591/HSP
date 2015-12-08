@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -76,18 +78,26 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionFileOpen() {
-        loadDataFromFile(openFileChooserDialog());
+        try {
+            clspModel = loadDataFromFile(openFileChooserDialog());
+
+            // not elegant but it works
+            getTab1Controller().getPaginationController().getPageControllerMap()
+                    .get(getTab1Controller().getPagination().getCurrentPageIndex()).inEvent();
+        } catch (DatParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
      * Loads the data from selechtedFile to the GUI
      *
-     * @param selechtedFile
+     * @param selectedFile
+     * @throws DatParseException
      */
-    private void loadDataFromFile(File selechtedFile) {
-        // TODO load data from file to GUI
-        System.out.println(selechtedFile);
-
+    private ClspDatFile loadDataFromFile(File selectedFile) throws DatParseException {
+        return DatFileParser.parseClsp(selectedFile.toPath());
     }
 
     /**
@@ -108,14 +118,14 @@ public class RootLayoutController {
     private void saveDataToFile(File selectedFile) {
         if (selectedFile != null && selectedFile.exists()) {
             try {
+                FileWriter fw = new FileWriter(selectedFile);
                 // TODO Call parser
                 // TODO Save data in created file.
-                FileWriter fw = new FileWriter(selectedFile);
-                System.out.println(selectedFile);
+                fw.write(clspModel.toString());
+                fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -181,9 +191,12 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionCalculate() {
+        // TODO maybe open a dialog to set the ILog paramter
+
         // TODO 1. ask user if he wants to save the changes
         // TODO 2. ask user, where he wants to save the result
         // TODO 3. call ILog Framework
+
         System.out.println("Calculate");
     }
 

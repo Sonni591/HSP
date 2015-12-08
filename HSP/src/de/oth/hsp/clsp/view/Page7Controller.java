@@ -1,13 +1,10 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class Page7Controller extends AbstractTableViewPage implements IPageController {
-
-    private ClspDatFile clspModel;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -29,7 +26,6 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        calculateButton.setText("Berechnen");
     }
 
     /**
@@ -37,7 +33,6 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
      */
     public void init(RootLayoutController rootLayoutController) {
         root = rootLayoutController;
-        clspModel = root.getClspModel();
     }
 
     /**
