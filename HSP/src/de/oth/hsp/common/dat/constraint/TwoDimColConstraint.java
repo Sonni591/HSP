@@ -1,6 +1,7 @@
 package de.oth.hsp.common.dat.constraint;
 
 import de.oth.hsp.common.dat.Constraint;
+import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 
@@ -12,26 +13,21 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  */
 public class TwoDimColConstraint extends Constraint<TwoDimFieldContent> {
 
-    public TwoDimColConstraint(TwoDimFieldContent dependent, SingleContent root, int offset) {
-        super(root, dependent, offset);
+    public TwoDimColConstraint(DatEntry<TwoDimFieldContent> dependent, DatEntry<SingleContent> root, int offset) {
+        super(dependent, root, offset);
     }
 
-    public TwoDimColConstraint(TwoDimFieldContent dependent, SingleContent root) {
+    public TwoDimColConstraint(DatEntry<TwoDimFieldContent> dependent, DatEntry<SingleContent> root) {
         this(dependent, root, 0);
     }
 
     @Override
-    public boolean isCompliant() {
-        return (getRoot().getIntValue() + getOffset()) == getDependent().getValues()[0].length;
-    }
-
-    @Override
     protected void adjust() {
-        final double[][] oldValues = getDependent().getDoubleValues();
+        final double[][] oldValues = getDependent().getContent().getDoubleValues();
         final int rows = oldValues.length;
         final int oldCols = oldValues[0].length;
 
-        final int newCols = getRoot().getIntValue() + getOffset();
+        final int newCols = getRootSize();
         final double[][] newValues = new double[rows][newCols];
 
         int minCols = Math.min(oldCols, newCols);
@@ -42,6 +38,11 @@ public class TwoDimColConstraint extends Constraint<TwoDimFieldContent> {
             }
         }
 
-        getDependent().setValues(newValues);
+        getDependent().getContent().setValues(newValues);
+    }
+
+    @Override
+    public int getDependentSize() {
+        return getDependent().getContent().getValues()[0].length;
     }
 }

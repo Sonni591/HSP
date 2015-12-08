@@ -1,6 +1,7 @@
 package de.oth.hsp.common.dat.constraint;
 
 import de.oth.hsp.common.dat.Constraint;
+import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 
@@ -12,23 +13,23 @@ import de.oth.hsp.common.dat.value.SingleContent;
  */
 public class ArrayConstraint extends Constraint<ArrayContent> {
 
-    public ArrayConstraint(ArrayContent dependent, SingleContent root, int offset) {
-        super(root, dependent, offset);
+    public ArrayConstraint(DatEntry<ArrayContent> dependent, DatEntry<SingleContent> root, int offset) {
+        super(dependent, root, offset);
     }
 
-    public ArrayConstraint(ArrayContent dependent, SingleContent root) {
-        super(root, dependent);
+    public ArrayConstraint(DatEntry<ArrayContent> dependent, DatEntry<SingleContent> root) {
+        super(dependent, root);
     }
 
     @Override
-    public boolean isCompliant() {
-        return (getRoot().getIntValue() + getOffset()) == getDependent().getIntValues().length;
+    public int getDependentSize() {
+        return getDependent().getContent().getIntValues().length;
     }
 
     @Override
     public void adjust() {
-        final double[] newValues = new double[getRoot().getIntValue() + getOffset()];
-        final double[] oldValues = getDependent().getDoubleValues();
+        final double[] newValues = new double[getRootSize()];
+        final double[] oldValues = getDependent().getContent().getDoubleValues();
 
         int minSize = Math.min(newValues.length, oldValues.length);
 
@@ -36,6 +37,6 @@ public class ArrayConstraint extends Constraint<ArrayContent> {
             newValues[i] = oldValues[i];
         }
 
-        getDependent().setValues(newValues);
+        getDependent().getContent().setValues(newValues);
     }
 }

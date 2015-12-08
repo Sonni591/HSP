@@ -11,25 +11,27 @@ import de.oth.hsp.common.dat.value.SingleContent;
  */
 public abstract class Constraint<T extends DatContent> {
 
-    private final SingleContent root;
-    private final T dependent;
+    private final DatEntry<T> dependent;
+    private final DatEntry<SingleContent> root;
     private final int offset;
 
-    public Constraint(SingleContent root, T dependent, int offset) {
+    public Constraint(DatEntry<T> dependent, DatEntry<SingleContent> root, int offset) {
         this.root = root;
         this.dependent = dependent;
         this.offset = offset;
     }
 
-    public Constraint(SingleContent root, T dependent) {
-        this(root, dependent, 0);
+    public Constraint(DatEntry<T> dependent, DatEntry<SingleContent> root) {
+        this(dependent, root, 0);
     }
 
     /**
      * @return <i>true</i> if the constraint is being adhered, <i>false</i>
      *         otherwise
      */
-    public abstract boolean isCompliant();
+    public boolean isCompliant() {
+        return getRootSize() == getDependentSize();
+    }
 
     /**
      * Ensures that the constraint is being satisfied.<br>
@@ -46,15 +48,21 @@ public abstract class Constraint<T extends DatContent> {
      */
     protected abstract void adjust();
 
-    public SingleContent getRoot() {
+    public DatEntry<SingleContent> getRoot() {
         return root;
     }
 
-    public T getDependent() {
+    public DatEntry<T> getDependent() {
         return dependent;
     }
 
     public int getOffset() {
         return offset;
     }
+
+    public int getRootSize() {
+        return root.getContent().getIntValue() + offset;
+    }
+
+    public abstract int getDependentSize();
 }

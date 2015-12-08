@@ -143,25 +143,25 @@ public class ClspDatFile extends AbstractDatFile {
 
     @Override
     protected void registerConstraints(List<Constraint<?>> constraints) {
-        constraints.add(new TwoDimRowConstraint(b.getContent(), k.getContent()));
-        constraints.add(new TwoDimColConstraint(b.getContent(), t.getContent()));
+        constraints.add(new TwoDimRowConstraint(b, k));
+        constraints.add(new TwoDimColConstraint(b, t));
 
-        constraints.add(new TwoDimRowConstraint(d.getContent(), k.getContent()));
-        constraints.add(new TwoDimColConstraint(d.getContent(), t.getContent()));
+        constraints.add(new TwoDimRowConstraint(d, k));
+        constraints.add(new TwoDimColConstraint(d, t));
 
-        constraints.add(new ArrayConstraint(h.getContent(), k.getContent()));
+        constraints.add(new ArrayConstraint(h, k));
 
-        constraints.add(new ArrayConstraint(s.getContent(), k.getContent()));
+        constraints.add(new ArrayConstraint(s, k));
 
-        constraints.add(new TwoDimRowConstraint(tb.getContent(), k.getContent()));
-        constraints.add(new TwoDimColConstraint(tb.getContent(), j.getContent()));
+        constraints.add(new TwoDimRowConstraint(tb, k));
+        constraints.add(new TwoDimColConstraint(tb, j));
 
-        constraints.add(new TwoDimRowConstraint(tr.getContent(), k.getContent()));
-        constraints.add(new TwoDimColConstraint(tr.getContent(), j.getContent()));
+        constraints.add(new TwoDimRowConstraint(tr, k));
+        constraints.add(new TwoDimColConstraint(tr, j));
 
-        constraints.add(new ArrayConstraint(z.getContent(), k.getContent()));
+        constraints.add(new ArrayConstraint(z, k));
 
-        constraints.add(new ArrayConstraint(y0.getContent(), k.getContent()));
+        constraints.add(new ArrayConstraint(y0, k));
     }
 
     @Override
