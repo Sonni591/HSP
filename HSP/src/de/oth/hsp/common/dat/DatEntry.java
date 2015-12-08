@@ -17,21 +17,17 @@ public class DatEntry<T extends DatContent> {
     private static final String TEMPLATE = "{0} = {1};";
 
     private final String name;
-    private final int position;
     private final T content;
     private final Class<? extends DatContent> contentType;
 
     /**
      * @param name
      *            the name of the represented entry
-     * @param position
-     *            the position within the <i>dat</i> file (zero based)
      * @param content
      *            the content of the entry
      */
-    public DatEntry(String name, int position, T content) {
+    public DatEntry(String name, T content) {
         this.name = name;
-        this.position = position;
         this.content = content;
         this.contentType = content.getClass();
     }
@@ -41,13 +37,6 @@ public class DatEntry<T extends DatContent> {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * @return the position within the <i>dat</i> file (zero based)
-     */
-    public int getPosition() {
-        return position;
     }
 
     /**

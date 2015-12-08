@@ -12,11 +12,11 @@ import de.oth.hsp.common.dat.value.SingleContent;
  */
 public class ArrayConstraint extends Constraint<ArrayContent> {
 
-    public ArrayConstraint(SingleContent root, ArrayContent dependent, int offset) {
+    public ArrayConstraint(ArrayContent dependent, SingleContent root, int offset) {
         super(root, dependent, offset);
     }
 
-    public ArrayConstraint(SingleContent root, ArrayContent dependent) {
+    public ArrayConstraint(ArrayContent dependent, SingleContent root) {
         super(root, dependent);
     }
 

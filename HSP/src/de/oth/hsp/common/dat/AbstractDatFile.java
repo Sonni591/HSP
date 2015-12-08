@@ -3,7 +3,6 @@ package de.oth.hsp.common.dat;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -13,10 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Children of this class represent certain <i>.dat</i> files.<br>
@@ -44,48 +40,29 @@ public abstract class AbstractDatFile {
     }
 
     /**
-     * Sets the values of the fields to the given ones
-     * 
-     * @param entries
-     *            the new values for the entries
-     * @throws InstantiationException
-     * @throws IllegalAccessException
+     * @return an ordered and unmodifiable List of {@link DatEntry} objects
      */
-    public void setEntries(List<DatEntry<?>> entries) throws InstantiationException, IllegalAccessException {
-        List<Field> fields = getEntryFields(this.getClass());
+    public abstract List<DatEntry<?>> getEntries();
 
-        for (int i = 0; i < entries.size(); i++) {
-            Field field = fields.get(i);
-            field.setAccessible(true);
-            field.set(this, entries.get(i));
-        }
-    }
-
-    public Path createTempModFile() throws IOException {
-        Path tmpModPath = Files.createTempFile(getModName(), "mod");
-
-        try (BufferedWriter writer = Files.newBufferedWriter(tmpModPath)) {
-            writer.append(getModContent());
-        }
-
-        return tmpModPath;
+    /**
+     * Ensures that all given Constraints are satisfied.
+     */
+    public void ensureConstraints() {
+        // TODO
     }
 
     /**
-     * @return the content of the corresponding <i>mod</i> file
+     * @return <i>true</i> if all registered {@link Constraint#isCompliant()}
+     *         calls return <i>true</i>, otherwise <i>false</i>
      */
-    private String getModContent() {
-        String modPathString = MessageFormat.format(MOD_PATH_TEMPLATE, getModName());
-
-        List<String> lines;
-        try {
-            URL modUrl = getClass().getResource(modPathString);
-            lines = Files.readAllLines(Paths.get(modUrl.toURI()));
-        } catch (IOException | URISyntaxException e) {
-            return null;
+    public boolean isValid() {
+        for (Constraint<?> constraint : constraints) {
+            if (!constraint.isCompliant()) {
+                return false;
+            }
         }
-
-        return String.join(System.lineSeparator(), lines);
+    
+        return true;
     }
 
     /**
@@ -106,44 +83,20 @@ public abstract class AbstractDatFile {
         if (!allowOverride && Files.exists(path)) {
             throw new IOException("The file already exists: \"" + path + "\"");
         }
-
+    
         Writer writer = Files.newBufferedWriter(path);
         writer.append(this.toString());
         writer.close();
     }
 
-    /**
-     * @return an ordered and unmodifiable List of {@link Entry} objects
-     */
-    public static List<Entry> getEntryDescriptions(Class<? extends AbstractDatFile> datFileClass) {
-        List<Entry> entryDescs = new ArrayList<>();
+    public Path createTempModFile() throws IOException {
+        Path tmpModPath = Files.createTempFile(getModName(), "mod");
 
-        for (Field field : getEntryFields(datFileClass)) {
-            entryDescs.add(field.getAnnotation(Entry.class));
+        try (BufferedWriter writer = Files.newBufferedWriter(tmpModPath)) {
+            writer.append(getModContent());
         }
 
-        return Collections.unmodifiableList(entryDescs);
-    }
-
-    /**
-     * Ensures that all given Constraints are satisfied.
-     */
-    public void ensureConstraints() {
-        // TODO
-    }
-
-    /**
-     * @return <i>true</i> if all registered {@link Constraint#isCompliant()}
-     *         calls return <i>true</i>, otherwise <i>false</i>
-     */
-    public boolean isValid() {
-        for (Constraint<?> constraint : constraints) {
-            if (!constraint.isCompliant()) {
-                return false;
-            }
-        }
-
-        return true;
+        return tmpModPath;
     }
 
     /**
@@ -158,37 +111,20 @@ public abstract class AbstractDatFile {
     protected abstract String getModName();
 
     /**
-     * @return the fields which are annotated with {@link Entry} ordered by
-     *         their position.
+     * @return the content of the corresponding <i>mod</i> file
      */
-    private static List<Field> getEntryFields(Class<? extends AbstractDatFile> datFileClass) {
-        List<Field> fields = new ArrayList<>();
-
-        for (Field field : datFileClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(Entry.class)) {
-                fields.add(field);
-            }
+    private String getModContent() {
+        String modPathString = MessageFormat.format(MOD_PATH_TEMPLATE, getModName());
+    
+        List<String> lines;
+        try {
+            URL modUrl = getClass().getResource(modPathString);
+            lines = Files.readAllLines(Paths.get(modUrl.toURI()));
+        } catch (IOException | URISyntaxException e) {
+            return null;
         }
-
-        return Collections.unmodifiableList(fields);
-    }
-
-    /**
-     * @return an ordered and unmodifiable List of {@link DatEntry} objects
-     */
-    public List<DatEntry<?>> getEntries() {
-        Map<Integer, DatEntry<?>> entryMap = new TreeMap<>();
-
-        for (Field field : getEntryFields(this.getClass())) {
-            try {
-                field.setAccessible(true);
-                DatEntry<?> entry = (DatEntry<?>) field.get(this);
-                entryMap.put(entry.getPosition(), entry);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return Collections.unmodifiableList(new ArrayList<>(entryMap.values()));
+    
+        return String.join(System.lineSeparator(), lines);
     }
 
     @Override

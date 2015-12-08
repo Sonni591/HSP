@@ -12,11 +12,11 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  */
 public class TwoDimRowConstraint extends Constraint<TwoDimFieldContent> {
 
-    public TwoDimRowConstraint(SingleContent root, TwoDimFieldContent dependent, int offset) {
+    public TwoDimRowConstraint(TwoDimFieldContent dependent, SingleContent root, int offset) {
         super(root, dependent, offset);
     }
 
-    public TwoDimRowConstraint(SingleContent root, TwoDimFieldContent dependent) {
+    public TwoDimRowConstraint(TwoDimFieldContent dependent, SingleContent root) {
         super(root, dependent);
     }
 

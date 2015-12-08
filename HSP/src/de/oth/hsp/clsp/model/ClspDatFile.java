@@ -1,14 +1,16 @@
 package de.oth.hsp.clsp.model;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.oth.hsp.common.dat.AbstractDatFile;
 import de.oth.hsp.common.dat.Constraint;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.Entry;
 import de.oth.hsp.common.dat.NumericalType;
-import de.oth.hsp.common.dat.desc.ContentType;
-import de.oth.hsp.common.dat.desc.NumericalType;
+import de.oth.hsp.common.dat.constraint.ArrayConstraint;
+import de.oth.hsp.common.dat.constraint.TwoDimColConstraint;
+import de.oth.hsp.common.dat.constraint.TwoDimRowConstraint;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
@@ -22,41 +24,21 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 public class ClspDatFile extends AbstractDatFile {
     private static final String MOD_NAME = "CLSP";
 
-    @Entry(position = 0, name = "T", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
-    private final DatEntry<SingleContent> t = new DatEntry<>("T", 0, new SingleContent(NumericalType.INTEGER));
+    private final DatEntry<SingleContent> t = new DatEntry<>("T", new SingleContent(NumericalType.INTEGER));
+    private final DatEntry<SingleContent> k = new DatEntry<>("K", new SingleContent(NumericalType.INTEGER));
+    private final DatEntry<SingleContent> j = new DatEntry<>("J", new SingleContent(NumericalType.INTEGER));
+    private final DatEntry<SingleContent> m = new DatEntry<>("M", new SingleContent(NumericalType.INTEGER));
 
-    @Entry(position = 1, name = "K", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
-    private DatEntry<SingleContent> k;
+    private final DatEntry<TwoDimFieldContent> b = new DatEntry<>("b", new TwoDimFieldContent(NumericalType.FLOAT));
+    private final DatEntry<TwoDimFieldContent> d = new DatEntry<>("d", new TwoDimFieldContent(NumericalType.INTEGER));
 
-    @Entry(position = 2, name = "J", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
-    private DatEntry<SingleContent> j;
+    private final DatEntry<ArrayContent> h = new DatEntry<>("h", new ArrayContent(NumericalType.FLOAT));
+    private final DatEntry<ArrayContent> s = new DatEntry<>("s", new ArrayContent(NumericalType.FLOAT));
+    private final DatEntry<TwoDimFieldContent> tb = new DatEntry<>("tb", new TwoDimFieldContent(NumericalType.FLOAT));
+    private final DatEntry<TwoDimFieldContent> tr = new DatEntry<>("tr", new TwoDimFieldContent(NumericalType.FLOAT));
 
-    @Entry(position = 3, name = "M", conType = ContentType.SINGLE, numType = NumericalType.INTEGER)
-    private DatEntry<SingleContent> m;
-
-    @Entry(position = 4, name = "b", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
-    private DatEntry<TwoDimFieldContent> b;
-
-    @Entry(position = 5, name = "d", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.INTEGER)
-    private DatEntry<TwoDimFieldContent> d;
-
-    @Entry(position = 6, name = "h", conType = ContentType.ARRAY, numType = NumericalType.FLOAT)
-    private DatEntry<ArrayContent> h;
-
-    @Entry(position = 7, name = "s", conType = ContentType.ARRAY, numType = NumericalType.FLOAT)
-    private DatEntry<ArrayContent> s;
-
-    @Entry(position = 8, name = "tb", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
-    private DatEntry<TwoDimFieldContent> tb;
-
-    @Entry(position = 9, name = "tr", conType = ContentType.TWO_DIM_FIELD, numType = NumericalType.FLOAT)
-    private DatEntry<TwoDimFieldContent> tr;
-
-    @Entry(position = 10, name = "z", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
-    private DatEntry<ArrayContent> z;
-
-    @Entry(position = 11, name = "y0", conType = ContentType.ARRAY, numType = NumericalType.INTEGER)
-    private DatEntry<ArrayContent> y0;
+    private DatEntry<ArrayContent> z = new DatEntry<>("z", new ArrayContent(NumericalType.INTEGER));
+    private DatEntry<ArrayContent> y0 = new DatEntry<>("y0", new ArrayContent(NumericalType.INTEGER));
 
     @Override
     protected String getModName() {
@@ -161,6 +143,29 @@ public class ClspDatFile extends AbstractDatFile {
 
     @Override
     protected void registerConstraints(List<Constraint<?>> constraints) {
-        // TODO Dummy Code
+        constraints.add(new TwoDimRowConstraint(b.getContent(), k.getContent()));
+        constraints.add(new TwoDimColConstraint(b.getContent(), t.getContent()));
+
+        constraints.add(new TwoDimRowConstraint(d.getContent(), k.getContent()));
+        constraints.add(new TwoDimColConstraint(d.getContent(), t.getContent()));
+
+        constraints.add(new ArrayConstraint(h.getContent(), k.getContent()));
+
+        constraints.add(new ArrayConstraint(s.getContent(), k.getContent()));
+
+        constraints.add(new TwoDimRowConstraint(tb.getContent(), k.getContent()));
+        constraints.add(new TwoDimColConstraint(tb.getContent(), j.getContent()));
+
+        constraints.add(new TwoDimRowConstraint(tr.getContent(), k.getContent()));
+        constraints.add(new TwoDimColConstraint(tr.getContent(), j.getContent()));
+
+        constraints.add(new ArrayConstraint(z.getContent(), k.getContent()));
+
+        constraints.add(new ArrayConstraint(y0.getContent(), k.getContent()));
+    }
+
+    @Override
+    public List<DatEntry<?>> getEntries() {
+        return Collections.unmodifiableList(Arrays.asList(t, k, j, m, b, d, h, s, tb, tr, z, y0));
     }
 }
