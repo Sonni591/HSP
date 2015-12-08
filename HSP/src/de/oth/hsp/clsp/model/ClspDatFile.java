@@ -1,12 +1,13 @@
 package de.oth.hsp.clsp.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import de.oth.hsp.common.dat.AbstractDatFile;
-import de.oth.hsp.common.dat.Constraint;
 import de.oth.hsp.common.dat.DatEntry;
+import de.oth.hsp.common.dat.IConstraint;
 import de.oth.hsp.common.dat.NumericalType;
 import de.oth.hsp.common.dat.constraint.ArrayConstraint;
 import de.oth.hsp.common.dat.constraint.TwoDimColConstraint;
@@ -37,8 +38,36 @@ public class ClspDatFile extends AbstractDatFile {
     private final DatEntry<TwoDimFieldContent> tb = new DatEntry<>("tb", new TwoDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<TwoDimFieldContent> tr = new DatEntry<>("tr", new TwoDimFieldContent(NumericalType.FLOAT));
 
-    private DatEntry<ArrayContent> z = new DatEntry<>("z", new ArrayContent(NumericalType.INTEGER));
-    private DatEntry<ArrayContent> y0 = new DatEntry<>("y0", new ArrayContent(NumericalType.INTEGER));
+    private final DatEntry<ArrayContent> z = new DatEntry<>("z", new ArrayContent(NumericalType.INTEGER));
+    private final DatEntry<ArrayContent> y0 = new DatEntry<>("y0", new ArrayContent(NumericalType.INTEGER));
+
+    private final List<IConstraint> constraints;
+
+    public ClspDatFile() {
+        this.constraints = new ArrayList<>();
+
+        constraints.add(new TwoDimRowConstraint(b, k));
+        constraints.add(new TwoDimColConstraint(b, t));
+
+        constraints.add(new TwoDimRowConstraint(d, k));
+        constraints.add(new TwoDimColConstraint(d, t));
+
+        constraints.add(new ArrayConstraint(h, k));
+
+        constraints.add(new ArrayConstraint(s, k));
+
+        constraints.add(new TwoDimRowConstraint(tb, k));
+        constraints.add(new TwoDimColConstraint(tb, j));
+
+        constraints.add(new TwoDimRowConstraint(tr, k));
+        constraints.add(new TwoDimColConstraint(tr, j));
+
+        constraints.add(new ArrayConstraint(z, k));
+
+        constraints.add(new ArrayConstraint(y0, k));
+
+        ensureConstraints();
+    }
 
     @Override
     protected String getModName() {
@@ -142,30 +171,12 @@ public class ClspDatFile extends AbstractDatFile {
     }
 
     @Override
-    protected void registerConstraints(List<Constraint<?>> constraints) {
-        constraints.add(new TwoDimRowConstraint(b, k));
-        constraints.add(new TwoDimColConstraint(b, t));
-
-        constraints.add(new TwoDimRowConstraint(d, k));
-        constraints.add(new TwoDimColConstraint(d, t));
-
-        constraints.add(new ArrayConstraint(h, k));
-
-        constraints.add(new ArrayConstraint(s, k));
-
-        constraints.add(new TwoDimRowConstraint(tb, k));
-        constraints.add(new TwoDimColConstraint(tb, j));
-
-        constraints.add(new TwoDimRowConstraint(tr, k));
-        constraints.add(new TwoDimColConstraint(tr, j));
-
-        constraints.add(new ArrayConstraint(z, k));
-
-        constraints.add(new ArrayConstraint(y0, k));
+    public List<DatEntry<?>> getEntries() {
+        return Collections.unmodifiableList(Arrays.asList(t, k, j, m, b, d, h, s, tb, tr, z, y0));
     }
 
     @Override
-    public List<DatEntry<?>> getEntries() {
-        return Collections.unmodifiableList(Arrays.asList(t, k, j, m, b, d, h, s, tb, tr, z, y0));
+    public List<IConstraint> getConstraints() {
+        return Collections.unmodifiableList(constraints);
     }
 }

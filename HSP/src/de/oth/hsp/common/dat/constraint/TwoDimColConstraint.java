@@ -1,6 +1,7 @@
 package de.oth.hsp.common.dat.constraint;
 
-import de.oth.hsp.common.dat.Constraint;
+import java.text.MessageFormat;
+
 import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
@@ -11,7 +12,7 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  * @author Thomas Butz
  *
  */
-public class TwoDimColConstraint extends Constraint<TwoDimFieldContent> {
+public class TwoDimColConstraint extends AbstractUnaryConstraint<TwoDimFieldContent> {
 
     public TwoDimColConstraint(DatEntry<TwoDimFieldContent> dependent, DatEntry<SingleContent> root, int offset) {
         super(dependent, root, offset);
@@ -22,12 +23,12 @@ public class TwoDimColConstraint extends Constraint<TwoDimFieldContent> {
     }
 
     @Override
-    protected void adjust() {
+    public void adjust() {
         final double[][] oldValues = getDependent().getContent().getDoubleValues();
         final int rows = oldValues.length;
         final int oldCols = oldValues[0].length;
 
-        final int newCols = getRootSize();
+        final int newCols = getExpectedSize();
         final double[][] newValues = new double[rows][newCols];
 
         int minCols = Math.min(oldCols, newCols);
@@ -42,7 +43,14 @@ public class TwoDimColConstraint extends Constraint<TwoDimFieldContent> {
     }
 
     @Override
-    public int getDependentSize() {
+    public int getActualSize() {
         return getDependent().getContent().getValues()[0].length;
+    }
+
+    @Override
+    public String createErrorMessage() {
+        String template = "Variable \"{0}\" depends on the size of \"{1}\": {2} column(s) expected but got {3}";
+        return MessageFormat.format(template, getDependent().getName(), getRoot().getName(), getExpectedSize(),
+                getActualSize());
     }
 }

@@ -11,17 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Children of this class represent certain <i>.dat</i> files.<br>
- * <br>
- * Steps to implement child classes:<br>
- * <li>provide a constructor without parameters
- * <li>create multiple fields of the type {@link DatEntry}
- * <li>annotate them using {@link Entry} to describe their structure
- * <li>provide Getters/Setters for convenient access
+ * Children of this class represent certain <i>.dat</i> files.
  * 
  * @author Thomas Butz
  */
@@ -30,39 +23,24 @@ public abstract class AbstractDatFile {
     public static final Charset DAT_CHARSET = StandardCharsets.ISO_8859_1;
     private static final String MOD_PATH_TEMPLATE = "/resources/{0}.mod";
 
-    private final List<Constraint<?>> constraints = new ArrayList<>();
-
-    /**
-     * Force child classes to register any {@link Constraint} relationships.
-     */
-    public AbstractDatFile() {
-        registerConstraints(constraints);
-    }
-
     /**
      * @return an ordered and unmodifiable List of {@link DatEntry} objects
      */
     public abstract List<DatEntry<?>> getEntries();
 
     /**
+     * @return an ordered and unmodifiable List of {@link IConstraint} objects
+     *         which define relationships between entries
+     */
+    public abstract List<IConstraint> getConstraints();
+
+    /**
      * Ensures that all given Constraints are satisfied.
      */
     public void ensureConstraints() {
-        // TODO
-    }
-
-    /**
-     * @return <i>true</i> if all registered {@link Constraint#isCompliant()}
-     *         calls return <i>true</i>, otherwise <i>false</i>
-     */
-    public boolean isValid() {
-        for (Constraint<?> constraint : constraints) {
-            if (!constraint.isCompliant()) {
-                return false;
-            }
+        for (IConstraint constraint : getConstraints()) {
+            constraint.ensure();
         }
-    
-        return true;
     }
 
     /**
@@ -83,12 +61,19 @@ public abstract class AbstractDatFile {
         if (!allowOverride && Files.exists(path)) {
             throw new IOException("The file already exists: \"" + path + "\"");
         }
-    
+
         Writer writer = Files.newBufferedWriter(path);
         writer.append(this.toString());
         writer.close();
     }
 
+    /**
+     * Creates a temporary <i>mod</i> file which fits to this file.
+     * 
+     * @return the {@link Path} to the temporary <i>mod</i> file
+     * @throws IOException
+     *             if an error occured while creating the file
+     */
     public Path createTempModFile() throws IOException {
         Path tmpModPath = Files.createTempFile(getModName(), "mod");
 
@@ -100,12 +85,6 @@ public abstract class AbstractDatFile {
     }
 
     /**
-     * Force child classes to register any constraints on their {@link DatEntry}
-     * objects
-     */
-    protected abstract void registerConstraints(List<Constraint<?>> constraints);
-
-    /**
      * @return the name of the <i>mod</i> file (without file ending)
      */
     protected abstract String getModName();
@@ -115,7 +94,7 @@ public abstract class AbstractDatFile {
      */
     private String getModContent() {
         String modPathString = MessageFormat.format(MOD_PATH_TEMPLATE, getModName());
-    
+
         List<String> lines;
         try {
             URL modUrl = getClass().getResource(modPathString);
@@ -123,7 +102,7 @@ public abstract class AbstractDatFile {
         } catch (IOException | URISyntaxException e) {
             return null;
         }
-    
+
         return String.join(System.lineSeparator(), lines);
     }
 
@@ -135,5 +114,17 @@ public abstract class AbstractDatFile {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Checks if all {@link IConstraint} relations are being satisfied.
+     * 
+     * @throws ConstraintSatisfactionException
+     *             if one ore more Constraints are not being satisfied
+     */
+    public void validate() throws ConstraintSatisfactionException {
+        for (IConstraint constraint : getConstraints()) {
+            constraint.validate();
+        }
     }
 }
