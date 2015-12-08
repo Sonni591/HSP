@@ -38,12 +38,12 @@ public abstract class AbstractConstraint {
      * Checks if the constraint is being satisfied and throws an exception
      * otherwise
      * 
-     * @throws ConstraintSatisfactionException
+     * @throws ConstraintException
      *             if the constraint is not satisfied
      */
-    public void validate() throws ConstraintSatisfactionException {
+    public void validate() throws ConstraintException {
         if (!isCompliant()) {
-            throw new ConstraintSatisfactionException(createErrorMessage());
+            throw new ConstraintException(createErrorMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public abstract class AbstractConstraint {
 
     /**
      * @return an error message which can be used to generate a
-     *         {@link ConstraintSatisfactionException}
+     *         {@link ConstraintException}
      */
     protected abstract String createErrorMessage();
 }

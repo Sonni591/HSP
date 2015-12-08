@@ -45,10 +45,33 @@ public abstract class AbstractDatFile {
 
     /**
      * Ensures that all given Constraints are satisfied.
+     * 
+     * @throws ConstraintException
+     *             if a {@link DatEntry} contains a value which makes it
+     *             impossible to satisfy its constraints
      */
-    public void ensureConstraints() {
+    public void ensureConstraints() throws ConstraintException {
+        for (DatEntry<SingleContent> rootEntry : getConstraintRoots()) {
+            if (rootEntry.getContent().getIntValue() <= 0) {
+                throw new ConstraintException("Unable to satisfy constraint(s) on \"" + rootEntry.getName()
+                        + "\": positive non-zero value expected but got value" + rootEntry.getContent().getIntValue());
+            }
+        }
+
         for (AbstractConstraint constraint : getConstraints()) {
             constraint.ensure();
+        }
+    }
+
+    /**
+     * Checks if all {@link AbstractConstraint} relations are being satisfied.
+     * 
+     * @throws ConstraintException
+     *             if one ore more Constraints are not being satisfied
+     */
+    public void validate() throws ConstraintException {
+        for (AbstractConstraint constraint : getConstraints()) {
+            constraint.validate();
         }
     }
 
@@ -107,7 +130,11 @@ public abstract class AbstractDatFile {
             rootEntry.getContent().setValue(1);
         }
 
-        ensureConstraints();
+        try {
+            ensureConstraints();
+        } catch (ConstraintException e) {
+            // ignore
+        }
     }
 
     /**
@@ -150,17 +177,5 @@ public abstract class AbstractDatFile {
         }
 
         return builder.toString();
-    }
-
-    /**
-     * Checks if all {@link AbstractConstraint} relations are being satisfied.
-     * 
-     * @throws ConstraintSatisfactionException
-     *             if one ore more Constraints are not being satisfied
-     */
-    public void validate() throws ConstraintSatisfactionException {
-        for (AbstractConstraint constraint : getConstraints()) {
-            constraint.validate();
-        }
     }
 }

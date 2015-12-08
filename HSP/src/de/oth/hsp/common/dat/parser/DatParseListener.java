@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import de.oth.hsp.common.dat.AbstractDatFile;
-import de.oth.hsp.common.dat.ConstraintSatisfactionException;
+import de.oth.hsp.common.dat.ConstraintException;
 import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.NumericalType;
 import de.oth.hsp.common.dat.parser.gen.DatBaseListener;
@@ -75,7 +75,7 @@ public class DatParseListener extends DatBaseListener {
         // check if the constraints are being satisfied
         try {
             datFile.validate();
-        } catch (ConstraintSatisfactionException e) {
+        } catch (ConstraintException e) {
             throw new ParseCancellationException(e);
         }
     }
