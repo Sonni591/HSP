@@ -33,7 +33,7 @@ public class HpplanStatDatFile extends AbstractDatFile {
     private final DatEntry<SingleContent> k = new DatEntry<>("K", new SingleContent(NumericalType.INTEGER));
     private final DatEntry<SingleContent> t = new DatEntry<>("T", new SingleContent(NumericalType.INTEGER));
 
-    private final DatEntry<SingleContent> zMax = new DatEntry<>("J", new SingleContent(NumericalType.INTEGER));
+    private final DatEntry<SingleContent> zMax = new DatEntry<>("ZMax", new SingleContent(NumericalType.INTEGER));
 
     private final DatEntry<TwoDimFieldContent> b = new DatEntry<>("b", new TwoDimFieldContent(NumericalType.INTEGER));
     private final DatEntry<ThreeDimFieldContent> f = new DatEntry<>("f", new ThreeDimFieldContent(NumericalType.FLOAT));

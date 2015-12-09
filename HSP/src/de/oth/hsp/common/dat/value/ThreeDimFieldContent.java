@@ -23,10 +23,10 @@ public class ThreeDimFieldContent extends DatContent {
     public Number[][][] getValues() {
         Number[][][] numbers = new Number[values.length][values[0].length][values[0][0].length];
 
-        for (int i = 0; i < numbers.length; i++) {
-            for (int j = 0; j < numbers.length; j++) {
-                for (int k = 0; k < numbers.length; k++) {
-                    numbers[i][j][k] = values[i][j][k];
+        for (int field = 0; field < numbers.length; field++) {
+            for (int row = 0; row < numbers[0].length; row++) {
+                for (int col = 0; col < numbers[0][0].length; col++) {
+                    numbers[field][row][col] = values[field][row][col];
                 }
             }
         }
@@ -41,10 +41,10 @@ public class ThreeDimFieldContent extends DatContent {
     public int[][][] getIntValues() {
         int[][][] ints = new int[values.length][values[0].length][values[0][0].length];
 
-        for (int i = 0; i < ints.length; i++) {
-            for (int j = 0; j < ints.length; j++) {
-                for (int k = 0; k < ints.length; k++) {
-                    ints[i][j][k] = (int) values[i][j][k];
+        for (int field = 0; field < ints.length; field++) {
+            for (int row = 0; row < ints[0].length; row++) {
+                for (int col = 0; col < ints[0][0].length; col++) {
+                    ints[field][row][col] = (int) values[field][row][col];
                 }
             }
         }
@@ -58,10 +58,10 @@ public class ThreeDimFieldContent extends DatContent {
 
     public void setValues(int[][][] values) {
         this.values = new double[values.length][values[0].length][values[0][0].length];
-        for (int i = 0; i < values.length; i++) {
-            for (int j = 0; j < values.length; j++) {
-                for (int k = 0; k < values.length; k++) {
-                    this.values[i][j][k] = values[i][j][k];
+        for (int field = 0; field < values.length; field++) {
+            for (int row = 0; row < values[0].length; row++) {
+                for (int col = 0; col < values[0][0].length; col++) {
+                    this.values[field][row][col] = values[field][row][col];
                 }
             }
         }
@@ -69,10 +69,10 @@ public class ThreeDimFieldContent extends DatContent {
 
     public void setValues(Number[][][] values) {
         this.values = new double[values.length][values[0].length][values[0][0].length];
-        for (int i = 0; i < values.length; i++) {
-            for (int j = 0; j < values.length; j++) {
-                for (int k = 0; k < values.length; k++) {
-                    this.values[i][j][k] = values[i][j][k].doubleValue();
+        for (int field = 0; field < values.length; field++) {
+            for (int row = 0; row < values[0].length; row++) {
+                for (int col = 0; col < values[0][0].length; col++) {
+                    this.values[field][row][col] = values[field][row][col].doubleValue();
                 }
             }
         }

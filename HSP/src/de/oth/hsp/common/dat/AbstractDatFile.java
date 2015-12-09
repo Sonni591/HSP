@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -173,6 +176,12 @@ public abstract class AbstractDatFile {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+
+        builder.append("// Auto-generated @ ");
+        builder.append(LocalDate.now().format(DateTimeFormatter.ISO_DATE)).append(" ");
+        builder.append(LocalTime.now().format(DateTimeFormatter.ISO_TIME));
+        builder.append(System.lineSeparator());
+
         for (DatEntry<?> entry : getEntries()) {
             builder.append(entry).append(System.lineSeparator());
         }

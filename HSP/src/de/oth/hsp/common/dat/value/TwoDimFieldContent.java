@@ -23,9 +23,9 @@ public class TwoDimFieldContent extends DatContent {
     public Number[][] getValues() {
         Number[][] numbers = new Number[values.length][values[0].length];
 
-        for (int i = 0; i < numbers.length; i++) {
-            for (int j = 0; j < numbers[0].length; j++) {
-                numbers[i][j] = values[i][j];
+        for (int row = 0; row < numbers.length; row++) {
+            for (int col = 0; col < numbers[0].length; col++) {
+                numbers[row][col] = values[row][col];
             }
         }
 
@@ -42,9 +42,9 @@ public class TwoDimFieldContent extends DatContent {
     public int[][] getIntValues() {
         int[][] ints = new int[values.length][values[0].length];
 
-        for (int i = 0; i < ints.length; i++) {
-            for (int j = 0; j < ints[0].length; j++) {
-                ints[i][j] = (int) values[i][j];
+        for (int row = 0; row < ints.length; row++) {
+            for (int col = 0; col < ints[0].length; col++) {
+                ints[row][col] = (int) values[row][col];
             }
         }
 
@@ -58,9 +58,9 @@ public class TwoDimFieldContent extends DatContent {
     public void setValues(int[][] values) {
         this.values = new double[values.length][values[0].length];
 
-        for (int i = 0; i < values.length; i++) {
-            for (int j = 0; j < values[0].length; j++) {
-                this.values[i][j] = values[i][j];
+        for (int row = 0; row < values.length; row++) {
+            for (int col = 0; col < values[0].length; col++) {
+                this.values[row][col] = values[row][col];
             }
         }
     }
@@ -68,9 +68,9 @@ public class TwoDimFieldContent extends DatContent {
     public void setValues(Number[][] values) {
         this.values = new double[values.length][values[0].length];
 
-        for (int i = 0; i < values.length; i++) {
-            for (int j = 0; j < values[0].length; j++) {
-                this.values[i][j] = values[i][j].doubleValue();
+        for (int row = 0; row < values.length; row++) {
+            for (int col = 0; col < values[0].length; col++) {
+                this.values[row][col] = values[row][col].doubleValue();
             }
         }
     }
