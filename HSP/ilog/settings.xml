@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="DATDIR">ilog/</entry>
+<entry key="MODDIR">ilog/</entry>
+<entry key="USE_DAT">TRUE</entry>
+<entry key="DATNAME">ParameterCLSP</entry>
+<entry key="USE_ILOG">TRUE</entry>
+</properties>

@@ -4,21 +4,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
-import de.oth.hsp.common.dat.DatFileParser;
-import de.oth.hsp.common.dat.parser.DatParseException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
 
 public class RootLayoutController {
 
@@ -33,16 +30,6 @@ public class RootLayoutController {
     private Tab2Controller tab2Controller;
 
     // References all GUI elements
-    @FXML
-    private Label lblLeftStatus;
-    @FXML
-    private Label lblZoom;
-    @FXML
-    private Button btnZoomPlus;
-    @FXML
-    private Button btnZoomMinus;
-    @FXML
-    private Menu menuZoom;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -222,10 +209,8 @@ public class RootLayoutController {
     private void onActionHelpAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("");
-        alert.setHeaderText(
-                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
-        alert.setContentText(
-                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
     }
 
