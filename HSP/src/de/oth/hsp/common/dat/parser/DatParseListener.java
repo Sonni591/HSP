@@ -2,25 +2,26 @@ package de.oth.hsp.common.dat.parser;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
+import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import de.oth.hsp.common.dat.AbstractDatFile;
+import de.oth.hsp.common.dat.ConstraintException;
 import de.oth.hsp.common.dat.DatEntry;
-import de.oth.hsp.common.dat.EntryDesc;
-import de.oth.hsp.common.dat.desc.ContentType;
-import de.oth.hsp.common.dat.desc.NumericalType;
+import de.oth.hsp.common.dat.NumericalType;
 import de.oth.hsp.common.dat.parser.gen.DatBaseListener;
 import de.oth.hsp.common.dat.parser.gen.DatParser.ArrayValueContext;
+import de.oth.hsp.common.dat.parser.gen.DatParser.DatBodyContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.SingleValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.ThreeDimFieldValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.TwoDimFieldValueContext;
 import de.oth.hsp.common.dat.parser.gen.DatParser.VarDeclarationContext;
 import de.oth.hsp.common.dat.value.ArrayContent;
+import de.oth.hsp.common.dat.value.DatContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.ThreeDimFieldContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
@@ -32,15 +33,19 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  *
  */
 public class DatParseListener extends DatBaseListener {
-    private final List<DatEntry<?>> entries = new ArrayList<>();
-    private final Queue<EntryDesc> expectedEntries = new LinkedList<>();
+    private final AbstractDatFile datFile;
+    private final Map<String, DatEntry<?>> entryMap = new HashMap<>();
 
-    public DatParseListener(Class<? extends AbstractDatFile> datClass) {
-        expectedEntries.addAll(AbstractDatFile.getEntryDescriptions(datClass));
+    public DatParseListener(AbstractDatFile datFile) {
+        this.datFile = datFile;
+        for (DatEntry<?> entry : datFile.getEntries()) {
+            entryMap.put(entry.getName(), entry);
+        }
     }
 
     @Override
     public void exitVarDeclaration(VarDeclarationContext ctx) {
+        // stop after the first error
         if (ctx.exception != null) {
             return;
         }
@@ -48,108 +53,81 @@ public class DatParseListener extends DatBaseListener {
         ParserRuleContext valueContext = (ParserRuleContext) ctx.varValue().getChild(0);
 
         // compare the variable with the one we expected
-        EntryDesc entryDesc = expectedEntries.poll();
-        if (entryDesc == null) {
+        final DatEntry<?> untypedEntry = entryMap.remove(name);
+        if (untypedEntry == null) {
             throw new ParseCancellationException("Unexpected variable: \"" + name + "\"");
         }
-        String expectedName = entryDesc.name();
+        String expectedName = untypedEntry.getName();
         if (!expectedName.equals(name)) {
             throw new ParseCancellationException(
                     "Variable name missmatch: got variable \"" + name + "\" but expected \"" + expectedName + "\"");
         }
 
-        DatEntry<?> entry;
-        if (valueContext instanceof SingleValueContext) {
-            entry = new DatEntry<SingleContent>(name,
-                    getSingleContent((SingleValueContext) valueContext, name, entryDesc));
-        } else if (valueContext instanceof ArrayValueContext) {
-            entry = new DatEntry<ArrayContent>(name,
-                    getArrayContent((ArrayValueContext) valueContext, name, entryDesc));
-        } else if (valueContext instanceof TwoDimFieldValueContext) {
-            entry = new DatEntry<TwoDimFieldContent>(name,
-                    getTwoDimContent((TwoDimFieldValueContext) valueContext, name, entryDesc));
-        } else {
-            entry = new DatEntry<ThreeDimFieldContent>(name,
-                    getThreeDimContent((ThreeDimFieldValueContext) valueContext, name, entryDesc));
+        // fill the entry
+        fill(untypedEntry, valueContext);
+    }
+
+    @Override
+    public void exitDatBody(DatBodyContext ctx) {
+        // check for missing entries
+        if (!entryMap.isEmpty()) {
+            String missingEntryName = (new ArrayList<>(entryMap.values())).get(0).getName();
+            throw new ParseCancellationException("Variable not found: \"" + missingEntryName + "\"");
         }
 
-        entries.add(entry);
+        // check if the constraints are being satisfied
+        try {
+            datFile.validate();
+        } catch (ConstraintException e) {
+            throw new ParseCancellationException(e);
+        }
     }
 
     /**
-     * @return the entries created by visiting the ParseTree nodes.
-     */
-    public List<DatEntry<?>> getEntries() {
-        return entries;
-    }
-
-    /**
-     * Creates a {@link SingleContent} from its {@link SingleValueContext}
-     * representation.
+     * Attempts to fill the {@link DatEntry} with values retrieved from the
+     * given {@link ParserRuleContext}.
      * 
-     * @param singleValueContext
-     *            the context
-     * @param name
-     *            the name of the entry
-     * @param entryDesc
-     *            the description of the entry from the model
-     * @return an {@link SingleContent} object containing the parsed value
+     * @param untypedEntry
+     *            the entry to be filled
+     * @param valueContext
+     *            the context with the values
      */
-    private SingleContent getSingleContent(SingleValueContext singleValueContext, String name, EntryDesc entryDesc) {
-        checkType(name, entryDesc, ContentType.SINGLE);
+    private void fill(DatEntry<?> untypedEntry, ParserRuleContext valueContext) {
+        NumericalType numType = untypedEntry.getContent().getType();
 
-        return new SingleContent(getValue(singleValueContext, entryDesc.numType()), entryDesc.numType());
+        if (valueContext instanceof SingleValueContext) {
+            DatEntry<SingleContent> entry = ensureContentType(untypedEntry, SingleContent.class);
+            fill(entry, (SingleValueContext) valueContext, numType);
+        } else if (valueContext instanceof ArrayValueContext) {
+            DatEntry<ArrayContent> entry = ensureContentType(untypedEntry, ArrayContent.class);
+            fill(entry, (ArrayValueContext) valueContext, numType);
+        } else if (valueContext instanceof TwoDimFieldValueContext) {
+            DatEntry<TwoDimFieldContent> entry = ensureContentType(untypedEntry, TwoDimFieldContent.class);
+            fill(entry, (TwoDimFieldValueContext) valueContext, numType);
+        } else {
+            DatEntry<ThreeDimFieldContent> entry = ensureContentType(untypedEntry, ThreeDimFieldContent.class);
+            fill(entry, (ThreeDimFieldValueContext) valueContext, numType);
+        }
     }
 
-    /**
-     * Creates a {@link ArrayContent} from its {@link ArrayValueContext}
-     * representation.
-     * 
-     * @param arrayValueContext
-     *            the context
-     * @param name
-     *            the name of the entry
-     * @param entryDesc
-     *            the description of the entry from the model
-     * @return an {@link ArrayContent} object containing the parsed values
-     */
-    private ArrayContent getArrayContent(ArrayValueContext arrayValueContext, String name, EntryDesc entryDesc) {
-        checkType(name, entryDesc, ContentType.ARRAY);
-
-        double[] values = getArrayValues(arrayValueContext.singleValue(), entryDesc.numType());
-
-        return new ArrayContent(values, entryDesc.numType());
+    private void fill(DatEntry<SingleContent> entry, SingleValueContext valueCtx, NumericalType numType) {
+        double value = getSingleValue(valueCtx, numType);
+        entry.getContent().setValue(value);
     }
 
-    /**
-     * Creates a {@link TwoDimFieldContent} from a
-     * {@link TwoDimFieldValueContext} representation.
-     * 
-     * @param twoDimFieldValueContext
-     *            the context
-     * @param name
-     *            the name of the entry
-     * @param entryDesc
-     *            the description of the entry from the model
-     * @return an {@link TwoDimFieldContent} object containing the parsed value
-     */
-    private TwoDimFieldContent getTwoDimContent(TwoDimFieldValueContext twoDimFieldValueContext, String name,
-            EntryDesc entryDesc) {
-        checkType(name, entryDesc, ContentType.TWO_DIM_FIELD);
-
-        double[][] field = getTwoDimFieldValues(twoDimFieldValueContext.arrayValue(), entryDesc.numType());
-
-        return new TwoDimFieldContent(field, entryDesc.numType());
+    private void fill(DatEntry<ArrayContent> entry, ArrayValueContext valueContext, NumericalType numType) {
+        double[] values = getArrayValues(valueContext, numType);
+        entry.getContent().setValues(values);
     }
 
-    private ThreeDimFieldContent getThreeDimContent(ThreeDimFieldValueContext threeDimFieldValueContext, String name,
-            EntryDesc entryDesc) {
-        checkType(name, entryDesc, ContentType.THREE_DIM_FIELD);
+    private void fill(DatEntry<TwoDimFieldContent> entry, TwoDimFieldValueContext valueCtx, NumericalType numType) {
+        double[][] values = getTwoDimFieldValues(valueCtx, numType);
+        entry.getContent().setValues(values);
+    }
 
-        double[][][] fieldOfFields = getThreeDimFieldValues(threeDimFieldValueContext.twoDimFieldValue(),
-                entryDesc.numType());
-
-        return new ThreeDimFieldContent(fieldOfFields, entryDesc.numType());
+    private void fill(DatEntry<ThreeDimFieldContent> entry, ThreeDimFieldValueContext valueCtx, NumericalType numType) {
+        double[][][] values = getThreeDimFieldValues(valueCtx, numType);
+        entry.getContent().setValues(values);
     }
 
     /**
@@ -162,7 +140,7 @@ public class DatParseListener extends DatBaseListener {
      *            the expected type of the value
      * @return the value as a double
      */
-    private double getValue(SingleValueContext valueContext, NumericalType numType) {
+    private double getSingleValue(SingleValueContext valueContext, NumericalType numType) {
         try {
             Number number = numType.getFormat().parse(valueContext.getText());
             return number.doubleValue();
@@ -172,85 +150,102 @@ public class DatParseListener extends DatBaseListener {
     }
 
     /**
-     * Parses the values from a List of {@link SingleValueContext} objects while
-     * checking its {@link NumericalType}.
+     * Parses the values of a {@link ArrayValueContext} while checking the
+     * {@link NumericalType} of its values.
      * 
-     * @param valueContexts
-     *            the value contexts
+     * @param valueContext
+     *            the value context
      * @param type
      *            the expected type of the values
      * @return the values as a double array
      */
-    private double[] getArrayValues(List<SingleValueContext> valueContexts, NumericalType type) {
-        double[] values = new double[valueContexts.size()];
+    private double[] getArrayValues(ArrayValueContext valueContext, NumericalType type) {
+        List<SingleValueContext> singleContexts = valueContext.singleValue();
+        double[] values = new double[singleContexts.size()];
 
         for (int i = 0; i < values.length; i++) {
-            values[i] = getValue(valueContexts.get(i), type);
+            values[i] = getSingleValue(singleContexts.get(i), type);
         }
 
         return values;
     }
 
     /**
-     * Parses the values from a List of {@link ArrayValueContext} objects while
-     * checking their {@link NumericalType}.
+     * Parses the values of a {@link TwoDimFieldValueContext} while checking the
+     * {@link NumericalType} of its values.
      * 
-     * @param valueContexts
-     *            the value contexts
+     * @param valueContext
+     *            the value context
      * @param type
      *            the expected type of the values
      * @return the values as a two-dimensional double array
      */
-    private double[][] getTwoDimFieldValues(List<ArrayValueContext> valueContexts, NumericalType type) {
-        int rows = valueContexts.size();
-        int columns = valueContexts.get(0).singleValue().size();
+    private double[][] getTwoDimFieldValues(TwoDimFieldValueContext valueContext, NumericalType type) {
+        List<ArrayValueContext> arrayContexts = valueContext.arrayValue();
+
+        int rows = arrayContexts.size();
+        int columns = arrayContexts.get(0).singleValue().size();
 
         double[][] field = new double[rows][columns];
         for (int row = 0; row < field.length; row++) {
-            field[row] = getArrayValues(valueContexts.get(row).singleValue(), type);
+            field[row] = getArrayValues(arrayContexts.get(row), type);
         }
 
         return field;
     }
 
     /**
-     * Parses the values from a List of {@link TwoDimFieldValueContext} objects
-     * while checking their {@link NumericalType}.
+     * Parses the values of a {@link ThreeDimFieldValueContext} while checking
+     * the {@link NumericalType} of its values.
      * 
-     * @param valueContexts
-     *            the value contexts
+     * @param valueContext
+     *            the value context
      * @param type
      *            the expected type of the values
      * @return the values as three-dimensional double array
      */
-    private double[][][] getThreeDimFieldValues(List<TwoDimFieldValueContext> twoDimFieldValue, NumericalType type) {
-        int fields = twoDimFieldValue.size();
-        int rows = twoDimFieldValue.get(0).arrayValue().size();
-        int columns = twoDimFieldValue.get(0).arrayValue().get(0).singleValue().size();
+    private double[][][] getThreeDimFieldValues(ThreeDimFieldValueContext valueContext, NumericalType type) {
+        List<TwoDimFieldValueContext> fieldContexts = valueContext.twoDimFieldValue();
+
+        int fields = fieldContexts.size();
+        int rows = fieldContexts.get(0).arrayValue().size();
+        int columns = fieldContexts.get(0).arrayValue().get(0).singleValue().size();
 
         double[][][] fieldOfFields = new double[fields][rows][columns];
         for (int field = 0; field < fieldOfFields.length; field++) {
-            fieldOfFields[field] = getTwoDimFieldValues(twoDimFieldValue.get(field).arrayValue(), type);
+            fieldOfFields[field] = getTwoDimFieldValues(fieldContexts.get(field), type);
         }
 
         return fieldOfFields;
     }
 
     /**
-     * Checks if the actual type of the entry fits to the model.
+     * Checks if the {@link DatContent} of the {@link DatEntry} is an instance
+     * of the given class and returns the casted result.
      * 
-     * @param name
-     *            the name of the entry
-     * @param entryDesc
-     *            the description of the entry in the model
-     * @param expectedType
-     *            the expected content type of the entry
+     * @param <T>
+     *            the expected subclass of {@link DatContent}
+     * 
+     * @param entry
+     *            the entry to be checked
+     * @param contentType
+     *            the expected type
+     * @return the casted {@link DatEntry} instance
+     * @throws ParseCancellationException
+     *             if a type mismatch occurs
      */
-    private void checkType(String name, EntryDesc entryDesc, ContentType expectedType) {
-        ContentType type = entryDesc.conType();
-        if (type != expectedType) {
-            throw new ParseCancellationException("Content type missmatch: Variable \"" + name
-                    + "\" should have had the type " + expectedType + " but has " + type);
+    @SuppressWarnings("unchecked")
+    private <T extends DatContent> DatEntry<T> ensureContentType(DatEntry<?> entry, Class<T> contentType) {
+        DatContent content = entry.getContent();
+        if (!contentType.isInstance(content)) {
+            String varName = entry.getName();
+            String expectedType = entry.getClass().getSimpleName();
+            String actualType = contentType.getSimpleName();
+
+            throw new ParseCancellationException("ContentType missmatch: variable \"" + varName
+                    + "\" should have type \"" + expectedType + "\" but was of type \"" + actualType + "\"");
         }
+
+        return (DatEntry<T>) entry;
     }
 }

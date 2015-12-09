@@ -1,4 +1,4 @@
-package de.oth.hsp.common.dat.desc;
+package de.oth.hsp.common.dat;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

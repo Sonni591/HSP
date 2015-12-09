@@ -1,8 +1,8 @@
 package de.oth.hsp.common.dat;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -10,58 +10,69 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+
+import de.oth.hsp.common.dat.value.SingleContent;
 
 /**
- * Children of this class represent certain <i>.dat</i> files.<br>
+ * Children of this class represent certain kinds <i>.dat</i> files.<br>
  * <br>
- * Steps to implement child classes:<br>
- * <li>provide a constructor without parameters
- * <li>create multiple fields of the type {@link DatEntry}
- * <li>annotate them using {@link EntryDesc} to describe their structure
- * <li>provide Getters/Setters for convenient access
+ * When implementing a new model class make sure to call {@link #initialize()}
+ * at the end of its constructor.
  * 
  * @author Thomas Butz
  */
 public abstract class AbstractDatFile {
     /** the charset used by dat files */
     public static final Charset DAT_CHARSET = StandardCharsets.ISO_8859_1;
+    private static final String MOD_PATH_TEMPLATE = "/resources/{0}.mod";
 
     /**
-     * Sets the values of the fields to the given ones
-     * 
-     * @param entries
-     *            the new values for the entries
-     * @throws InstantiationException
-     * @throws IllegalAccessException
+     * @return an ordered and unmodifiable List of {@link DatEntry} objects
      */
-    public void setEntries(List<DatEntry<?>> entries) throws InstantiationException, IllegalAccessException {
-        List<Field> fields = getEntryFields(this.getClass());
+    public abstract List<DatEntry<?>> getEntries();
 
-        for (int i = 0; i < entries.size(); i++) {
-            Field field = fields.get(i);
-            field.setAccessible(true);
-            field.set(this, entries.get(i));
+    /**
+     * @return an ordered and unmodifiable List of {@link AbstractConstraint}
+     *         objects which define relationships between entries
+     */
+    public abstract List<AbstractConstraint> getConstraints();
+
+    /**
+     * Ensures that all given Constraints are satisfied.
+     * 
+     * @throws ConstraintException
+     *             if a {@link DatEntry} contains a value which makes it
+     *             impossible to satisfy its constraints
+     */
+    public void ensureConstraints() throws ConstraintException {
+        for (DatEntry<SingleContent> rootEntry : getConstraintRoots()) {
+            if (rootEntry.getContent().getIntValue() <= 0) {
+                throw new ConstraintException("Unable to satisfy constraint(s) on \"" + rootEntry.getName()
+                        + "\": positive non-zero value expected but got value" + rootEntry.getContent().getIntValue());
+            }
+        }
+
+        for (AbstractConstraint constraint : getConstraints()) {
+            constraint.ensure();
         }
     }
 
     /**
-     * @return the content of the corresponding <i>mod</i> file
+     * Checks if all {@link AbstractConstraint} relations are being satisfied.
+     * 
+     * @throws ConstraintException
+     *             if one ore more Constraints are not being satisfied
      */
-    public String getModContent() {
-        List<String> lines;
-        try {
-            URL modUrl = getClass().getResource(getModResourcePath());
-            lines = Files.readAllLines(Paths.get(modUrl.toURI()));
-        } catch (IOException | URISyntaxException e) {
-            return null;
+    public void validate() throws ConstraintException {
+        for (AbstractConstraint constraint : getConstraints()) {
+            constraint.validate();
         }
-
-        return String.join(System.lineSeparator(), lines);
     }
 
     /**
@@ -89,68 +100,74 @@ public abstract class AbstractDatFile {
     }
 
     /**
-     * @return an ordered and unmodifiable List of {@link EntryDesc} objects
+     * Creates a temporary <i>mod</i> file which fits to this file.
+     * 
+     * @return the {@link Path} to the temporary <i>mod</i> file
+     * @throws IOException
+     *             if an error occured while creating the file
      */
-    public static List<EntryDesc> getEntryDescriptions(Class<? extends AbstractDatFile> datFileClass) {
-        List<EntryDesc> entryDescs = new ArrayList<>();
+    public Path createTempModFile() throws IOException {
+        Path tmpModPath = Files.createTempFile(getModName(), "mod");
 
-        for (Field field : getEntryFields(datFileClass)) {
-            entryDescs.add(field.getAnnotation(EntryDesc.class));
+        try (BufferedWriter writer = Files.newBufferedWriter(tmpModPath)) {
+            writer.append(getModContent());
         }
 
-        return Collections.unmodifiableList(entryDescs);
+        return tmpModPath;
     }
 
     /**
-     * Ensures that all given Constraints are satisfied.
+     * @return the name of the <i>mod</i> file (without file ending)
      */
-    public void ensureConstraints() {
-        // TODO
+    protected abstract String getModName();
+
+    /**
+     * Preallocates the values of the model so that it adheres all
+     * {@link AbstractConstraint} relations.
+     */
+    protected void initialize() {
+        for (DatEntry<SingleContent> rootEntry : getConstraintRoots()) {
+            rootEntry.getContent().setValue(1);
+        }
+
+        try {
+            ensureConstraints();
+        } catch (ConstraintException e) {
+            // ignore
+        }
     }
 
     /**
-     * Force child classes to register any constraints on their {@link DatEntry}
-     * objects
+     * @return a List with all {@link DatEntry} objects which are the root of
+     *         one or more {@link AbstractConstraint} relations.
      */
-    protected abstract void registerConstraints();
+    private List<DatEntry<SingleContent>> getConstraintRoots() {
+        Map<String, DatEntry<SingleContent>> rootMap = new HashMap<>();
 
-    /**
-     * @return the path to the <i>mod</i> inside the jar
-     */
-    protected abstract String getModResourcePath();
-
-    /**
-     * @return the fields which are annotated with {@link EntryDesc} ordered by
-     *         their position.
-     */
-    private static List<Field> getEntryFields(Class<? extends AbstractDatFile> datFileClass) {
-        Map<Integer, Field> fieldMap = new TreeMap<>();
-
-        for (Field field : datFileClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(EntryDesc.class)) {
-                EntryDesc desc = field.getAnnotation(EntryDesc.class);
-                fieldMap.put(desc.position(), field);
+        for (AbstractConstraint constraint : getConstraints()) {
+            for (DatEntry<SingleContent> root : constraint.getRoots()) {
+                rootMap.put(root.getName(), root);
             }
         }
 
-        return Collections.unmodifiableList(new ArrayList<>(fieldMap.values()));
+        return Collections.unmodifiableList(new ArrayList<>(rootMap.values()));
     }
 
     /**
-     * @return an ordered and unmodifiable List of {@link DatEntry} objects
+     * @return the content of the corresponding <i>mod</i> file
      */
-    private List<DatEntry<?>> getEntries() {
-        List<DatEntry<?>> entries = new ArrayList<>();
+    private String getModContent() {
+        String modPathString = MessageFormat.format(MOD_PATH_TEMPLATE, getModName());
 
-        for (Field field : getEntryFields(this.getClass())) {
-            try {
-                field.setAccessible(true);
-                entries.add((DatEntry<?>) field.get(this));
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+        List<String> lines;
+        try {
+            URL modUrl = getClass().getResource(modPathString);
+            lines = Files.readAllLines(Paths.get(modUrl.toURI()));
+        } catch (IOException | URISyntaxException e) {
+            return null;
         }
-        return Collections.unmodifiableList(entries);
+
+        return String.join(System.lineSeparator(), lines);
     }
 
     @Override

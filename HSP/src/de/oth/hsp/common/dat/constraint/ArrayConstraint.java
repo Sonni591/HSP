@@ -1,6 +1,8 @@
 package de.oth.hsp.common.dat.constraint;
 
-import de.oth.hsp.common.dat.Constraint;
+import java.text.MessageFormat;
+
+import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 
@@ -10,32 +12,39 @@ import de.oth.hsp.common.dat.value.SingleContent;
  * @author Thomas Butz
  *
  */
-public class ArrayConstraint extends Constraint<ArrayContent> {
+public class ArrayConstraint extends AbstractUnaryConstraint<ArrayContent> {
 
-    public ArrayConstraint(SingleContent root, ArrayContent dependent, int offset) {
-        super(root, dependent, offset);
+    public ArrayConstraint(DatEntry<ArrayContent> dependent, DatEntry<SingleContent> root, int offset) {
+        super(dependent, root, offset);
     }
 
-    public ArrayConstraint(SingleContent root, ArrayContent dependent) {
-        super(root, dependent);
+    public ArrayConstraint(DatEntry<ArrayContent> dependent, DatEntry<SingleContent> root) {
+        super(dependent, root);
     }
 
     @Override
-    public boolean isCompliant() {
-        return (getRoot().getIntValue() + getOffset()) == getDependent().getIntValues().length;
+    public int getActualSize() {
+        return getDependent().getContent().getIntValues().length;
     }
 
     @Override
     public void adjust() {
-        final double[] newValues = new double[getRoot().getIntValue() + getOffset()];
-        final double[] oldValues = getDependent().getDoubleValues();
+        final double[] newValues = new double[getExpectedSize()];
+        final double[] oldValues = getDependent().getContent().getDoubleValues();
 
-        int minSize = Math.min(newValues.length, oldValues.length);
+        int length = Math.min(newValues.length, oldValues.length);
 
-        for (int i = 0; i < minSize; i++) {
+        for (int i = 0; i < length; i++) {
             newValues[i] = oldValues[i];
         }
 
-        getDependent().setValues(newValues);
+        getDependent().getContent().setValues(newValues);
+    }
+
+    @Override
+    public String createErrorMessage() {
+        String template = "Variable \"{0}\" depends on the size of \"{1}\": {2} value(s) expected but got {3}";
+        return MessageFormat.format(template, getDependent().getName(), getRoot().getName(), getExpectedSize(),
+                getActualSize());
     }
 }
