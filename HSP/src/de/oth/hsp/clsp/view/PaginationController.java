@@ -43,7 +43,6 @@ public class PaginationController {
         if (pagePane1 == null) {
             pagePane1 = loadPaneFromFXML("Page1.fxml");
             pageMap.put(0, pagePane1);
-
         }
         // load pane from fxml-definiton
         if (pagePane2 == null) {

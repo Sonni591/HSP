@@ -68,13 +68,14 @@ public class RootLayoutController {
     @FXML
     private void onActionFileOpen() {
         try {
-            clspModel = loadDataFromFile(openFileChooserDialog());
-
-            // not elegant but it works
-            getTab1Controller().getPaginationController().getPageControllerMap()
-                    .get(getTab1Controller().getPagination().getCurrentPageIndex()).inEvent();
+            File selectedFile;
+            if ((selectedFile = openFileChooserDialog()) != null) {
+                clspModel = loadDataFromFile(selectedFile);
+                // not elegant but it works
+                getTab1Controller().getPaginationController().getPageControllerMap()
+                        .get(getTab1Controller().getPagination().getCurrentPageIndex()).inEvent();
+            }
         } catch (DatParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

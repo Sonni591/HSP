@@ -18,6 +18,7 @@ public class DatEntry<T extends DatContent> {
 
     private final String name;
     private final T content;
+    private final Class<? extends DatContent> contentType;
 
     /**
      * @param name
@@ -28,6 +29,7 @@ public class DatEntry<T extends DatContent> {
     public DatEntry(String name, T content) {
         this.name = name;
         this.content = content;
+        this.contentType = content.getClass();
     }
 
     /**
@@ -42,6 +44,13 @@ public class DatEntry<T extends DatContent> {
      */
     public T getContent() {
         return content;
+    }
+
+    /**
+     * @return the type of content stored in this entry
+     */
+    public Class<? extends DatContent> getContentType() {
+        return contentType;
     }
 
     @Override

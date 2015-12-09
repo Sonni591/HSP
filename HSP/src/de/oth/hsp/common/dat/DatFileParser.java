@@ -8,7 +8,6 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Objects;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -51,7 +50,7 @@ public class DatFileParser {
      *             if an error occurred while parsing the file
      */
     public static ClspDatFile parseClsp(Path path) throws DatParseException {
-        return parseDatFile(path, ClspDatFile.class);
+        return parseDatFile(path, new ClspDatFile());
     }
 
     /**
@@ -65,7 +64,7 @@ public class DatFileParser {
      *             if an error occurred while parsing the file
      */
     public static HpplanSimDatFile parseHpplanSim(Path path) throws DatParseException {
-        return parseDatFile(path, HpplanSimDatFile.class);
+        return parseDatFile(path, new HpplanSimDatFile());
     }
 
     /**
@@ -79,52 +78,25 @@ public class DatFileParser {
      *             if an error occurred while parsing the file
      */
     public static HpplanStatDatFile parseHpplanStat(Path path) throws DatParseException {
-        return parseDatFile(path, HpplanStatDatFile.class);
-    }
-
-    /**
-     * Uses reflection to parse <i>dat</i> files which are children of
-     * {@link AbstractDatFile}.
-     * 
-     * @param <T>
-     *            the class of dat file
-     * @param path
-     *            the path of the dat file
-     * @param clazz
-     *            the Class of file to be parsed
-     * @return an object of a child class of {@link AbstractDatFile}
-     * @throws DatParseException
-     *             if an error occurred while parsing the file
-     */
-    private static <T extends AbstractDatFile> T parseDatFile(Path path, Class<T> clazz) throws DatParseException {
-        T datFile = null;
-        try {
-            List<DatEntry<?>> entries = parseEntries(path, clazz);
-
-            datFile = clazz.newInstance();
-            datFile.setEntries(entries);
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new DatParseException("Error caught while processing entries", e);
-        }
-
-        return datFile;
+        return parseDatFile(path, new HpplanStatDatFile());
     }
 
     /**
      * Parses the file at the given path for its {@link DatEntry} objects.
      * 
+     * 
+     * @param <T>
+     *            the class of the datfile model
      * @param path
      *            the path of the file to be parsed
-     * @param modelDesc
-     *            the model description to be used when parsing the <i>dat</i>
-     *            file
+     * @param clazz
+     *            the Class of file to be parsed
      * 
      * @return the List of encountered {@link DatEntry} entities
      * @throws DatParseException
      *             if an error occurred while trying to parse the file
      */
-    private static List<DatEntry<?>> parseEntries(Path path, Class<? extends AbstractDatFile> datClass)
-            throws DatParseException {
+    private static <T extends AbstractDatFile> T parseDatFile(Path path, T datFile) throws DatParseException {
         Objects.requireNonNull(path);
 
         try (Reader reader = createTolerantReader(path)) {
@@ -150,11 +122,11 @@ public class DatFileParser {
             }
 
             // create DatEntry objects
-            DatParseListener listener = new DatParseListener(datClass);
+            DatParseListener listener = new DatParseListener(datFile);
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(listener, tree);
 
-            return listener.getEntries();
+            return datFile;
         } catch (IOException e) {
             throw new DatParseException("An error occured while trying to read from \"" + path + "\"", e);
         }

@@ -1,6 +1,8 @@
 package de.oth.hsp.common.dat.constraint;
 
-import de.oth.hsp.common.dat.Constraint;
+import java.text.MessageFormat;
+
+import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 
@@ -10,34 +12,45 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  * @author Thomas Butz
  *
  */
-public class TwoDimColConstraint extends Constraint<TwoDimFieldContent> {
+public class TwoDimColConstraint extends AbstractUnaryConstraint<TwoDimFieldContent> {
 
-    public TwoDimColConstraint(SingleContent root, TwoDimFieldContent dependent, int offset) {
-        super(root, dependent, offset);
+    public TwoDimColConstraint(DatEntry<TwoDimFieldContent> dependent, DatEntry<SingleContent> root, int offset) {
+        super(dependent, root, offset);
+    }
+
+    public TwoDimColConstraint(DatEntry<TwoDimFieldContent> dependent, DatEntry<SingleContent> root) {
+        this(dependent, root, 0);
     }
 
     @Override
-    public boolean isCompliant() {
-        return (getRoot().getIntValue() + getOffset()) == getDependent().getValues()[0].length;
-    }
-
-    @Override
-    protected void adjust() {
-        final double[][] oldValues = getDependent().getDoubleValues();
+    public void adjust() {
+        final double[][] oldValues = getDependent().getContent().getDoubleValues();
         final int rows = oldValues.length;
         final int oldCols = oldValues[0].length;
 
-        final int newCols = getRoot().getIntValue() + getOffset();
+        final int newCols = getExpectedSize();
         final double[][] newValues = new double[rows][newCols];
 
-        int minCols = Math.min(oldCols, newCols);
+        int cols = Math.min(oldCols, newCols);
 
         for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < minCols; col++) {
+            for (int col = 0; col < cols; col++) {
                 newValues[row][col] = oldValues[row][col];
             }
         }
 
-        getDependent().setValues(newValues);
+        getDependent().getContent().setValues(newValues);
+    }
+
+    @Override
+    public int getActualSize() {
+        return getDependent().getContent().getValues()[0].length;
+    }
+
+    @Override
+    public String createErrorMessage() {
+        String template = "Variable \"{0}\" depends on the size of \"{1}\": {2} column(s) expected but got {3}";
+        return MessageFormat.format(template, getDependent().getName(), getRoot().getName(), getExpectedSize(),
+                getActualSize());
     }
 }
