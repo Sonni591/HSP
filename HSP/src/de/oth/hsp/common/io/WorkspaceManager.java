@@ -20,8 +20,8 @@ public final class WorkspaceManager {
     }
 
     /**
-     * @return the previously used workspace directory if it has been set and
-     *         exists, otherwise <i>null</i>
+     * @return the previously used workspace directory if it has been set,
+     *         otherwise the output of {@link #getDefaultWorkspace()}
      */
     public static Path getWorkspace() {
         String workspaceString = USER_PREFS.get(WS_KEY, null);
@@ -31,7 +31,7 @@ public final class WorkspaceManager {
 
         Path workspace = Paths.get(workspaceString);
 
-        return Files.isDirectory(workspace) ? workspace : null;
+        return Files.isDirectory(workspace) ? workspace : getDefaultWorkspace();
     }
 
     /**
@@ -42,12 +42,19 @@ public final class WorkspaceManager {
      */
     public static void setWorkspace(Path dir) {
         Objects.requireNonNull(dir);
-        Path absolutePath = dir.normalize().toAbsolutePath();
+        Path absolutePath = dir.toAbsolutePath().normalize();
 
         if (!Files.isDirectory(absolutePath)) {
             throw new RuntimeException("Not a directory: \"" + absolutePath + "\"");
         }
 
         USER_PREFS.put(WS_KEY, absolutePath.toString());
+    }
+
+    /**
+     * @return the default workspace directory(the directory the jar resides in)
+     */
+    private static Path getDefaultWorkspace() {
+        return Paths.get(".").toAbsolutePath().normalize();
     }
 }
