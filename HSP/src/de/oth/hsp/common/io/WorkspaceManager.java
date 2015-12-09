@@ -16,6 +16,9 @@ public final class WorkspaceManager {
     private static final String WS_KEY = "last_workspace";
     private static final Preferences USER_PREFS = Preferences.userNodeForPackage(WorkspaceManager.class);
 
+    private WorkspaceManager() {
+    }
+
     /**
      * @return the previously used workspace directory if it has been set and
      *         exists, otherwise <i>null</i>
