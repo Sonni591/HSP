@@ -66,8 +66,10 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
 
     public void insertTableValues() {
         Number value = Integer.valueOf(tableValue.getText());
-        System.out.println("In Table Wert: " + tableValue.getText());
         table.getItems().clear();
+        table.getColumns().clear();
+        addColumnWithRowNumber(table, "t: ");
+
         Number[][] d = root.getClspModel().getD();
         for (int i = 0; i < d.length; i++) {
             for (int j = 0; j < d[0].length; j++) {
