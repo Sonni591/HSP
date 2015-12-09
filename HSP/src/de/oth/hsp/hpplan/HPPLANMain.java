@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import de.oth.hsp.clsp.view.RootLayoutController;
+import de.oth.hsp.hpplan.view.RootLayoutController;
 
 public class HPPLANMain extends Application {
 
