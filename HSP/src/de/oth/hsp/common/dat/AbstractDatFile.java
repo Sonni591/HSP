@@ -47,8 +47,8 @@ public abstract class AbstractDatFile {
      * Ensures that all given Constraints are satisfied.
      * 
      * @throws ConstraintException
-     *             if a {@link DatEntry} contains a value which makes it
-     *             impossible to satisfy its constraints
+     *             if one or more {@link DatEntry} object contain a values which
+     *             makes it impossible to satisfy the constraints
      */
     public void ensureConstraints() throws ConstraintException {
         for (DatEntry<SingleContent> rootEntry : getConstraintRoots()) {

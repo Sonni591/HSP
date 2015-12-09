@@ -18,6 +18,10 @@ public class ThreeDimFieldConstraint extends AbstractUnaryConstraint<ThreeDimFie
         super(dependent, root, offset);
     }
 
+    public ThreeDimFieldConstraint(DatEntry<ThreeDimFieldContent> dependent, DatEntry<SingleContent> root) {
+        this(dependent, root, 0);
+    }
+
     @Override
     protected void adjust() {
         final double[][][] oldValues = getDependent().getContent().getDoubleValues();

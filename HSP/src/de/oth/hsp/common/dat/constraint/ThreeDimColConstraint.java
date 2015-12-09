@@ -17,6 +17,10 @@ public class ThreeDimColConstraint extends AbstractUnaryConstraint<ThreeDimField
         super(dependent, root, offset);
     }
 
+    public ThreeDimColConstraint(DatEntry<ThreeDimFieldContent> dependent, DatEntry<SingleContent> root) {
+        this(dependent, root, 0);
+    }
+
     @Override
     protected void adjust() {
         final double[][][] oldValues = getDependent().getContent().getDoubleValues();

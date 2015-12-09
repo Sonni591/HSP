@@ -24,7 +24,6 @@ import de.oth.hsp.common.dat.parser.DatParseListener;
 import de.oth.hsp.common.dat.parser.gen.DatLexer;
 import de.oth.hsp.common.dat.parser.gen.DatParser;
 import de.oth.hsp.common.dat.parser.gen.DatParser.DatBodyContext;
-import de.oth.hsp.hpplan.model.HpplanSimDatFile;
 import de.oth.hsp.hpplan.model.HpplanStatDatFile;
 
 /**
@@ -51,20 +50,6 @@ public class DatFileParser {
      */
     public static ClspDatFile parseClsp(Path path) throws DatParseException {
         return parseDatFile(path, new ClspDatFile());
-    }
-
-    /**
-     * Creates a {@link HpplanSimDatFile} from its file representation.
-     * 
-     * @param path
-     *            the path of the dat file
-     * @return a {@link HpplanSimDatFile} containing the parsed content of the
-     *         <i>dat</i> file
-     * @throws DatParseException
-     *             if an error occurred while parsing the file
-     */
-    public static HpplanSimDatFile parseHpplanSim(Path path) throws DatParseException {
-        return parseDatFile(path, new HpplanSimDatFile());
     }
 
     /**
