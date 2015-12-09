@@ -3,7 +3,6 @@ package de.oth.hsp.hpplan.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import de.oth.hsp.clsp.view.AbstractTableViewPage;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 
@@ -13,7 +12,7 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     @FXML
     private TableView<Number[]> tableN; // Rüstzeit für ein Prudukt K an
-                                         // Station J
+                                        // Station J
 
     @FXML
     private Label labelTr; // Label: Rüstzeiten
