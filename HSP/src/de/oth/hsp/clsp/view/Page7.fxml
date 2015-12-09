@@ -12,7 +12,7 @@
          <content>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="calculateButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="141.0" text="Button" />
+                  <Button fx:id="calculateButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="141.0" text="Berechnen" />
                </children>
             </StackPane>
          </content>
