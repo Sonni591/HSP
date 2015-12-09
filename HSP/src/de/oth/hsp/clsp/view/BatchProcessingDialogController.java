@@ -1,6 +1,7 @@
 package de.oth.hsp.clsp.view;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.oth.hsp.common.utils.FileOperations;
@@ -69,13 +70,18 @@ public class BatchProcessingDialogController {
         if (!lvChoosenDatFiles.getItems().isEmpty()) {
             if (new File(txtDestination.getText()).exists()) {
 
-                // create for each result a directory
+                List<File> directories = new ArrayList<File>();
+                List<File> choosenDatFiles = new ArrayList<File>();
                 for (File file : lvChoosenDatFiles.getItems()) {
-                    new File(txtDestination.getText() + File.separator + FileOperations.getNameWithoutExtension(file))
-                            .mkdirs();
+                    choosenDatFiles.add(file);
+                    directories.add(new File(
+                            txtDestination.getText() + File.separator + FileOperations.getNameWithoutExtension(file)));
                 }
 
-                // TODO call ILog paramter dialog (e.g. accuracy), if necessary
+                // create for each result a directory
+                for (File file : directories) {
+                    file.mkdir();
+                }
 
                 batchProcess = new Thread(new Runnable() {
 
@@ -91,7 +97,8 @@ public class BatchProcessingDialogController {
                             // TODO call batch processing
                             // TODO save results in folders
                             Thread.sleep(5000);
-
+                            // directories
+                            // choosenDatFiles
                             piBatchProcessingProgress.setVisible(false);
                             btnStart.setDisable(false);
                             btnChooseDatFiles.setDisable(false);
