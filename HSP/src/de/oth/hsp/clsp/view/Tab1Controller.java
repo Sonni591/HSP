@@ -53,8 +53,6 @@ public class Tab1Controller {
         pagination.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println("Oldvalue: " + oldValue.intValue() + " NewValue: " + newValue.intValue());
-
                 if (paginationController.getPageControllerMap().containsKey(oldValue)) {
                     paginationController.getPageControllerMap().get(oldValue).outEvent();
                 }
