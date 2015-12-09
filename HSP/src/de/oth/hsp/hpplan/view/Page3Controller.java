@@ -2,7 +2,6 @@ package de.oth.hsp.hpplan.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
-import de.oth.hsp.clsp.view.AbstractTableViewPage;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
 
