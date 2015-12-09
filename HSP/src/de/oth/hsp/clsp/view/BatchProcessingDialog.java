@@ -31,6 +31,7 @@ public class BatchProcessingDialog extends Stage implements Initializable {
 
         try {
             setScene(new Scene((Parent) fxmlLoader.load()));
+            this.setResizable(false);
             this.initModality(Modality.APPLICATION_MODAL);
         } catch (IOException e) {
             e.printStackTrace();
