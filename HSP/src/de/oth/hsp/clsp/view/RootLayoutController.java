@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,9 +16,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import de.oth.hsp.clsp.model.ClspDatFile;
-import de.oth.hsp.common.dat.DatFileParser;
-import de.oth.hsp.common.dat.parser.DatParseException;
 
 public class RootLayoutController {
 
@@ -66,13 +66,14 @@ public class RootLayoutController {
     @FXML
     private void onActionFileOpen() {
         try {
-            clspModel = loadDataFromFile(openFileChooserDialog());
-
-            // not elegant but it works
-            getTab1Controller().getPaginationController().getPageControllerMap()
-                    .get(getTab1Controller().getPagination().getCurrentPageIndex()).inEvent();
+            File selectedFile;
+            if ((selectedFile = openFileChooserDialog()) != null) {
+                clspModel = loadDataFromFile(selectedFile);
+                // not elegant but it works
+                getTab1Controller().getPaginationController().getPageControllerMap()
+                        .get(getTab1Controller().getPagination().getCurrentPageIndex()).inEvent();
+            }
         } catch (DatParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -209,8 +210,10 @@ public class RootLayoutController {
     private void onActionHelpAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("");
-        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
-        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.setHeaderText(
+                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText(
+                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
     }
 
