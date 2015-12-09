@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="rootBorderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.clsp.view.RootLayoutController">
+<BorderPane fx:id="rootBorderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.RootLayoutController">
 	<top>
 		<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
 			<menus>
@@ -102,7 +102,7 @@
 										<fx:include fx:id="tab1" source="Tab1.fxml" />
 									</content>
 								</Tab>
-								<Tab onSelectionChanged="#onTabSelectionChanged" text="Lösungsweg Konflikt">
+								<Tab onSelectionChanged="#onTabSelectionChanged" text="Lösung">
 									<content>
 										<fx:include fx:id="tab2" source="Tab2.fxml" />
 									</content>

@@ -32,7 +32,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(table);
+        initTable(table, true);
     }
 
     /**
