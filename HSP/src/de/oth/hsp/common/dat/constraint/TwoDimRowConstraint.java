@@ -31,9 +31,9 @@ public class TwoDimRowConstraint extends AbstractUnaryConstraint<TwoDimFieldCont
         final int newRows = getExpectedSize();
         final double[][] newValues = new double[newRows][cols];
 
-        int minRows = Math.min(oldRows, newRows);
+        int rows = Math.min(oldRows, newRows);
 
-        for (int row = 0; row < minRows; row++) {
+        for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 newValues[row][col] = oldValues[row][col];
             }

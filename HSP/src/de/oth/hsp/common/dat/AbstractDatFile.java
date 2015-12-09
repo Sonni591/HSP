@@ -145,8 +145,9 @@ public abstract class AbstractDatFile {
         Map<String, DatEntry<SingleContent>> rootMap = new HashMap<>();
 
         for (AbstractConstraint constraint : getConstraints()) {
-            DatEntry<SingleContent> root = constraint.getRoot();
-            rootMap.put(root.getName(), root);
+            for (DatEntry<SingleContent> root : constraint.getRoots()) {
+                rootMap.put(root.getName(), root);
+            }
         }
 
         return Collections.unmodifiableList(new ArrayList<>(rootMap.values()));

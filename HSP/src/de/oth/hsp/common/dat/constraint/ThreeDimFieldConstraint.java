@@ -7,27 +7,28 @@ import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.ThreeDimFieldContent;
 
 /**
- * Ensures that the size of the columns in a {@link ThreeDimFieldContent} fits.
+ * Ensures that the size of the dimensions in a {@link ThreeDimFieldContent}
+ * fits.
  * 
- * @author Sascha Schertler
+ * @author Sascha Schertler 07.12.2015 2015 ThreeDimColConstraint.java
  */
-public class ThreeDimColConstraint extends AbstractUnaryConstraint<ThreeDimFieldContent> {
+public class ThreeDimFieldConstraint extends AbstractUnaryConstraint<ThreeDimFieldContent> {
 
-    public ThreeDimColConstraint(DatEntry<ThreeDimFieldContent> dependent, DatEntry<SingleContent> root, int offset) {
+    public ThreeDimFieldConstraint(DatEntry<ThreeDimFieldContent> dependent, DatEntry<SingleContent> root, int offset) {
         super(dependent, root, offset);
     }
 
     @Override
     protected void adjust() {
         final double[][][] oldValues = getDependent().getContent().getDoubleValues();
-        final int fields = oldValues.length;
+        final int oldFields = oldValues.length;
         final int rows = oldValues[0].length;
-        final int oldCols = oldValues[0][0].length;
+        final int cols = oldValues[0][0].length;
 
-        final int newCols = getExpectedSize();
-        final double[][][] newValues = new double[fields][rows][newCols];
+        final int newFields = getExpectedSize();
+        final double[][][] newValues = new double[newFields][rows][cols];
 
-        int cols = Math.min(oldCols, newCols);
+        int fields = Math.min(oldFields, newFields);
 
         for (int field = 0; field < fields; field++) {
             for (int row = 0; row < rows; row++) {
@@ -42,12 +43,12 @@ public class ThreeDimColConstraint extends AbstractUnaryConstraint<ThreeDimField
 
     @Override
     protected int getActualSize() {
-        return getDependent().getContent().getValues()[0][0].length;
+        return getDependent().getContent().getValues().length;
     }
 
     @Override
     protected String createErrorMessage() {
-        String template = "Variable \"{0}\" depends on the size of \"{1}\": {2} column(s) expected but got {3}";
+        String template = "Variable \"{0}\" depends on the size of \"{1}\": {2} fields(s) expected but got {3}";
         return MessageFormat.format(template, getDependent().getName(), getRoot().getName(), getExpectedSize(),
                 getActualSize());
     }

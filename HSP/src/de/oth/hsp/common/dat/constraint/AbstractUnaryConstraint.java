@@ -1,5 +1,9 @@
 package de.oth.hsp.common.dat.constraint;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import de.oth.hsp.common.dat.AbstractConstraint;
 import de.oth.hsp.common.dat.DatEntry;
 import de.oth.hsp.common.dat.value.DatContent;
@@ -31,12 +35,19 @@ public abstract class AbstractUnaryConstraint<T extends DatContent> extends Abst
     }
 
     @Override
-    public DatEntry<SingleContent> getRoot() {
+    public List<DatEntry<SingleContent>> getRoots() {
+        return Collections.unmodifiableList(Arrays.asList(root));
+    }
+
+    /**
+     * @return simplified access to {@link #getRoots()}.get(0)
+     */
+    protected DatEntry<SingleContent> getRoot() {
         return root;
     }
 
     /**
-     * @return the entry which relies on the size of {@link #getRoot()}
+     * @return the entry which relies on the size of {@link #getRoots()}
      */
     public DatEntry<T> getDependent() {
         return dependent;

@@ -1,9 +1,10 @@
 package de.oth.hsp.common.dat.parser;
 
 import java.text.ParseException;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
@@ -33,11 +34,13 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
  */
 public class DatParseListener extends DatBaseListener {
     private final AbstractDatFile datFile;
-    private final Deque<DatEntry<?>> entries = new ArrayDeque<>();
+    private final Map<String, DatEntry<?>> entryMap = new HashMap<>();
 
     public DatParseListener(AbstractDatFile datFile) {
         this.datFile = datFile;
-        entries.addAll(datFile.getEntries());
+        for (DatEntry<?> entry : datFile.getEntries()) {
+            entryMap.put(entry.getName(), entry);
+        }
     }
 
     @Override
@@ -50,7 +53,7 @@ public class DatParseListener extends DatBaseListener {
         ParserRuleContext valueContext = (ParserRuleContext) ctx.varValue().getChild(0);
 
         // compare the variable with the one we expected
-        final DatEntry<?> untypedEntry = entries.pollFirst();
+        final DatEntry<?> untypedEntry = entryMap.remove(name);
         if (untypedEntry == null) {
             throw new ParseCancellationException("Unexpected variable: \"" + name + "\"");
         }
@@ -67,8 +70,8 @@ public class DatParseListener extends DatBaseListener {
     @Override
     public void exitDatBody(DatBodyContext ctx) {
         // check for missing entries
-        if (!entries.isEmpty()) {
-            String missingEntryName = entries.getFirst().getName();
+        if (!entryMap.isEmpty()) {
+            String missingEntryName = (new ArrayList<>(entryMap.values())).get(0).getName();
             throw new ParseCancellationException("Variable not found: \"" + missingEntryName + "\"");
         }
 

@@ -32,9 +32,9 @@ public class ArrayConstraint extends AbstractUnaryConstraint<ArrayContent> {
         final double[] newValues = new double[getExpectedSize()];
         final double[] oldValues = getDependent().getContent().getDoubleValues();
 
-        int minSize = Math.min(newValues.length, oldValues.length);
+        int length = Math.min(newValues.length, oldValues.length);
 
-        for (int i = 0; i < minSize; i++) {
+        for (int i = 0; i < length; i++) {
             newValues[i] = oldValues[i];
         }
 

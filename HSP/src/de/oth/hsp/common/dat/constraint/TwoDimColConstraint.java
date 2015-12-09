@@ -31,10 +31,10 @@ public class TwoDimColConstraint extends AbstractUnaryConstraint<TwoDimFieldCont
         final int newCols = getExpectedSize();
         final double[][] newValues = new double[rows][newCols];
 
-        int minCols = Math.min(oldCols, newCols);
+        int cols = Math.min(oldCols, newCols);
 
         for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < minCols; col++) {
+            for (int col = 0; col < cols; col++) {
                 newValues[row][col] = oldValues[row][col];
             }
         }

@@ -1,5 +1,7 @@
 package de.oth.hsp.common.dat;
 
+import java.util.List;
+
 import de.oth.hsp.common.dat.value.SingleContent;
 
 /**
@@ -12,9 +14,10 @@ import de.oth.hsp.common.dat.value.SingleContent;
 public abstract class AbstractConstraint {
 
     /**
-     * @return the root of the constraint
+     * @return a List with all {@link DatEntry} objects the constraint
+     *         originates from.
      */
-    public abstract DatEntry<SingleContent> getRoot();
+    public abstract List<DatEntry<SingleContent>> getRoots();
 
     /**
      * @return <i>true</i> if the constraint is being adhered, <i>false</i>
@@ -42,7 +45,7 @@ public abstract class AbstractConstraint {
      *             if the constraint is not satisfied
      */
     public void validate() throws ConstraintException {
-        if (!isCompliant()) {
+        if ((getExpectedSize() <= 0) || !isCompliant()) {
             throw new ConstraintException(createErrorMessage());
         }
     }
