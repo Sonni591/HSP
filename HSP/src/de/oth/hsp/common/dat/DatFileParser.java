@@ -49,7 +49,7 @@ public class DatFileParser {
      *             if an error occurred while parsing the file
      */
     public static ClspDatFile parseClsp(Path path) throws DatParseException {
-        return parseDatFile(path, new ClspDatFile());
+        return parseDatFile(path, ClspDatFile.class);
     }
 
     /**
@@ -63,7 +63,7 @@ public class DatFileParser {
      *             if an error occurred while parsing the file
      */
     public static HpplanStatDatFile parseHpplanStat(Path path) throws DatParseException {
-        return parseDatFile(path, new HpplanStatDatFile());
+        return parseDatFile(path, HpplanStatDatFile.class);
     }
 
     /**
@@ -74,14 +74,14 @@ public class DatFileParser {
      *            the class of the datfile model
      * @param path
      *            the path of the file to be parsed
-     * @param clazz
+     * @param datClass
      *            the Class of file to be parsed
      * 
      * @return the List of encountered {@link DatEntry} entities
      * @throws DatParseException
      *             if an error occurred while trying to parse the file
      */
-    private static <T extends AbstractDatFile> T parseDatFile(Path path, T datFile) throws DatParseException {
+    public static <T extends AbstractDatFile> T parseDatFile(Path path, Class<T> datClass) throws DatParseException {
         Objects.requireNonNull(path);
 
         try (Reader reader = createTolerantReader(path)) {
@@ -107,6 +107,7 @@ public class DatFileParser {
             }
 
             // create DatEntry objects
+            T datFile = datClass.newInstance();
             DatParseListener listener = new DatParseListener(datFile);
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(listener, tree);
@@ -114,6 +115,8 @@ public class DatFileParser {
             return datFile;
         } catch (IOException e) {
             throw new DatParseException("An error occured while trying to read from \"" + path + "\"", e);
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new DatParseException("Unable to create model instance.", e);
         }
     }
 
