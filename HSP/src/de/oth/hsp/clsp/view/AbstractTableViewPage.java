@@ -5,8 +5,6 @@ package de.oth.hsp.clsp.view;
 
 import java.util.Arrays;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.utils.EditingCell;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -18,6 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.EditingCell;
 
 /**
  * @author danielsonnleitner
@@ -33,10 +33,10 @@ public abstract class AbstractTableViewPage {
 
     }
 
-    protected void initTable(TableView<?> tableView) {
+    protected void initTable(TableView<?> tableView, boolean editable) {
         tableView.getColumns().clear();
         tableView.getItems().clear();
-        tableView.setEditable(true);
+        tableView.setEditable(editable);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
@@ -61,8 +61,7 @@ public abstract class AbstractTableViewPage {
                     @Override
                     protected void updateItem(Number item, boolean empty) {
                         super.updateItem(item, empty);
-                        this.setStyle(
-                                " -fx-font-weight: BOLD;-fx-alignment: CENTER;-fx-background-color: -fx-body-color;-fx-padding: 0;-fx-border-style: solid; -fx-border-color: derive(-fx-base, 80%)  linear-gradient(to bottom, derive(-fx-base,80%) 20%, derive(-fx-base,-10%) 90%)derive(-fx-base, 10%) linear-gradient(to bottom, derive(-fx-base,80%) 20%, derive(-fx-base,-10%) 90%),transparent -fx-table-header-border-color -fx-table-header-border-color transparent;");
+                        this.setStyle(" -fx-font-weight: BOLD;-fx-alignment: CENTER;-fx-background-color: -fx-body-color;-fx-padding: 0;-fx-border-style: solid; -fx-border-color: derive(-fx-base, 80%)  linear-gradient(to bottom, derive(-fx-base,80%) 20%, derive(-fx-base,-10%) 90%)derive(-fx-base, 10%) linear-gradient(to bottom, derive(-fx-base,80%) 20%, derive(-fx-base,-10%) 90%),transparent -fx-table-header-border-color -fx-table-header-border-color transparent;");
 
                         if (this.getTableRow() != null && item != null) {
                             setText(rowText + (this.getTableRow().getIndex() + 1) + "");
@@ -132,8 +131,8 @@ public abstract class AbstractTableViewPage {
 
     protected void resizeTableRowHeight(TableView tableView) {
         tableView.setFixedCellSize(28);
-        tableView.prefHeightProperty()
-                .bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(2)));
+        tableView.prefHeightProperty().bind(
+                tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(2)));
         tableView.minHeightProperty().bind(tableView.prefHeightProperty());
         tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
     }

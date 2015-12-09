@@ -1,9 +1,9 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page6Controller extends AbstractTableViewPage implements IPageController {
 
@@ -30,7 +30,7 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableB);
+        initTable(tableB, true);
 
     }
 

@@ -13,6 +13,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.dat.DatFileParser;
 import de.oth.hsp.common.dat.parser.DatParseException;
@@ -37,6 +38,7 @@ public class RootLayoutController {
 
     // References the CLSPModel
     private ClspDatFile clspModel = new ClspDatFile();
+    private CLSPResponse clspResponse = null;
 
     /**
      * The constructor. The constructor is called before the initialize()
@@ -254,6 +256,21 @@ public class RootLayoutController {
 
     public void setClspModel(ClspDatFile clspModel) {
         this.clspModel = clspModel;
+    }
+
+    /**
+     * @return the clspResponse
+     */
+    public CLSPResponse getClspResponse() {
+        return clspResponse;
+    }
+
+    /**
+     * @param clspResponse
+     *            the clspResponse to set
+     */
+    public void setClspResponse(CLSPResponse clspResponse) {
+        this.clspResponse = clspResponse;
     }
 
 }
