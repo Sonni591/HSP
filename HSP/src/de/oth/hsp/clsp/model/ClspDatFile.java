@@ -17,7 +17,7 @@ import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 
 /**
- * Describes a a <i>dat</i> file for CLSP problem solving.
+ * Describes a <i>dat</i> file for CLSP problem solving.
  * 
  * @author Thomas Butz
  *
