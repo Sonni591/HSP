@@ -1,9 +1,10 @@
 package de.oth.hsp.clsp.view;
 
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.view.IPageController;
 
 public class Page3Controller extends AbstractTableViewPage implements IPageController {
 
@@ -60,7 +61,8 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-
+        root.getClspModel().setH(TableUtils.convertOListToArray(tableH.getItems()));
+        root.getClspModel().setS(TableUtils.convertOListToArray(tableS.getItems()));
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
