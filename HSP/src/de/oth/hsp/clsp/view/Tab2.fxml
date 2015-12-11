@@ -53,6 +53,9 @@
                                  </columnResizePolicy>
                               </TableView>
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
                         </AnchorPane>
                      </children>
                   </VBox>

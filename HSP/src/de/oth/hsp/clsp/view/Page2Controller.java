@@ -1,11 +1,11 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.utils.TableUtils;
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page2Controller extends AbstractTableViewPage implements IPageController {
 

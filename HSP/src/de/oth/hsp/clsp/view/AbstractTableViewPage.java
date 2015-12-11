@@ -5,7 +5,6 @@ package de.oth.hsp.clsp.view;
 
 import java.util.Arrays;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
@@ -88,6 +87,7 @@ public abstract class AbstractTableViewPage {
     protected void addTableViewContent(Number[][] inputData, TableView<Number[]> tableView, Decimals decimals,
             String columnHeader) {
         ObservableList<Number[]> dataList = FXCollections.observableArrayList();
+        dataList.clear();
         dataList.addAll(Arrays.asList(inputData));
         for (int i = 0; i < inputData[0].length; i++) {
             TableColumn tableColumn = new TableColumn(columnHeader + String.valueOf(i + 1));
@@ -114,7 +114,7 @@ public abstract class AbstractTableViewPage {
             tableColumn.setSortable(false);
             tableColumn.setMinWidth(75);
             tableView.getColumns().add(tableColumn);
-            ;
+
         }
         tableView.setItems(dataList);
 
@@ -130,11 +130,17 @@ public abstract class AbstractTableViewPage {
     }
 
     protected void resizeTableRowHeight(TableView tableView) {
-        tableView.setFixedCellSize(28);
-        tableView.prefHeightProperty().bind(
-                tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(2)));
-        tableView.minHeightProperty().bind(tableView.prefHeightProperty());
-        tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
+
+        // height of table header + (table size + 1) * height of content cell
+        // the additional +1 is necessary for a possible scroll bar
+        Number n = 28 + 24 * (tableView.getItems().size() + 1);
+
+        ObservableValue<Number> tableSize = new ReadOnlyObjectWrapper<Number>(n);
+
+        tableView.prefHeightProperty().bind(tableSize);
+        tableView.minHeightProperty().bind(tableSize);
+        tableView.maxHeightProperty().bind(tableSize);
+
     }
 
 }

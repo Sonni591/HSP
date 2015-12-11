@@ -37,25 +37,6 @@
 						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Schließen" />
 					</items>
 				</Menu>
-				<Menu fx:id="menuZoom" mnemonicParsing="false" text="Zoom">
-					<items>
-						<MenuItem mnemonicParsing="false" text="Hineinzoomen">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="PLUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Herauszoomen">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="MINUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Zoom zurücksetzen">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="DIGIT0" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-					</items>
-				</Menu>
 				<Menu mnemonicParsing="false" text="Hilfe">
 					<items>
 						<MenuItem mnemonicParsing="false" onAction="#onActionHelpAbout" text="Über" />

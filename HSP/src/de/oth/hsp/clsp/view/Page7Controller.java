@@ -77,5 +77,7 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
 
         // TODO: ensure correct data and start calculation
 
+        root.calculateCLSP();
+
     }
 }

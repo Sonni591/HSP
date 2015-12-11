@@ -181,13 +181,19 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionCalculate() {
-        // TODO maybe open a dialog to set the ILog paramter
 
-        // TODO 1. ask user if he wants to save the changes
-        // TODO 2. ask user, where he wants to save the result
-        // TODO 3. call ILog Framework
+        System.out.println("Calculate (MenuButton)");
 
-        System.out.println("Calculate");
+        calculateCLSP();
+
+    }
+
+    public void calculateCLSP() {
+        // TODO ensure correct data
+        // TODO call ILog Framework
+
+        // create Dummy data for Tab2
+        getTab2Controller().setDummyData();
     }
 
     @FXML

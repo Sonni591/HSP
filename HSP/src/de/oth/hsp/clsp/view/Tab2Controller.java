@@ -2,6 +2,7 @@ package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.common.utils.Decimals;
 
 public class Tab2Controller extends AbstractTableViewPage {
@@ -36,6 +37,7 @@ public class Tab2Controller extends AbstractTableViewPage {
         initTable(tableLotsPerPeriod, false);
         initTable(tableStockAtEndOfPeriod, false);
         initTable(tableBinaryDecisionVariable, false);
+
     }
 
     /**
@@ -70,7 +72,7 @@ public class Tab2Controller extends AbstractTableViewPage {
             addColumnWithRowNumber(tableBinaryDecisionVariable, "");
 
             // set the table data
-            Decimals decimals = new Decimals(0);
+            Decimals decimals = new Decimals(2);
             addTableViewContent(root.getClspResponse().getBackordersNumberArr(), tableBackorders, decimals, "");
             addTableViewContent(root.getClspResponse().getLotsPerPeriodNumberArr(), tableLotsPerPeriod, decimals, "");
             addTableViewContent(root.getClspResponse().getStockAtEndOfPeriodNumberArr(), tableStockAtEndOfPeriod,
@@ -82,6 +84,27 @@ public class Tab2Controller extends AbstractTableViewPage {
             // TODO: Error description
         }
 
+    }
+
+    public void setDummyData() {
+
+        CLSPResponse clspResponse = new CLSPResponse(true, createdDummyMatrix(3, 3), createdDummyMatrix(4, 4),
+                createdDummyMatrix(5, 5), createdDummyMatrix(5, 5));
+        root.setClspResponse(clspResponse);
+        setResultData();
+
+    }
+
+    public int[][] createdDummyMatrix(int dim1, int dim2) {
+        int[][] matrix = new int[dim1][dim2];
+        int t = 0;
+        for (int i = 0; i < dim1; i++) {
+            for (int j = 0; j < dim2; j++) {
+                matrix[i][j] = t;
+                t++;
+            }
+        }
+        return matrix;
     }
 
 }
