@@ -133,6 +133,9 @@ public abstract class AbstractTableViewPage {
 
         // height of table header + (table size + 1) * height of content cell
         // the additional +1 is necessary for a possible scroll bar
+        // annotation: using the fixedCellSizeProperty is not possible,
+        // because this produced display errors in the tableView on changing
+        // the dimensions
         Number n = 28 + 24 * (tableView.getItems().size() + 1);
 
         ObservableValue<Number> tableSize = new ReadOnlyObjectWrapper<Number>(n);
