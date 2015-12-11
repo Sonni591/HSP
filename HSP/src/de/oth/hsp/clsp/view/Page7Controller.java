@@ -1,14 +1,17 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page7Controller extends AbstractTableViewPage implements IPageController {
 
     private PaginationController paginationController;
     private RootLayoutController root;
 
+    @FXML
+    private TextField epgap; // CPLEX_EPGAP - relative Optimalitätslücke
     @FXML
     private Button calculateButton;
 
@@ -52,14 +55,27 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
+        // TODO
+        // int epgapHelp = (int) Double.parseDouble(epgap.getText());
+        // root.getClspModel().setEpgap(epgapHelp);
 
     }
 
     @Override
     public void inEvent() {
+        // TODO
+        // epgap.setText(Integer.toString(root.getClspModel().getEpgap()));
+
     }
 
-    public void calculateEvent() {
+    public void onActionCalculate() {
         System.out.println("Page7 berechnen Button");
+
+        outEvent(); // write all Data from this page into the clspModel
+
+        System.out.println(root.getClspModel());
+
+        // TODO: ensure correct data and start calculation
+
     }
 }
