@@ -25,6 +25,8 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 public class ClspDatFile extends AbstractDatFile {
     private static final String MOD_NAME = "CLSP";
 
+    private final DatEntry<SingleContent> epgap = new DatEntry<>("CPLEX_EPGAP", new SingleContent(NumericalType.FLOAT));
+
     private final DatEntry<SingleContent> t = new DatEntry<>("T", new SingleContent(NumericalType.INTEGER));
     private final DatEntry<SingleContent> k = new DatEntry<>("K", new SingleContent(NumericalType.INTEGER));
     private final DatEntry<SingleContent> j = new DatEntry<>("J", new SingleContent(NumericalType.INTEGER));
@@ -40,6 +42,7 @@ public class ClspDatFile extends AbstractDatFile {
 
     private final DatEntry<ArrayContent> z = new DatEntry<>("z", new ArrayContent(NumericalType.INTEGER));
     private final DatEntry<ArrayContent> y0 = new DatEntry<>("y0", new ArrayContent(NumericalType.INTEGER));
+    private final DatEntry<ArrayContent> yT = new DatEntry<>("yT", new ArrayContent(NumericalType.INTEGER));
 
     private final List<AbstractConstraint> constraints;
 
@@ -66,12 +69,22 @@ public class ClspDatFile extends AbstractDatFile {
 
         constraints.add(new ArrayConstraint(y0, k));
 
+        constraints.add(new ArrayConstraint(yT, k));
+
         initialize();
     }
 
     @Override
     protected String getModName() {
         return MOD_NAME;
+    }
+
+    public double getEpgap() {
+        return epgap.getContent().getDoubleValue();
+    }
+
+    public void setEpgap(Number epgap) {
+        this.epgap.getContent().setValue(epgap);
     }
 
     public int getT() {
@@ -170,9 +183,17 @@ public class ClspDatFile extends AbstractDatFile {
         this.y0.getContent().setValues(y0);
     }
 
+    public Number[] getYT() {
+        return yT.getContent().getValues();
+    }
+
+    public void setYT(Number[] yT) {
+        this.yT.getContent().setValues(yT);
+    }
+
     @Override
     public List<DatEntry<?>> getEntries() {
-        return Collections.unmodifiableList(Arrays.asList(t, k, j, m, b, d, h, s, tb, tr, z, y0));
+        return Collections.unmodifiableList(Arrays.asList(epgap, t, k, j, m, b, d, h, s, tb, tr, z, y0, yT));
     }
 
     @Override
