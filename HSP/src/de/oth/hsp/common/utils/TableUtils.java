@@ -11,17 +11,13 @@ public class TableUtils {
      * @return
      */
     public static Number[][] convertOListTo2DArray(ObservableList<Number[]> list) {
-        if (list.size() > 1 && list.get(0).length > 1) {
-            Number[][] result = new Number[list.size() - 1][list.get(0).length - 1];
-            for (int i = 0; i < list.size() - 1; i++) {
-                for (int j = 1; j < list.get(i).length; j++) {
-                    result[i][j - 1] = list.get(i)[j];
-                }
+        Number[][] result = new Number[list.size()][list.get(0).length];
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).length; j++) {
+                result[i][j] = list.get(i)[j];
             }
-            return result;
-        } else {
-            return new Number[1][1];
         }
+        return result;
     }
 
     public static Number[] convertOListToArray(ObservableList<Number[]> list) {
