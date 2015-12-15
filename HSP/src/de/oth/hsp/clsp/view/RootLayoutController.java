@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import de.oth.hsp.clsp.ilog.CLSPResponse;
+import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,10 +17,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import de.oth.hsp.clsp.ilog.CLSPResponse;
-import de.oth.hsp.clsp.model.ClspDatFile;
-import de.oth.hsp.common.dat.DatFileParser;
-import de.oth.hsp.common.dat.parser.DatParseException;
 
 public class RootLayoutController {
 
@@ -72,8 +72,8 @@ public class RootLayoutController {
             if ((selectedFile = openFileChooserDialog()) != null) {
                 clspModel = loadDataFromFile(selectedFile);
                 // not elegant but it works
-                getTab1Controller().getPaginationController().getPageControllerMap()
-                        .get(getTab1Controller().getPagination().getCurrentPageIndex()).inEvent();
+                int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
+                getTab1Controller().getPaginationController().getPageControllerMap().get(curPIndex).inEvent();
             }
         } catch (DatParseException e) {
             e.printStackTrace();
@@ -109,14 +109,19 @@ public class RootLayoutController {
         if (selectedFile != null && selectedFile.exists()) {
             try {
                 FileWriter fw = new FileWriter(selectedFile);
-                // TODO Call parser
-                // TODO Save data in created file.
-                fw.write(clspModel.toString());
-                fw.close();
+                int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
+                // call out Event of current page to save the data from the GUI
+                // to the clspModel
+                if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
+                    tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
+                    fw.write(clspModel.toString());
+                    fw.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
     }
 
     /**
@@ -218,8 +223,10 @@ public class RootLayoutController {
     private void onActionHelpAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("");
-        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
-        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.setHeaderText(
+                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText(
+                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
     }
 

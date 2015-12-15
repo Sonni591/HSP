@@ -1,8 +1,10 @@
 package de.oth.hsp.hpplan.view;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import de.oth.hsp.common.view.IPageController;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 
 public class Page1Controller implements IPageController {
 
@@ -90,30 +92,64 @@ public class Page1Controller implements IPageController {
     }
 
     @Override
+    public boolean checkInput() {
+        try {
+            int kHelp = (int) Double.parseDouble(K.getText());
+            int tHelp = (int) Double.parseDouble(T.getText());
+            int jHelp = (int) Double.parseDouble(J.getText());
+            int zHelp = (int) Double.parseDouble(Z.getText());
+            if ((kHelp != 0) && (tHelp != 0) && (jHelp != 0) && (zHelp != 0)) {
+                return true;
+            }
+
+        } catch (Exception e) {
+        }
+        openFalseInputAlert();
+        return false;
+
+    }
+
+    @Override
     public void outEvent() {
         // try {
-        int kHelp = (int) Double.parseDouble(K.getText());
-        int tHelp = (int) Double.parseDouble(T.getText());
-        int jHelp = (int) Double.parseDouble(J.getText());
-        int zHelp = (int) Double.parseDouble(Z.getText());
-        if ((kHelp != 0) && (tHelp != 0) && (jHelp != 0) && (zHelp != 0)) {
+        if (checkInput()) {
+            int kHelp = (int) Double.parseDouble(K.getText());
+            int tHelp = (int) Double.parseDouble(T.getText());
+            int jHelp = (int) Double.parseDouble(J.getText());
+            int zHelp = (int) Double.parseDouble(Z.getText());
+
+            // if ((kHelp != 0) && (tHelp != 0) && (jHelp != 0) && (zHelp != 0))
+            // {
             // root.getClspModel().setK(kHelp);
             // root.getClspModel().setT(tHelp);
             // root.getClspModel().setJ(jHelp);
             // root.getClspModel().setM(mHelp);
             // root.getClspModel().ensureConstraints();
-        }/*
-          * else { throw new Exception(); }
-          * 
-          * } catch (Exception e) { e.printStackTrace(); Alert alert = new
-          * Alert(AlertType.WARNING); alert.setTitle("Falsche Werte");
-          * alert.setHeaderText("Werte nicht korrekt"); alert.setContentText(
-          * "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!"
-          * );
-          * 
-          * alert.showAndWait();
-          * root.getTab1Controller().getPagination().setCurrentPageIndex(0); }
-          */
+        } /*
+           * else { throw new Exception(); }
+           *
+           * } catch (Exception e) { e.printStackTrace(); Alert alert = new
+           * Alert(AlertType.WARNING); alert.setTitle("Falsche Werte");
+           * alert.setHeaderText("Werte nicht korrekt"); alert.setContentText(
+           * "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!"
+           * );
+           *
+           * alert.showAndWait();
+           * root.getTab1Controller().getPagination().setCurrentPageIndex(0) ; }
+           */
+        // }
+
+    }
+
+    private void openFalseInputAlert() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Falsche Werte");
+        alert.setHeaderText("Werte nicht korrekt");
+        alert.setContentText(
+                "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
+
+        alert.showAndWait();
+        root.getTab1Controller().getPagination().setCurrentPageIndex(0);
     }
 
     @Override

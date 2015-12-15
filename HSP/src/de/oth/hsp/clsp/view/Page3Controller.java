@@ -60,6 +60,11 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
     }
 
     @Override
+    public boolean checkInput() {
+        return true;
+    }
+
+    @Override
     public void outEvent() {
         root.getClspModel().setH(TableUtils.convertOListToArray(tableH.getItems()));
         root.getClspModel().setS(TableUtils.convertOListToArray(tableS.getItems()));

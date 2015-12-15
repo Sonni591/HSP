@@ -62,6 +62,11 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
         root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableB.getItems()));
     }
 
+    @Override
+    public boolean checkInput() {
+        return true;
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {

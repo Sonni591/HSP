@@ -1,9 +1,9 @@
 package de.oth.hsp.hpplan.view;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 
 public class Page2Controller extends AbstractTableViewPage implements IPageController {
 
@@ -75,5 +75,10 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
      */
     public void setPaginationController(PaginationController paginationController) {
         this.paginationController = paginationController;
+    }
+
+    @Override
+    public boolean checkInput() {
+        return true;
     }
 }

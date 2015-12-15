@@ -62,4 +62,9 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
     public void calculateEvent() {
         System.out.println("Page7 berechnen Button");
     }
+
+    @Override
+    public boolean checkInput() {
+        return true;
+    }
 }

@@ -1,9 +1,9 @@
 package de.oth.hsp.hpplan.view;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.IPageController;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 
 public class Page7Controller extends AbstractTableViewPage implements IPageController {
 
@@ -76,5 +76,10 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
         Decimals decimals = new Decimals(2);
         // addTableViewContent(root.getClspModel().getB(), tableB, decimals,
         // "t: ");
+    }
+
+    @Override
+    public boolean checkInput() {
+        return true;
     }
 }

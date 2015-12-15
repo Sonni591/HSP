@@ -64,6 +64,11 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
         root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
     }
 
+    @Override
+    public boolean checkInput() {
+        return true;
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {

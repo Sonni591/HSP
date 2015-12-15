@@ -1,9 +1,9 @@
 package de.oth.hsp.clsp.view;
 
+import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import de.oth.hsp.common.view.IPageController;
 
 public class Page7Controller extends AbstractTableViewPage implements IPageController {
 
@@ -59,6 +59,11 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
         // int epgapHelp = (int) Double.parseDouble(epgap.getText());
         // root.getClspModel().setEpgap(epgapHelp);
 
+    }
+
+    @Override
+    public boolean checkInput() {
+        return true;
     }
 
     @Override
