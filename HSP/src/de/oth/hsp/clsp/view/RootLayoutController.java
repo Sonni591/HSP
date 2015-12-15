@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import de.oth.hsp.clsp.ilog.CLSPRequest;
 import de.oth.hsp.clsp.ilog.CLSPResponse;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithm;
 import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.dat.DatFileParser;
 import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.ilog.exception.NotSolvableException;
 import de.oth.hsp.common.io.WorkspaceManager;
 import de.oth.hsp.common.utils.FileOperations;
 import javafx.application.Platform;
@@ -208,6 +211,17 @@ public class RootLayoutController {
         calculateCLSP();
     }
 
+    private void showResult(CLSPResponse response) {
+        // TODO Show Results in Tab2
+
+    }
+
+    /**
+     * calculates and shows the result in tab2
+     *
+     * @return
+     * @throws NotSolvableException
+     */
     public void calculateCLSP() {
         // ensure correct data and save them to clspModel
         int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
@@ -216,9 +230,17 @@ public class RootLayoutController {
         if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
             tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
         }
-
-        // TODO call ILog Framework
-
+        CLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithm();
+        CLSPRequest request = new CLSPRequest(clspModel);
+        try {
+            showResult(alg.solve(request));
+        } catch (NotSolvableException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle(e.getTitle());
+            alert.setHeaderText("Nicht lösbar!");
+            alert.setContentText(e.getText());
+            alert.showAndWait();
+        }
     }
 
     @FXML

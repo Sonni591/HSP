@@ -2,6 +2,8 @@ package de.oth.hsp.clsp.ilog;
 
 import java.util.List;
 
+import de.oth.hsp.clsp.model.ClspDatFile;
+
 public class CLSPRequest {
 
     private List<Product> products;
@@ -18,6 +20,10 @@ public class CLSPRequest {
         this.planningHorizon = planningHorizon;
         this.capacity = capacity;
         this.additionalCapacity = additionalCapacity;
+    }
+
+    public CLSPRequest(ClspDatFile clspModel) {
+        // TODO Auto-generated constructor stub
     }
 
     public List<Product> getProducts() {
