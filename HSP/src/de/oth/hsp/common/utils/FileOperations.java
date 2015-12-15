@@ -1,6 +1,7 @@
 package de.oth.hsp.common.utils;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class FileOperations {
     /**
@@ -25,6 +26,10 @@ public class FileOperations {
         }
 
         return fileName;
+    }
+
+    public static Path getPathOfFile(File file) {
+        return new File(file.toString().substring(0, file.toString().lastIndexOf(File.separator))).toPath();
     }
 
 }

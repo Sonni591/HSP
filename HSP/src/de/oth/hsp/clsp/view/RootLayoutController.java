@@ -8,6 +8,8 @@ import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.dat.DatFileParser;
 import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.io.WorkspaceManager;
+import de.oth.hsp.common.utils.FileOperations;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -135,7 +137,16 @@ public class RootLayoutController {
         fileChooser.setTitle("Datei speichern");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
 
-        return fileChooser.showSaveDialog(null);
+        // set the last used path or the default path, or none if there is no
+        // defaultPath
+        if (WorkspaceManager.getWorkspace() != null) {
+            fileChooser.setInitialDirectory(WorkspaceManager.getWorkspace().toFile());
+        }
+
+        File choosenFile = fileChooser.showSaveDialog(null);
+        // set the path to the WorkspaceManager
+        WorkspaceManager.setWorkspace(FileOperations.getPathOfFile(choosenFile));
+        return choosenFile;
     }
 
     /**
@@ -149,7 +160,15 @@ public class RootLayoutController {
         fileChooser.setTitle("Datei speichern");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
 
-        return fileChooser.showOpenDialog(null);
+        // set the last used path or the default path, or none if there is no
+        // defaultPath
+        if (WorkspaceManager.getWorkspace() != null) {
+            fileChooser.setInitialDirectory(WorkspaceManager.getWorkspace().toFile());
+        }
+        File choosenFile = fileChooser.showOpenDialog(null);
+        // set the path to the WorkspaceManager
+        WorkspaceManager.setWorkspace(FileOperations.getPathOfFile(choosenFile));
+        return choosenFile;
     }
 
     /**
@@ -186,19 +205,20 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionCalculate() {
-
-        System.out.println("Calculate (MenuButton)");
-
         calculateCLSP();
-
     }
 
     public void calculateCLSP() {
-        // TODO ensure correct data
+        // ensure correct data and save them to clspModel
+        int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
+        // call out Event of current page to save the data from the GUI
+        // to the clspModel
+        if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
+            tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
+        }
+
         // TODO call ILog Framework
 
-        // create Dummy data for Tab2
-        getTab2Controller().setDummyData();
     }
 
     @FXML
