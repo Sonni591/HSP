@@ -156,7 +156,7 @@ public abstract class AbstractTableViewPage {
         addColumnWithRowNumber(tableView, rowHeader);
 
         // get the data from the model and add it to the TableView
-        addTableViewContent(data, tableView, decimals, "k: ");
+        addTableViewContent(data, tableView, decimals, columnHeader);
     }
 
 }
