@@ -2,7 +2,6 @@ package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
-import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.common.utils.Decimals;
 
 public class Tab2Controller extends AbstractTableViewPage {
@@ -73,12 +72,15 @@ public class Tab2Controller extends AbstractTableViewPage {
 
             // set the table data
             Decimals decimals = new Decimals(2);
-            addTableViewContent(root.getClspResponse().getBackordersNumberArr(), tableBackorders, decimals, "");
-            addTableViewContent(root.getClspResponse().getLotsPerPeriodNumberArr(), tableLotsPerPeriod, decimals, "");
-            addTableViewContent(root.getClspResponse().getStockAtEndOfPeriodNumberArr(), tableStockAtEndOfPeriod,
-                    decimals, "");
-            addTableViewContent(root.getClspResponse().getBinaryDecisionVariableNumberArr(),
-                    tableBinaryDecisionVariable, decimals, "");
+            // addTableViewContent(root.getClspResponse().getBackordersNumberArr(),
+            // tableBackorders, decimals, "");
+            // addTableViewContent(root.getClspResponse().getLotsPerPeriodNumberArr(),
+            // tableLotsPerPeriod, decimals, "");
+            // addTableViewContent(root.getClspResponse().getStockAtEndOfPeriodNumberArr(),
+            // tableStockAtEndOfPeriod,
+            // decimals, "");
+            // addTableViewContent(root.getClspResponse().getBinaryDecisionVariableNumberArr(),
+            // tableBinaryDecisionVariable, decimals, "");
 
         } else {
             // TODO: Error description
@@ -88,10 +90,11 @@ public class Tab2Controller extends AbstractTableViewPage {
 
     public void setDummyData() {
 
-        CLSPResponse clspResponse = new CLSPResponse(true, createdDummyMatrix(3, 3), createdDummyMatrix(4, 4),
-                createdDummyMatrix(5, 5), createdDummyMatrix(5, 5));
-        root.setClspResponse(clspResponse);
-        setResultData();
+        // CLSPResponse clspResponse = new CLSPResponse(true,
+        // createdDummyMatrix(3, 3), createdDummyMatrix(4, 4),
+        // createdDummyMatrix(5, 5), createdDummyMatrix(5, 5));
+        // root.setClspResponse(clspResponse);
+        // setResultData();
 
     }
 
