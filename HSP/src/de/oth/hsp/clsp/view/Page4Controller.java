@@ -1,9 +1,13 @@
 package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
+<<<<<<< Updated upstream
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+=======
+import javafx.scene.control.TableView;
+>>>>>>> Stashed changes
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.IPageController;
@@ -13,10 +17,10 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableTb; // Bearbeitungszeit für eine Einheit
-                                         // von Produkt K auf Station J
+    private TableView<Number[]> tableY0; // Anfangslagerbestaende für ein
+                                         // Produkt K
     @FXML
-    private Label labelTb; // Label: Stueckbearbeitungszeiten
+    private TableView<Number[]> tableYT; // Endlagerbestaende für ein Produkt K
 
     @FXML
     private TextField tableValue;
@@ -38,7 +42,8 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableTb, true);
+        initTable(tableY0, true);
+        initTable(tableYT, true);
     }
 
     /**
@@ -64,28 +69,24 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     }
 
     @Override
-    public void outEvent() {
-        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
+    public boolean checkInput() {
+        return true;
     }
 
     @Override
-    public boolean checkInput() {
-        return true;
+    public void outEvent() {
+        root.getClspModel().setY0(TableUtils.convertOListToArray(tableY0.getItems()));
+        root.getClspModel().setYT(TableUtils.convertOListToArray(tableYT.getItems()));
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {
 
-        tableTb.getItems().clear();
-        tableTb.getColumns().clear();
-
-        // add a column with row numbers
-        addColumnWithRowNumber(tableTb, "j: ");
-
-        // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(root.getClspModel().getTb(), tableTb, decimals, "k: ");
+
+        setTableData(tableY0, root.getClspModel().getY0(), "", "k: ", decimals);
+        setTableData(tableYT, root.getClspModel().getYT(), "", "k: ", decimals);
 
     }
 

@@ -6,14 +6,23 @@ import javafx.scene.control.TextField;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.IPageController;
+<<<<<<< Updated upstream
+=======
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+>>>>>>> Stashed changes
 
 public class Page6Controller extends AbstractTableViewPage implements IPageController {
 
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableB; // verfügbare Kapazität an der Station j
-                                        // in Periode t
+    private TableView<Number[]> tableTr; // Rüstzeit für ein Prudukt K an
+                                         // Station J
+
+    @FXML
+    private Label labelTr; // Label: Rüstzeiten
 
     @FXML
     private TextField tableValue;
@@ -35,8 +44,8 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableB, true);
 
+        initTable(tableTr, true);
     }
 
     /**
@@ -63,7 +72,7 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableB.getItems()));
+        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTr.getItems()));
     }
 
     @Override
@@ -75,15 +84,17 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
 
-        tableB.getItems().clear();
-        tableB.getColumns().clear();
+        tableTr.getItems().clear();
+        tableTr.getColumns().clear();
 
         // add a column with row numbers
-        addColumnWithRowNumber(tableB, "j: ");
+
+        addColumnWithRowNumber(tableTr, "j: ");
 
         // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(root.getClspModel().getB(), tableB, decimals, "t: ");
+        addTableViewContent(root.getClspModel().getTr(), tableTr, decimals, "k: ");
+
     }
 
     public void insertTableValues() {
