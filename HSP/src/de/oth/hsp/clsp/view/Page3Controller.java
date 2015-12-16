@@ -112,4 +112,5 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
         addTableViewContent(root.getClspModel().getYT(), tableYT, decimals, "k: ");
 
     }
+
 }

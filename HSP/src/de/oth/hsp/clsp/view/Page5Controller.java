@@ -1,11 +1,12 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.utils.TableUtils;
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page5Controller extends AbstractTableViewPage implements IPageController {
 
@@ -17,6 +18,9 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     @FXML
     private Label labelTr; // Label: Rüstzeiten
+
+    @FXML
+    private TextField tableValue;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -86,5 +90,20 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
         Decimals decimals = new Decimals(2);
         addTableViewContent(root.getClspModel().getTr(), tableTr, decimals, "k: ");
 
+    }
+
+    public void insertTableValues() {
+        Number value = Integer.valueOf(tableValue.getText());
+        tableTr.getItems().clear();
+        tableTr.getColumns().clear();
+        addColumnWithRowNumber(tableTr, "t: ");
+
+        Number[][] d = root.getClspModel().getD();
+        for (int i = 0; i < d.length; i++) {
+            for (int j = 0; j < d[0].length; j++) {
+                d[i][j] = value;
+            }
+        }
+        addTableViewContent(d, tableTr, new Decimals(2), "k: ");
     }
 }
