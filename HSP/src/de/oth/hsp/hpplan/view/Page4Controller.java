@@ -1,9 +1,8 @@
 package de.oth.hsp.hpplan.view;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page4Controller extends AbstractTableViewPage implements IPageController {
 
@@ -69,6 +68,9 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
 
+        /*
+         * Table Lagerkostensatz
+         */
         tableLks.getItems().clear();
         tableLks.getColumns().clear();
 
@@ -76,12 +78,17 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
         addColumnWithRowNumber(tableLks, "k: ");
 
         // get the data from the model and add it to the TableView
-        Decimals decimals = new Decimals(2);
-        // addTableViewContent(root.getClspModel().getTb(), tableTb, decimals,
-        // "k: ");
 
+        /*
+         * Table Anfangslagerbestand
+         */
         tableAb.getItems().clear();
         tableAb.getColumns().clear();
+
+        // add a column with row numbers
+        addColumnWithRowNumber(tableAb, "k: ");
+
+        // get the data from the model and add it to the TableView
     }
 
     @Override

@@ -1,9 +1,9 @@
 package de.oth.hsp.hpplan.view;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page3Controller extends AbstractTableViewPage implements IPageController {
 
@@ -11,6 +11,9 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
 
     @FXML
     private TableView<Number[]> table1; // Lagerkostensätze für ein Prudukt K
+
+    @FXML
+    private ChoiceBox<Number> boxJ;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -30,6 +33,12 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
     @FXML
     private void initialize() {
         initTable(table1);
+        initBox();
+    }
+
+    private void initBox() {
+        // J viele Einträge
+
     }
 
     /**
@@ -70,12 +79,6 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
         addColumnWithRowNumber(table1, "");
 
         // get the data from the model and add it to the TableView
-
-        Decimals decimals = new Decimals(2);
-        // addTableViewContent(root.getClspModel().getH(), tableH, decimals,
-        // "k: ");
-        // addTableViewContent(root.getClspModel().getS(), tableS, decimals,
-        // "k: ");
 
     }
 
