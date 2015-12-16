@@ -14,8 +14,8 @@ public class CLSPSolvingAlgorithm {
 
     public CLSPResponse solve(CLSPRequest request) throws NotSolvableException {
 
-        if (request.getCapacity() == 0) {
-            throw new IllegalArgumentException("Periodenanzahl ist 0.");
+        if (request.getBigNumber() == 0) {
+            throw new IllegalArgumentException("Big Number ist 0.");
         }
         if (request.getEpgap() == 0) {
             throw new IllegalArgumentException("EPGAP ist 0.");
@@ -23,15 +23,15 @@ public class CLSPSolvingAlgorithm {
         if (request.getPlanningHorizon() == 0) {
             throw new IllegalArgumentException("Planungshorizont ist 0.");
         }
-        if (request.getAdditionalCapacity().length == 0) {
-            throw new IllegalArgumentException("Zusatzkapazit�t muss angelegt werden.");
+        if (request.getCapacitiesPerResource() == null || request.getCapacitiesPerResource().length == 0) {
+            throw new IllegalArgumentException("Kapazität pro Resource muss angelegt werden.");
         }
         if (request.getProducts() == null || request.getProducts().size() == 0) {
             throw new IllegalArgumentException("Mindestens ein Produkt muss angelegt werden.");
         }
 
         model = new CLSPModel(getModelName(), request.getProducts(), request.getEpgap(), request.getPlanningHorizon(),
-                request.getCapacity(), request.getAdditionalCapacity());
+                request.getBigNumber(), request.getCapacitiesPerResource());
 
         // Try to solve the model
         try {
@@ -46,9 +46,8 @@ public class CLSPSolvingAlgorithm {
                 throw new NotSolvableException();
             }
 
-            if (model.getLotsPerPeriod() == null || model.getBackorders() == null
-                    || model.getStockAtEndOfPeriod() == null || model.getBinaryDecisionVariable() == null) {
-                throw new ILogSolvingException("Fehler beim L�sen des PLSP-Problems. Die L�sung enth�lt 'null'-Werte. ");
+            if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
+                throw new ILogSolvingException("Fehler beim Lösen des PLSP-Problems. Die Lösung enthält 'null'-Werte. ");
             }
 
             // Build the response object
@@ -86,39 +85,27 @@ public class CLSPSolvingAlgorithm {
     }
 
     private CLSPResponse prepareResponse() {
-        if (model.getBackorders() == null || model.getBinaryDecisionVariable() == null
-                || model.getStockAtEndOfPeriod() == null || model.getLotsPerPeriod() == null) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+        if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
-
-        // List<Product> products = request.getProducts();
-        // for(int i =0; i< products.size(); i++){
-        // Product product = products.get(i);
-        // product.setBackorders(model.getBackorders()[i]);
-        // product.setBinaryDecisionVariable(model.getBinaryDecisionVariable()[i]);
-        // product.setStockAtEndOfPeriod(model.getStockAtEndOfPeriod()[i]);
-        // product.setLotsPerPeriod(model.getLotsPerPeriod()[i]);
-        // }
-        CLSPResponse response = new CLSPResponse(isSolvable, model.getBackorders(), model.getLotsPerPeriod(),
-                model.getStockAtEndOfPeriod(), model.getBinaryDecisionVariable());
+        CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
+                model.getSetUpVariables());
 
         return response;
     }
 
     public void printResult() {
-        if (model == null || model.getLotsPerPeriod() == null || model.getBackorders() == null
-                || model.getStockAtEndOfPeriod() == null || model.getBinaryDecisionVariable() == null) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+        if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
         try {
             model.printResult();
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         } catch (Exception e) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
     }
-
 }
