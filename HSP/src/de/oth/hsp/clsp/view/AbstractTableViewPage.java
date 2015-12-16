@@ -159,17 +159,4 @@ public abstract class AbstractTableViewPage {
         addTableViewContent(data, tableView, decimals, columnHeader);
     }
 
-    protected void setTableData(TableView tableView, Number[] data, String rowHeader, String columnHeader,
-            Decimals decimals) {
-        // clear Table Columns and content
-        tableView.getItems().clear();
-        tableView.getColumns().clear();
-
-        // add a column with row numbers
-        addColumnWithRowNumber(tableView, rowHeader);
-
-        // get the data from the model and add it to the TableView
-        addTableViewContent(data, tableView, decimals, columnHeader);
-    }
-
 }

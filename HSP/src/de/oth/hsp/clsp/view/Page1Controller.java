@@ -1,11 +1,11 @@
 package de.oth.hsp.clsp.view;
 
+import de.oth.hsp.common.dat.ConstraintException;
+import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
-import de.oth.hsp.common.dat.ConstraintException;
-import de.oth.hsp.common.view.IPageController;
 
 public class Page1Controller implements IPageController {
 
@@ -18,6 +18,8 @@ public class Page1Controller implements IPageController {
     private TextField J; // Anzahl der Stationen
     @FXML
     private TextField M; // Große Zahl
+    @FXML
+    private TextField C; // Verfügbare Kapaziät der Ressource
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -136,7 +138,8 @@ public class Page1Controller implements IPageController {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Falsche Werte");
         alert.setHeaderText("Werte nicht korrekt");
-        alert.setContentText("Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
+        alert.setContentText(
+                "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
 
         alert.showAndWait();
         root.getTab1Controller().getPagination().setCurrentPageIndex(0);

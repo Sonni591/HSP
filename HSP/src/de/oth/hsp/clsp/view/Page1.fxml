@@ -27,6 +27,9 @@
                         <Tooltip text="M muss größer als maximal mögliche Losgröße sein" />
                      </tooltip>
                   </TextField>
+                  <TextField fx:id="C" layoutX="46.0" layoutY="312.0" prefHeight="26.0" prefWidth="86.0" />
+                  <Label layoutX="24.0" layoutY="317.0" text="C" AnchorPane.leftAnchor="25.0" />
+                  <Label layoutX="27.0" layoutY="283.0" prefHeight="25.0" text="Verfügbare Kapaziät der Ressource" AnchorPane.leftAnchor="25.0" />
                </children>
             </AnchorPane>
          </content>

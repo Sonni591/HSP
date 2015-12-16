@@ -1,21 +1,19 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.utils.Decimals;
-import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 public class Page7Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page2
-
-    @FXML
-    private TableView<Number[]> tableB; // verfügbare Kapazität an der Station j
-                                        // in Periode t
-
     private PaginationController paginationController;
     private RootLayoutController root;
+
+    @FXML
+    private TextField epgap; // CPLEX_EPGAP - relative Optimalitätslücke
+    @FXML
+    private Button calculateButton;
 
     /**
      * The constructor. The constructor is called before the initialize()
@@ -31,8 +29,6 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableB, true);
-
     }
 
     /**
@@ -59,7 +55,10 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableB.getItems()));
+        // TODO
+        // int epgapHelp = (int) Double.parseDouble(epgap.getText());
+        // root.getClspModel().setEpgap(epgapHelp);
+
     }
 
     @Override
@@ -67,18 +66,23 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
         return true;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {
+        // TODO
+        // epgap.setText(Integer.toString(root.getClspModel().getEpgap()));
 
-        tableB.getItems().clear();
-        tableB.getColumns().clear();
+    }
 
-        // add a column with row numbers
-        addColumnWithRowNumber(tableB, "j: ");
+    public void onActionCalculate() {
+        System.out.println("Page7 berechnen Button");
 
-        // get the data from the model and add it to the TableView
-        Decimals decimals = new Decimals(2);
-        addTableViewContent(root.getClspModel().getB(), tableB, decimals, "t: ");
+        outEvent(); // write all Data from this page into the clspModel
+
+        System.out.println(root.getClspModel());
+
+        // TODO: ensure correct data and start calculation
+
+        root.calculateCLSP();
+
     }
 }

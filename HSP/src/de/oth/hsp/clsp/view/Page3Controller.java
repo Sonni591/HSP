@@ -17,8 +17,11 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
     private TableView<Number[]> tableS; // Rüstkostensätze für ein Produkt K
 
     @FXML
-    private TableView<Number[]> tableZ; // Mindestvorlaufzeiten für ein Produkt
-                                        // K
+    private TableView<Number[]> tableY0; // Anfangslagerbestaende für ein
+                                         // Produkt K
+
+    @FXML
+    private TableView<Number[]> tableYT; // Endlagerbestaende für ein Produkt K
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -39,7 +42,8 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
     private void initialize() {
         initTable(tableH, true);
         initTable(tableS, true);
-        initTable(tableZ, true);
+        initTable(tableY0, true);
+        initTable(tableYT, true);
     }
 
     /**
@@ -73,18 +77,39 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
     public void outEvent() {
         root.getClspModel().setH(TableUtils.convertOListToArray(tableH.getItems()));
         root.getClspModel().setS(TableUtils.convertOListToArray(tableS.getItems()));
-        root.getClspModel().setZ(TableUtils.convertOListToArray(tableZ.getItems()));
+        root.getClspModel().setY0(TableUtils.convertOListToArray(tableY0.getItems()));
+        root.getClspModel().setYT(TableUtils.convertOListToArray(tableYT.getItems()));
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {
 
-        Decimals decimals = new Decimals(2);
+        tableS.getItems().clear();
+        tableS.getColumns().clear();
 
-        setTableData(tableS, root.getClspModel().getS(), "", "k: ", decimals);
-        setTableData(tableH, root.getClspModel().getH(), "", "k: ", decimals);
-        setTableData(tableZ, root.getClspModel().getZ(), "", "k: ", decimals);
+        tableH.getItems().clear();
+        tableH.getColumns().clear();
+
+        tableY0.getItems().clear();
+        tableY0.getColumns().clear();
+
+        tableYT.getItems().clear();
+        tableYT.getColumns().clear();
+
+        // add a column with row numbers
+        addColumnWithRowNumber(tableH, "");
+        addColumnWithRowNumber(tableS, "");
+        addColumnWithRowNumber(tableY0, "");
+        addColumnWithRowNumber(tableYT, "");
+
+        // get the data from the model and add it to the TableView
+
+        Decimals decimals = new Decimals(2);
+        addTableViewContent(root.getClspModel().getH(), tableH, decimals, "k: ");
+        addTableViewContent(root.getClspModel().getS(), tableS, decimals, "k: ");
+        addTableViewContent(root.getClspModel().getY0(), tableY0, decimals, "k: ");
+        addTableViewContent(root.getClspModel().getYT(), tableYT, decimals, "k: ");
 
     }
 

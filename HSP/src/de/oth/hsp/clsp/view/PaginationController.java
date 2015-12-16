@@ -17,7 +17,6 @@ public class PaginationController {
     private AnchorPane pagePane5;
     private AnchorPane pagePane6;
     private AnchorPane pagePane7;
-    private AnchorPane pagePane8;
 
     // References to FXML controllers
     private RootLayoutController root;
@@ -29,7 +28,6 @@ public class PaginationController {
     private Page5Controller page5Controller;
     private Page6Controller page6Controller;
     private Page7Controller page7Controller;
-    private Page8Controller page8Controller;
 
     private HashMap<Integer, IPageController> pageControllerMap = new HashMap<Integer, IPageController>();
     private HashMap<Integer, AnchorPane> pageMap = new HashMap<Integer, AnchorPane>();
@@ -71,14 +69,9 @@ public class PaginationController {
             pagePane6 = loadPaneFromFXML("Page6.fxml");
             pageMap.put(5, pagePane6);
         }
-        // load pane from fxml-definiton
         if (pagePane7 == null) {
             pagePane7 = loadPaneFromFXML("Page7.fxml");
             pageMap.put(6, pagePane7);
-        }
-        if (pagePane8 == null) {
-            pagePane8 = loadPaneFromFXML("Page8.fxml");
-            pageMap.put(7, pagePane8);
         }
 
     }
@@ -92,16 +85,14 @@ public class PaginationController {
         page3Controller.init(root);
         page4Controller.setPaginationController(this);
         page4Controller.init(root);
-        page5Controller.setPaginationController(this);
-        page5Controller.init(root);
+        page4Controller.setPaginationController(this);
+        page4Controller.init(root);
         page5Controller.setPaginationController(this);
         page5Controller.init(root);
         page6Controller.setPaginationController(this);
         page6Controller.init(root);
         page7Controller.setPaginationController(this);
         page7Controller.init(root);
-        page8Controller.setPaginationController(this);
-        page8Controller.init(root);
     }
 
     /**
@@ -169,10 +160,6 @@ public class PaginationController {
                 setPage7Controller(fxmlLoader.getController());
                 pageControllerMap.put(6, getPage7Controller());
                 break;
-            case "Page8.fxml":
-                setPage8Controller(fxmlLoader.getController());
-                pageControllerMap.put(7, getPage8Controller());
-                break;
 
             default:
                 break;
@@ -208,126 +195,6 @@ public class PaginationController {
      */
     public void setRoot(RootLayoutController root) {
         this.root = root;
-    }
-
-    /**
-     * @return the page1Controller
-     */
-    public Page1Controller getPage1Controller() {
-        return page1Controller;
-    }
-
-    /**
-     * @param page1Controller
-     *            the page1Controller to set
-     */
-    public void setPage1Controller(Page1Controller page1Controller) {
-        this.page1Controller = page1Controller;
-    }
-
-    /**
-     * @return the page2Controller
-     */
-    public Page2Controller getPage2Controller() {
-        return page2Controller;
-    }
-
-    /**
-     * @param page2Controller
-     *            the page2Controller to set
-     */
-    public void setPage2Controller(Page2Controller page2Controller) {
-        this.page2Controller = page2Controller;
-    }
-
-    /**
-     * @return the page3Controller
-     */
-    public Page3Controller getPage3Controller() {
-        return page3Controller;
-    }
-
-    /**
-     * @param page3Controller
-     *            the page3Controller to set
-     */
-    public void setPage3Controller(Page3Controller page3Controller) {
-        this.page3Controller = page3Controller;
-    }
-
-    /**
-     * @return the page4Controller
-     */
-    public Page4Controller getPage4Controller() {
-        return page4Controller;
-    }
-
-    /**
-     * @param page4Controller
-     *            the page4Controller to set
-     */
-    public void setPage4Controller(Page4Controller page4Controller) {
-        this.page4Controller = page4Controller;
-    }
-
-    /**
-     * @return the page5Controller
-     */
-    public Page5Controller getPage5Controller() {
-        return page5Controller;
-    }
-
-    /**
-     * @param page5Controller
-     *            the page5Controller to set
-     */
-    public void setPage5Controller(Page5Controller page5Controller) {
-        this.page5Controller = page5Controller;
-    }
-
-    /**
-     * @return the page6Controller
-     */
-    public Page6Controller getPage6Controller() {
-        return page6Controller;
-    }
-
-    /**
-     * @param page6Controller
-     *            the page6Controller to set
-     */
-    public void setPage6Controller(Page6Controller page6Controller) {
-        this.page6Controller = page6Controller;
-    }
-
-    /**
-     * @return the page7Controller
-     */
-    public Page7Controller getPage7Controller() {
-        return page7Controller;
-    }
-
-    /**
-     * @param page7Controller
-     *            the page7Controller to set
-     */
-    public void setPage7Controller(Page7Controller page7Controller) {
-        this.page7Controller = page7Controller;
-    }
-
-    /**
-     * @return the page8Controller
-     */
-    public Page8Controller getPage8Controller() {
-        return page8Controller;
-    }
-
-    /**
-     * @param page8Controller
-     *            the page8Controller to set
-     */
-    public void setPage8Controller(Page8Controller page8Controller) {
-        this.page8Controller = page8Controller;
     }
 
     /**
@@ -380,10 +247,108 @@ public class PaginationController {
     }
 
     /**
-     * @return the pagePane8
+     * @return the page1Controller
      */
-    public AnchorPane getPagePane8() {
-        return pagePane8;
+    public Page1Controller getPage1Controller() {
+        return page1Controller;
+    }
+
+    /**
+     * @return the page2Controller
+     */
+    public Page2Controller getPage2Controller() {
+        return page2Controller;
+    }
+
+    /**
+     * @return the page3Controller
+     */
+    public Page3Controller getPage3Controller() {
+        return page3Controller;
+    }
+
+    /**
+     * @return the page4Controller
+     */
+    public Page4Controller getPage4Controller() {
+        return page4Controller;
+    }
+
+    /**
+     * @return the page5Controller
+     */
+    public Page5Controller getPage5Controller() {
+        return page5Controller;
+    }
+
+    /**
+     * @return the page6Controller
+     */
+    public Page6Controller getPage6Controller() {
+        return page6Controller;
+    }
+
+    /**
+     * @return the page7Controller
+     */
+    public Page7Controller getPage7Controller() {
+        return page7Controller;
+    }
+
+    /**
+     * @param page1Controller
+     *            the page1Controller to set
+     */
+    public void setPage1Controller(Page1Controller page1Controller) {
+        this.page1Controller = page1Controller;
+    }
+
+    /**
+     * @param page2Controller
+     *            the page2Controller to set
+     */
+    public void setPage2Controller(Page2Controller page2Controller) {
+        this.page2Controller = page2Controller;
+    }
+
+    /**
+     * @param page3Controller
+     *            the page3Controller to set
+     */
+    public void setPage3Controller(Page3Controller page3Controller) {
+        this.page3Controller = page3Controller;
+    }
+
+    /**
+     * @param page4Controller
+     *            the page4Controller to set
+     */
+    public void setPage4Controller(Page4Controller page4Controller) {
+        this.page4Controller = page4Controller;
+    }
+
+    /**
+     * @param page5Controller
+     *            the page5Controller to set
+     */
+    public void setPage5Controller(Page5Controller page5Controller) {
+        this.page5Controller = page5Controller;
+    }
+
+    /**
+     * @param page6Controller
+     *            the page6Controller to set
+     */
+    public void setPage6Controller(Page6Controller page6Controller) {
+        this.page6Controller = page6Controller;
+    }
+
+    /**
+     * @param page7Controller
+     *            the page7Controller to set
+     */
+    public void setPage7Controller(Page7Controller page7Controller) {
+        this.page7Controller = page7Controller;
     }
 
 }

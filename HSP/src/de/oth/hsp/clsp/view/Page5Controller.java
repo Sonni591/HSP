@@ -13,10 +13,11 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableTb; // Bearbeitungszeit für eine Einheit
-                                         // von Produkt K auf Station J
+    private TableView<Number[]> tableTr; // Rüstzeit für ein Prudukt K an
+                                         // Station J
+
     @FXML
-    private Label labelTb; // Label: Stueckbearbeitungszeiten
+    private Label labelTr; // Label: Rüstzeiten
 
     @FXML
     private TextField tableValue;
@@ -38,7 +39,8 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableTb, true);
+
+        initTable(tableTr, true);
     }
 
     /**
@@ -65,7 +67,7 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
+        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTr.getItems()));
     }
 
     @Override
@@ -77,15 +79,16 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
 
-        tableTb.getItems().clear();
-        tableTb.getColumns().clear();
+        tableTr.getItems().clear();
+        tableTr.getColumns().clear();
 
         // add a column with row numbers
-        addColumnWithRowNumber(tableTb, "j: ");
+
+        addColumnWithRowNumber(tableTr, "j: ");
 
         // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(root.getClspModel().getTb(), tableTb, decimals, "k: ");
+        addTableViewContent(root.getClspModel().getTr(), tableTr, decimals, "k: ");
 
     }
 
