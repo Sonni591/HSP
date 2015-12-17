@@ -1,3 +1,7 @@
+
+float CPLEX_EPGAP = ...;            // EPGAP (relative Optimalitätslücke)  
+
+
 int J = ...;
 range ProdSegs = 1..J;
 
@@ -25,6 +29,12 @@ int Iinit[Products] =...;
 dvar float+ U[ProdSegs][TimePlan];
 dvar float+ x[Products][TimePlan];
 dvar float+ I[Products][TimeInventory];
+
+//EPGAP for solution finding
+execute CPX_PARAM {
+  cplex.epgap = CPLEX_EPGAP;      
+  //cplex.tilim = 100;
+}
 
 // Zielfunktion:
 minimize 

@@ -3,52 +3,35 @@ package de.oth.hsp.clsp.ilog;
 public class CLSPResponse {
 
     private boolean solvable;
-    private int[][] backorders;
-    private int[][] lotsPerPeriod;
-    private int[][] stockAtEndOfPeriod;
-    private int[][] binaryDecisionVariable;
+    private float[][] lotsPerPeriod;
+    private float[][] stockAtEndOfPeriod;
+    private boolean[][] setUpVariables;
 
-    // private List<Product> products;
-
-    public CLSPResponse(boolean solvable, int[][] backorders, int[][] lotsPerPeriod, int[][] stockAtEndOfPeriod,
-            int[][] binaryDecisionVariable) {
+    public CLSPResponse(boolean solvable, float[][] lotsPerPeriod, float[][] stockAtEndOfPeriod,
+            boolean[][] setUpVariables) {
         super();
         this.solvable = solvable;
         // this.products = products;
-        this.backorders = backorders;
+
         this.lotsPerPeriod = lotsPerPeriod;
         this.stockAtEndOfPeriod = stockAtEndOfPeriod;
-        this.binaryDecisionVariable = binaryDecisionVariable;
+        this.setUpVariables = setUpVariables;
     }
 
     public boolean isSolvable() {
         return solvable;
     }
 
-    public int[][] getBackorders() {
-        return backorders;
-    }
-
-    public int[][] getLotsPerPeriod() {
+    public float[][] getLotsPerPeriod() {
         return lotsPerPeriod;
     }
 
-    public int[][] getStockAtEndOfPeriod() {
+    public float[][] getStockAtEndOfPeriod() {
         return stockAtEndOfPeriod;
     }
 
-    public int[][] getBinaryDecisionVariable() {
-        return binaryDecisionVariable;
-    }
-
-    public Number[][] getBackordersNumberArr() {
-        Number[][] arr = new Number[backorders.length][backorders[1].length];
-        for (int i = 0; i < backorders.length; i++) {
-            for (int j = 0; j < backorders[i].length; j++) {
-                arr[i][j] = backorders[i][j];
-            }
-        }
-        return arr;
+    public boolean[][] getSetUpVariables() {
+        return setUpVariables;
     }
 
     public Number[][] getLotsPerPeriodNumberArr() {
@@ -66,16 +49,6 @@ public class CLSPResponse {
         for (int i = 0; i < stockAtEndOfPeriod.length; i++) {
             for (int j = 0; j < stockAtEndOfPeriod[i].length; j++) {
                 arr[i][j] = stockAtEndOfPeriod[i][j];
-            }
-        }
-        return arr;
-    }
-
-    public Number[][] getBinaryDecisionVariableNumberArr() {
-        Number[][] arr = new Number[binaryDecisionVariable.length][binaryDecisionVariable[1].length];
-        for (int i = 0; i < binaryDecisionVariable.length; i++) {
-            for (int j = 0; j < binaryDecisionVariable[i].length; j++) {
-                arr[i][j] = binaryDecisionVariable[i][j];
             }
         }
         return arr;

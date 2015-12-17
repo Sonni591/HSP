@@ -2,7 +2,6 @@ package de.oth.hsp.hpplan.view;
 
 import java.io.File;
 
-import de.oth.hsp.clsp.model.ClspDatFile;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import de.oth.hsp.hpplan.model.HpplanStatDatFile;
 
 public class RootLayoutController {
 
@@ -44,8 +44,8 @@ public class RootLayoutController {
     @FXML
     private MenuBar menuBar;
 
-    // References the CLSPModel
-    private ClspDatFile clspModel = new ClspDatFile();
+    // References the HPPLANModel
+    private HpplanStatDatFile hpplanModel = new HpplanStatDatFile();
 
     /**
      * The constructor. The constructor is called before the initialize()
@@ -183,12 +183,12 @@ public class RootLayoutController {
         // System.out.println("on tab selection changed");
     }
 
-    public ClspDatFile getClspModel() {
-        return clspModel;
+    public HpplanStatDatFile getHpplanModel() {
+        return hpplanModel;
     }
 
-    public void setClspModel(ClspDatFile clspModel) {
-        this.clspModel = clspModel;
+    public void setHpplanModel(HpplanStatDatFile hpplanModel) {
+        this.hpplanModel = hpplanModel;
     }
 
 }

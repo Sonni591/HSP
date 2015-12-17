@@ -1,48 +1,48 @@
-//EPGAP for solution finding:
-CPLEX_EPGAP =0.0001;
+
 // Anzahl Perioden:
-T=12;
+T=2;
 // Anzahl Produkte:
-K=8;
+K=2;
+//Ressource
+J=2;
+//grosse zahl
+M=5768668;
+
+//kapazitÃ¤ten
+b= #[ 
+1: [20 30]
+2: [20 50]
+]#;
+
+
 // Bedarfe je Produkt und Periode:
 d= #[ 
-1: [50 60 70 80 50 60 70 80 50 60 70 80]
-2: [50 60 70 80 50 60 70 80 50 60 70 80]
-3: [50 60 70 80 50 60 70 80 50 60 70 80]
-4: [50 60 70 80 50 60 70 80 50 60 70 80]
-5: [50 60 70 80 50 60 70 80 50 60 70 80]
-6: [50 60 70 80 50 60 70 80 50 60 70 80]
-7: [50 60 70 80 50 60 70 80 50 60 70 80]
-8: [50 60 70 80 50 60 70 80 50 60 70 80]
+1: [20 30]
+2: [20 50]
 ]#;
 // Lagerkosten:
-h= [1 1 1 1 1 1 1 1 ]; 
-// Rüstkosten:
-s= [190 135 95 70 160 115 100 110 ]; 
-// Fehlmengenkosten:
-p= [1000 1000 1000 1000 1000 1000 1000 1000 ]; 
-// Stückbearbeitungszeit je Produkt und Ressource:
-tb= [245 360 340 230 245 360 340 230 ];
-// Rüstzeit je Produkt und Ressource:
-tr= [1250 880 620 480 1250 880 620 480 ];
-// Anfangslagerbestände:
-y0 = [0 0 0 0 0 0 0 0 ];
-// Anfangs-Backorders:
-B0=[0 0 0 0 0 0 0 0 ];
-// Loszugänge:
-qIn= #[ 
-1: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-2: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-3: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-4: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-5: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-6: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-7: [0 0 0 0 0 0 0 0 0 0 0 0 ]
-8: [0 0 0 0 0 0 0 0 0 0 0 0 ]
+h= [2 2]; 
+// Ruestkosten:
+s= [200 200]; 
+// Stueckbearbeitungszeit je Produkt und Ressource:
+tb= #[ 
+1: [20 30]
+2: [20 50]
 ]#;
-// Zusätzlicher Kapazitätsverbrauch:
-E= [0 0 0 0 0 0 0 0 0 0 0 0 ];
-// Verfügbare Kapazität der Ressource:
-C= 432000;
-// Maximale Losgröße je Produkt:
-qMax= [347 237 252 373 347 237 252 373 ];
+// Ruestzeit je Produkt und Ressource:
+tr= #[ 
+1: [20 30]
+2: [20 50]
+]#;
+//mindestvorlaufzeiten
+z= [0 0];
+// Anfangslagerbestaende:
+y0 = [0 0];
+// Endlagerbestaende:
+yT = [99 99];
+
+//EPGAP for solution finding:
+CPLEX_EPGAP =0.0001;
+
+
+

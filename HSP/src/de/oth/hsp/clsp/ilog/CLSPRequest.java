@@ -9,17 +9,17 @@ public class CLSPRequest {
     private List<Product> products;
     private float epgap;
     private int planningHorizon;
-    private int capacity;
-    private float[] additionalCapacity;
+    private int bigNumber;
+    private float[][] capacitiesPerResource;
 
-    public CLSPRequest(List<Product> products, float epgap, int planningHorizon, int capacity,
-            float[] additionalCapacity) {
+    public CLSPRequest(List<Product> products, float epgap, int planningHorizon, int bigNumber,
+            float[][] capacitiesPerResource) {
         super();
         this.products = products;
         this.epgap = epgap;
         this.planningHorizon = planningHorizon;
-        this.capacity = capacity;
-        this.additionalCapacity = additionalCapacity;
+        this.bigNumber = bigNumber;
+        this.capacitiesPerResource = capacitiesPerResource;
     }
 
     public CLSPRequest(ClspDatFile clspModel) {
@@ -38,11 +38,12 @@ public class CLSPRequest {
         return planningHorizon;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getBigNumber() {
+        return bigNumber;
     }
 
-    public float[] getAdditionalCapacity() {
-        return additionalCapacity;
+    public float[][] getCapacitiesPerResource() {
+        return capacitiesPerResource;
     }
+
 }
