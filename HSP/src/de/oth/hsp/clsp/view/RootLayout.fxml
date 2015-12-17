@@ -55,7 +55,7 @@
 										<fx:include fx:id="tab1" source="Tab1.fxml" />
 									</content>
 								</Tab>
-								<Tab onSelectionChanged="#onTabSelectionChanged" text="Lösungsweg Konflikt">
+								<Tab onSelectionChanged="#onTabSelectionChanged" text="Lösung">
 									<content>
 										<fx:include fx:id="tab2" source="Tab2.fxml" />
 									</content>

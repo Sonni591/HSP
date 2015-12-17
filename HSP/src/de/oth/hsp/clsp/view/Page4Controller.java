@@ -1,11 +1,12 @@
 package de.oth.hsp.clsp.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
 public class Page4Controller extends AbstractTableViewPage implements IPageController {
@@ -13,13 +14,14 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableTb; // Bearbeitungszeit für eine Einheit
-                                         // von Produkt K auf Station J
-    @FXML
-    private Label labelTb; // Label: Stueckbearbeitungszeiten
+    private TableView<Number[]> tableY0; // Anfangslagerbestaende für ein
+                                         // Produkt K
 
     @FXML
-    private TextField tableValue;
+    private TableView<Number[]> tableYT; // Endlagerbestaende für ein Produkt K
+
+    private ObservableList<Number[]> dataListY0 = FXCollections.observableArrayList();
+    private ObservableList<Number[]> dataListYT = FXCollections.observableArrayList();
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -38,7 +40,8 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableTb, true);
+        initTable(tableY0, true);
+        initTable(tableYT, true);
     }
 
     /**
@@ -64,43 +67,24 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     }
 
     @Override
-    public void outEvent() {
-        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
-    }
-
-    @Override
     public boolean checkInput() {
         return true;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public void outEvent() {
+        root.getClspModel().setY0(TableUtils.convertOListToArray(tableY0.getItems()));
+        root.getClspModel().setYT(TableUtils.convertOListToArray(tableYT.getItems()));
+    }
+
     @Override
     public void inEvent() {
 
-        tableTb.getItems().clear();
-        tableTb.getColumns().clear();
-
-        // add a column with row numbers
-        addColumnWithRowNumber(tableTb, "j: ");
-
-        // get the data from the model and add it to the TableView
         Decimals decimals = new Decimals(2);
-        addTableViewContent(root.getClspModel().getTb(), tableTb, decimals, "k: ");
+
+        setTableData(tableY0, root.getClspModel().getY0(), "", "k: ", decimals, dataListY0);
+        setTableData(tableYT, root.getClspModel().getYT(), "", "k: ", decimals, dataListYT);
 
     }
 
-    public void insertTableValues() {
-        Number value = Integer.valueOf(tableValue.getText());
-        tableTb.getItems().clear();
-        tableTb.getColumns().clear();
-        addColumnWithRowNumber(tableTb, "t: ");
-
-        Number[][] d = root.getClspModel().getD();
-        for (int i = 0; i < d.length; i++) {
-            for (int j = 0; j < d[0].length; j++) {
-                d[i][j] = value;
-            }
-        }
-        addTableViewContent(d, tableTb, new Decimals(2), "k: ");
-    }
 }

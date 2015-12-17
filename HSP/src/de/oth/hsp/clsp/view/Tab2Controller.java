@@ -1,9 +1,12 @@
 package de.oth.hsp.clsp.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.view.AbstractTableViewPage;
 
 public class Tab2Controller extends AbstractTableViewPage {
 
@@ -16,6 +19,11 @@ public class Tab2Controller extends AbstractTableViewPage {
     private TableView<Number[]> tableStockAtEndOfPeriod;
     @FXML
     private TableView<Number[]> tableBinaryDecisionVariable;
+
+    private ObservableList<Number[]> dataListBackOrders = FXCollections.observableArrayList();
+    private ObservableList<Number[]> dataListLotsPerPeriod = FXCollections.observableArrayList();
+    private ObservableList<Number[]> dataListStockAtEndOfPeriod = FXCollections.observableArrayList();
+    private ObservableList<Number[]> dataListBinaryDecisionVariable = FXCollections.observableArrayList();
 
     private RootLayoutController root;
 
@@ -73,12 +81,14 @@ public class Tab2Controller extends AbstractTableViewPage {
 
             // set the table data
             Decimals decimals = new Decimals(2);
-            addTableViewContent(root.getClspResponse().getBackordersNumberArr(), tableBackorders, decimals, "");
-            addTableViewContent(root.getClspResponse().getLotsPerPeriodNumberArr(), tableLotsPerPeriod, decimals, "");
+            addTableViewContent(root.getClspResponse().getBackordersNumberArr(), tableBackorders, decimals, "",
+                    dataListBackOrders);
+            addTableViewContent(root.getClspResponse().getLotsPerPeriodNumberArr(), tableLotsPerPeriod, decimals, "",
+                    dataListLotsPerPeriod);
             addTableViewContent(root.getClspResponse().getStockAtEndOfPeriodNumberArr(), tableStockAtEndOfPeriod,
-                    decimals, "");
+                    decimals, "", dataListStockAtEndOfPeriod);
             addTableViewContent(root.getClspResponse().getBinaryDecisionVariableNumberArr(),
-                    tableBinaryDecisionVariable, decimals, "");
+                    tableBinaryDecisionVariable, decimals, "", dataListBinaryDecisionVariable);
 
         } else {
             // TODO: Error description

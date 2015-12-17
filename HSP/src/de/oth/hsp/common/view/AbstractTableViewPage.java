@@ -1,14 +1,13 @@
 /**
  *
  */
-package de.oth.hsp.clsp.view;
+package de.oth.hsp.common.view;
 
 import java.util.Arrays;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -40,6 +39,7 @@ public abstract class AbstractTableViewPage {
     }
 
     /**
+     * 3
      *
      */
     // TODO: Comment method
@@ -85,9 +85,10 @@ public abstract class AbstractTableViewPage {
     // TODO: Comment method
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void addTableViewContent(Number[][] inputData, TableView<Number[]> tableView, Decimals decimals,
-            String columnHeader) {
-        ObservableList<Number[]> dataList = FXCollections.observableArrayList();
-        dataList.clear();
+            String columnHeader, ObservableList<Number[]> dataList) {
+        // ObservableList<Number[]> dataList =
+        // FXCollections.observableArrayList();
+        // dataList.clear();
         dataList.addAll(Arrays.asList(inputData));
         for (int i = 0; i < inputData[0].length; i++) {
             TableColumn tableColumn = new TableColumn(columnHeader + String.valueOf(i + 1));
@@ -123,10 +124,10 @@ public abstract class AbstractTableViewPage {
     }
 
     protected void addTableViewContent(Number[] inputData, TableView<Number[]> tableView, Decimals decimals,
-            String columnHeader) {
+            String columnHeader, ObservableList<Number[]> dataList) {
         Number[][] values = new Number[1][inputData.length];
         values[0] = inputData;
-        addTableViewContent(values, tableView, decimals, columnHeader);
+        addTableViewContent(values, tableView, decimals, columnHeader, dataList);
     }
 
     protected void resizeTableRowHeight(TableView tableView) {
@@ -146,8 +147,9 @@ public abstract class AbstractTableViewPage {
 
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void setTableData(TableView tableView, Number[][] data, String rowHeader, String columnHeader,
-            Decimals decimals) {
+            Decimals decimals, ObservableList<Number[]> dataList) {
         // clear Table Columns and content
         tableView.getItems().clear();
         tableView.getColumns().clear();
@@ -156,7 +158,21 @@ public abstract class AbstractTableViewPage {
         addColumnWithRowNumber(tableView, rowHeader);
 
         // get the data from the model and add it to the TableView
-        addTableViewContent(data, tableView, decimals, columnHeader);
+        addTableViewContent(data, tableView, decimals, columnHeader, dataList);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected void setTableData(TableView tableView, Number[] data, String rowHeader, String columnHeader,
+            Decimals decimals, ObservableList<Number[]> dataList) {
+        // clear Table Columns and content
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+
+        // add a column with row numbers
+        addColumnWithRowNumber(tableView, rowHeader);
+
+        // get the data from the model and add it to the TableView
+        addTableViewContent(data, tableView, decimals, columnHeader, dataList);
     }
 
 }

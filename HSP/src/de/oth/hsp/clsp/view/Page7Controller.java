@@ -1,19 +1,30 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.view.IPageController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.AbstractTableViewPage;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page7Controller extends AbstractTableViewPage implements IPageController {
 
-    private PaginationController paginationController;
-    private RootLayoutController root;
+    // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TextField epgap; // CPLEX_EPGAP - relative Optimalitätslücke
+    private TableView<Number[]> tableB; // verfügbare Kapazität an der Station j
+                                        // in Periode t
+
+    private ObservableList<Number[]> dataListB = FXCollections.observableArrayList();
+
     @FXML
-    private Button calculateButton;
+    private TextField tableValue;
+
+    private PaginationController paginationController;
+    private RootLayoutController root;
 
     /**
      * The constructor. The constructor is called before the initialize()
@@ -29,6 +40,8 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
+        initTable(tableB, true);
+
     }
 
     /**
@@ -55,10 +68,7 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        // TODO
-        // int epgapHelp = (int) Double.parseDouble(epgap.getText());
-        // root.getClspModel().setEpgap(epgapHelp);
-
+        root.getClspModel().setB(TableUtils.convertOListTo2DArray(tableB.getItems()));
     }
 
     @Override
@@ -68,21 +78,24 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void inEvent() {
-        // TODO
-        // epgap.setText(Integer.toString(root.getClspModel().getEpgap()));
+
+        Decimals decimals = new Decimals(2);
+        setTableData(tableB, root.getClspModel().getB(), "j: ", "t: ", decimals, dataListB);
 
     }
 
-    public void onActionCalculate() {
-        System.out.println("Page7 berechnen Button");
+    public void insertTableValues() {
+        Number value = Integer.valueOf(tableValue.getText());
 
-        outEvent(); // write all Data from this page into the clspModel
+        Number[][] b = root.getClspModel().getB();
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[0].length; j++) {
+                b[i][j] = value;
+            }
+        }
 
-        System.out.println(root.getClspModel());
-
-        // TODO: ensure correct data and start calculation
-
-        root.calculateCLSP();
+        setTableData(tableB, b, "t: ", "k: ", new Decimals(2), dataListB);
 
     }
+
 }
