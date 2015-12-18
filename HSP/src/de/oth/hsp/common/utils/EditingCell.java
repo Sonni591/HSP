@@ -150,6 +150,8 @@ public class EditingCell extends TableCell<Number, Number> {
                     TableColumn nextColumn = getNextColumn(!t.isShiftDown());
                     if (nextColumn != null) {
                         getTableView().edit(getTableRow().getIndex(), nextColumn);
+                    } else {
+                        getTableView().edit(getTableRow().getIndex() + 1, getTableView().getColumns().get(1));
                     }
 
                 }
@@ -185,7 +187,7 @@ public class EditingCell extends TableCell<Number, Number> {
         if (forward) {
             nextIndex++;
             if (nextIndex > columns.size() - 1) {
-                nextIndex = 0;
+                return null;
             }
         } else {
             nextIndex--;
