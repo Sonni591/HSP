@@ -246,13 +246,12 @@ public class RootLayoutController {
             alert.showAndWait();
         }
 
-        tabPaneSwitchToTab(1);
     }
 
     /**
      * Switch to the tab using the index
      */
-    private void tabPaneSwitchToTab(int index) {
+    public void tabPaneSwitchToTab(int index) {
         tabPane.getSelectionModel().select(index);
     }
 

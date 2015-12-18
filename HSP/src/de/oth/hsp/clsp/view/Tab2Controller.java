@@ -1,6 +1,8 @@
 package de.oth.hsp.clsp.view;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView;
 import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.common.utils.Decimals;
@@ -55,8 +57,16 @@ public class Tab2Controller extends AbstractTableViewPage {
                     new Decimals(2));
             setTableData(tableSetUpVariables, clspResponse.getSetUpVariablesNumberArr(), "", "", new Decimals(2));
 
+            root.tabPaneSwitchToTab(1); // switch to Tab 2
+
         } else {
-            // TODO: Error description
+
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Keine Lösung");
+            alert.setHeaderText("Dieses Problem ist nicht lösbar!");
+            alert.setContentText("Bitte überprüfen sie die Eingabewerte");
+
+            alert.showAndWait();
         }
 
     }
