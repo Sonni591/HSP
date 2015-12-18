@@ -1,6 +1,8 @@
 package de.oth.hsp.common.utils;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /**
  * To define the decimal places in the table views
@@ -15,17 +17,17 @@ public class Decimals {
      * @param decimals
      */
     public Decimals(int decimals) {
-	super();
-	this.decimals = decimals;
-	// create the decimal format
-	decimalFormat = dezimalFormater();
+        super();
+        this.decimals = decimals;
+        // create the decimal format
+        decimalFormat = dezimalFormater();
     }
 
     /**
      * @return the decimals
      */
     public int getDecimals() {
-	return decimals;
+        return decimals;
     }
 
     /**
@@ -34,15 +36,15 @@ public class Decimals {
      * @param decimals
      */
     public void setDecimals(int decimals) {
-	this.decimals = decimals;
-	decimalFormat = dezimalFormater();
+        this.decimals = decimals;
+        decimalFormat = dezimalFormater();
     }
 
     /**
      * @return the decimalFormat
      */
     public DecimalFormat getDecimalFormat() {
-	return decimalFormat;
+        return decimalFormat;
     }
 
     /**
@@ -51,11 +53,12 @@ public class Decimals {
      * @return
      */
     public DecimalFormat dezimalFormater() {
-	String pattern = "###,###.";
-	for (int i = 0; i < decimals; i++) {
-	    pattern += "#";
-	}
-	return new DecimalFormat(pattern);
+        String pattern = "###,###.";
+        for (int i = 0; i < decimals; i++) {
+            pattern += "#";
+        }
+        return new DecimalFormat(pattern, new DecimalFormatSymbols(Locale.GERMAN));
+
     }
 
 }

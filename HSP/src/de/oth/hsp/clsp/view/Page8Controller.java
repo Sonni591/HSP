@@ -1,5 +1,10 @@
 package de.oth.hsp.clsp.view;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+import java.util.Scanner;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -56,7 +61,15 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        double epgapHelp = Double.parseDouble(epgap.getText());
+
+        // save the given epgap number into the model by converting the German
+        // number format into a double
+
+        @SuppressWarnings("resource")
+        Scanner scanner = new Scanner(epgap.getText()).useLocale(Locale.GERMAN);
+        double epgapHelp = scanner.nextDouble();
+
+        // double epgapHelp = Double.parseDouble(epgap.getText());
         root.getClspModel().setEpgap(epgapHelp);
     }
 
@@ -67,7 +80,14 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void inEvent() {
-        epgap.setText(Double.toString(root.getClspModel().getEpgap()));
+
+        // display the epgap variable in the German number format
+
+        DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.GERMAN));
+        df.setMaximumFractionDigits(340); // 340=
+                                          // DecimalFormat.DOUBLE_FRACTION_DIGITS
+
+        epgap.setText(df.format(root.getClspModel().getEpgap()));
 
     }
 
