@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
@@ -79,7 +80,7 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        // root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
+        root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
     }
 
     @Override
@@ -90,7 +91,7 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     @Override
     public void inEvent() {
         Decimals decimals = new Decimals(2);
-        setTableData(tableTb, root.getClspModel().getTb(), "j: ", "k: ", decimals, dataListTb);
+        setTableData(tableTb, root.getClspModel().getTb(), "j: ", "k: ", decimals);
 
         // Number[][] tb = root.getClspModel().getTb();
         // DoubleProperty[][] dproparr = new
@@ -112,8 +113,6 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     public void insertTableValues() {
 
-        // System.out.println(tableTb.getItems());
-
         Number value = Integer.valueOf(tableValue.getText());
 
         Number[][] tb = root.getClspModel().getTb();
@@ -123,8 +122,21 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
             }
         }
 
-        setTableData(tableTb, tb, "t: ", "k: ", new Decimals(2), dataListTb);
+        setTableData(tableTb, tb, "t: ", "k: ", new Decimals(2));
 
     }
+
+    // public void testPrintout(ObservableList<Number[]> data) {
+    //
+    // for (int i = 0; i < data.size(); i++) {
+    // Number n[] = data.get(i);
+    // for (int j = 0; j < n.length; j++) {
+    // Double d = n[j].doubleValue();
+    // System.out.print(d + " ");
+    // }
+    // System.out.println("");
+    // }
+    //
+    // }
 
 }

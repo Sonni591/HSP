@@ -60,7 +60,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void inEvent() {
-        setTableData(tableD, root.getClspModel().getD(), "t: ", "k: ", new Decimals(2), dataListD);
+        setTableData(tableD, root.getClspModel().getD(), "t: ", "k: ", new Decimals(2));
     }
 
     /**
@@ -88,7 +88,7 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
             }
         }
 
-        setTableData(tableD, d, "t: ", "k: ", new Decimals(2), dataListD);
+        setTableData(tableD, d, "t: ", "k: ", new Decimals(2));
 
     }
 }

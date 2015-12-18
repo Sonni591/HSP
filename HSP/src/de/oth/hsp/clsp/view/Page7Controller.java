@@ -80,7 +80,7 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
     public void inEvent() {
 
         Decimals decimals = new Decimals(2);
-        setTableData(tableB, root.getClspModel().getB(), "j: ", "t: ", decimals, dataListB);
+        setTableData(tableB, root.getClspModel().getB(), "j: ", "t: ", decimals);
 
     }
 
@@ -94,7 +94,7 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
             }
         }
 
-        setTableData(tableB, b, "t: ", "k: ", new Decimals(2), dataListB);
+        setTableData(tableB, b, "t: ", "k: ", new Decimals(2));
 
     }
 

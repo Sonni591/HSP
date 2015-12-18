@@ -1,10 +1,10 @@
 package de.oth.hsp.clsp.view;
 
-import de.oth.hsp.common.view.AbstractTableViewPage;
-import de.oth.hsp.common.view.IPageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import de.oth.hsp.common.view.AbstractTableViewPage;
+import de.oth.hsp.common.view.IPageController;
 
 public class Page8Controller extends AbstractTableViewPage implements IPageController {
 
@@ -56,10 +56,8 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-        // TODO
-        // int epgapHelp = (int) Double.parseDouble(epgap.getText());
-        // root.getClspModel().setEpgap(epgapHelp);
-
+        double epgapHelp = Double.parseDouble(epgap.getText());
+        root.getClspModel().setEpgap(epgapHelp);
     }
 
     @Override
@@ -69,8 +67,7 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void inEvent() {
-        // TODO
-        // epgap.setText(Integer.toString(root.getClspModel().getEpgap()));
+        epgap.setText(Double.toString(root.getClspModel().getEpgap()));
 
     }
 

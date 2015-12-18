@@ -8,10 +8,13 @@ import java.util.Arrays;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import de.oth.hsp.common.utils.Decimals;
@@ -85,10 +88,9 @@ public abstract class AbstractTableViewPage {
     // TODO: Comment method
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void addTableViewContent(Number[][] inputData, TableView<Number[]> tableView, Decimals decimals,
-            String columnHeader, ObservableList<Number[]> dataList) {
-        // ObservableList<Number[]> dataList =
-        // FXCollections.observableArrayList();
-        // dataList.clear();
+            String columnHeader) {
+        ObservableList<Number[]> dataList = FXCollections.observableArrayList();
+        dataList.clear();
         dataList.addAll(Arrays.asList(inputData));
         for (int i = 0; i < inputData[0].length; i++) {
             TableColumn tableColumn = new TableColumn(columnHeader + String.valueOf(i + 1));
@@ -112,6 +114,13 @@ public abstract class AbstractTableViewPage {
                         }
                     });
 
+            tableColumn.setOnEditCommit(new EventHandler<CellEditEvent<Number[], Number>>() {
+                @Override
+                public void handle(CellEditEvent<Number[], Number> t) {
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())[colNo] = t.getNewValue();
+                }
+            });
+
             tableColumn.setSortable(false);
             tableColumn.setMinWidth(75);
             tableView.getColumns().add(tableColumn);
@@ -124,10 +133,10 @@ public abstract class AbstractTableViewPage {
     }
 
     protected void addTableViewContent(Number[] inputData, TableView<Number[]> tableView, Decimals decimals,
-            String columnHeader, ObservableList<Number[]> dataList) {
+            String columnHeader) {
         Number[][] values = new Number[1][inputData.length];
         values[0] = inputData;
-        addTableViewContent(values, tableView, decimals, columnHeader, dataList);
+        addTableViewContent(values, tableView, decimals, columnHeader);
     }
 
     protected void resizeTableRowHeight(TableView tableView) {
@@ -149,7 +158,7 @@ public abstract class AbstractTableViewPage {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void setTableData(TableView tableView, Number[][] data, String rowHeader, String columnHeader,
-            Decimals decimals, ObservableList<Number[]> dataList) {
+            Decimals decimals) {
         // clear Table Columns and content
         tableView.getItems().clear();
         tableView.getColumns().clear();
@@ -158,7 +167,7 @@ public abstract class AbstractTableViewPage {
         addColumnWithRowNumber(tableView, rowHeader);
 
         // get the data from the model and add it to the TableView
-        addTableViewContent(data, tableView, decimals, columnHeader, dataList);
+        addTableViewContent(data, tableView, decimals, columnHeader);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -172,7 +181,20 @@ public abstract class AbstractTableViewPage {
         addColumnWithRowNumber(tableView, rowHeader);
 
         // get the data from the model and add it to the TableView
-        addTableViewContent(data, tableView, decimals, columnHeader, dataList);
+        addTableViewContent(data, tableView, decimals, columnHeader);
+    }
+
+    public void testPrintout(ObservableList<Number[]> data) {
+
+        for (int i = 0; i < data.size(); i++) {
+            Number n[] = data.get(i);
+            for (int j = 0; j < n.length; j++) {
+                Double d = n[j].doubleValue();
+                System.out.print(d + " ");
+            }
+            System.out.println("");
+        }
+
     }
 
 }
