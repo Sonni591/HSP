@@ -162,7 +162,8 @@ public class Page1Controller implements IPageController {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Falsche Werte");
             alert.setHeaderText("Werte nicht korrekt");
-            alert.setContentText("Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
+            alert.setContentText(
+                    "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
 
             alert.showAndWait();
             root.getTab1Controller().getPagination().setCurrentPageIndex(0);
@@ -173,7 +174,8 @@ public class Page1Controller implements IPageController {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Falsche Werte");
         alert.setHeaderText("Werte nicht korrekt");
-        alert.setContentText("Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
+        alert.setContentText(
+                "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
 
         alert.showAndWait();
         root.getTab1Controller().getPagination().setCurrentPageIndex(0);
@@ -182,9 +184,9 @@ public class Page1Controller implements IPageController {
     @Override
     public void inEvent() {
 
-        K.setText(Integer.toString(root.getHpplanModel().getK()));
-        T.setText(Integer.toString(root.getHpplanModel().getT()));
-        J.setText(Integer.toString(root.getHpplanModel().getJ()));
-        Z.setText(Integer.toString(root.getHpplanModel().getzMax()));
+        K.setText(Integer.toString(root.getHpplanModel().getK().intValue()));
+        T.setText(Integer.toString(root.getHpplanModel().getT().intValue()));
+        J.setText(Integer.toString(root.getHpplanModel().getJ().intValue()));
+        Z.setText(Integer.toString(root.getHpplanModel().getzMax().intValue()));
     }
 }

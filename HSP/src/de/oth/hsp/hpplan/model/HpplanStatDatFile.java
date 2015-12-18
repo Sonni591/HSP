@@ -72,32 +72,36 @@ public class HpplanStatDatFile extends AbstractDatFile {
         initialize();
     }
 
-    public int getJ() {
-        return j.getContent().getIntValue();
+    public Number getJ() {
+        Number num = j.getContent().getIntValue();
+        return num;
     }
 
     public void setJ(int j) {
         this.j.getContent().setValue(j);
     }
 
-    public int getK() {
-        return k.getContent().getIntValue();
+    public Number getK() {
+        Number num = k.getContent().getIntValue();
+        return num;
     }
 
     public void setK(int k) {
         this.k.getContent().setValue(k);
     }
 
-    public int getT() {
-        return t.getContent().getIntValue();
+    public Number getT() {
+        Number num = t.getContent().getIntValue();
+        return num;
     }
 
     public void setT(int t) {
         this.t.getContent().setValue(t);
     }
 
-    public int getzMax() {
-        return zMax.getContent().getIntValue();
+    public Number getzMax() {
+        Number num = zMax.getContent().getIntValue();
+        return num;
     }
 
     public void setzMax(int zMax) {
