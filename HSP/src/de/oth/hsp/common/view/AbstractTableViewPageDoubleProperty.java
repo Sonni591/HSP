@@ -8,9 +8,11 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import de.oth.hsp.common.utils.Decimals;
@@ -126,6 +128,25 @@ public abstract class AbstractTableViewPageDoubleProperty {
                         }
                     });
 
+            tableColumn.setOnEditCommit(new EventHandler<CellEditEvent<DoubleProperty, Number>>() {
+                @Override
+                public void handle(CellEditEvent<DoubleProperty, Number> t) {
+
+                    System.out.println("setOnEditCommit");
+
+                    t.getTableView()
+                            .getItems()
+                            .set(t.getTablePosition().getRow(), new SimpleDoubleProperty(t.getNewValue().doubleValue()));
+
+                    // t.getTableView().getItems().set(t.getTablePosition().getRow(),
+                    // t.getNewValue());
+
+                    // ((Person) t.getTableView().getItems()
+                    // .get(t.getTablePosition().getRow())).setEmail(t
+                    // .getNewValue());
+                }
+            });
+
             tableColumn.setSortable(false);
             tableColumn.setMinWidth(75);
             tableView.getColumns().add(tableColumn);
@@ -169,7 +190,7 @@ public abstract class AbstractTableViewPageDoubleProperty {
         tableView.getColumns().clear();
 
         // add a column with row numbers
-        addColumnWithRowNumber(tableView, rowHeader);
+        // addColumnWithRowNumber(tableView, rowHeader);
 
         // get the data from the model and add it to the TableView
         addTableViewContent(data, tableView, decimals, columnHeader, dataList);
