@@ -16,10 +16,10 @@ public class TestHPPlanILOGAnbindung {
 
     public static void main(String[] args) {
         // Fall 1: Verwendung der .dat-Datei
-        computeHPPlanWithDATFile();
+        // computeHPPlanWithDATFile();
 
         // Fall 2: Verwenden der Daten aus Eingabe
-        // computeHPPlanWithParameters();
+        computeHPPlanWithParameters();
 
     }
 
@@ -27,7 +27,7 @@ public class TestHPPlanILOGAnbindung {
 
         try {
             HPPlanStatischSolvingAlgorithm alg = new HPPlanStatischSolvingAlgorithm();
-            HPPlanStatischResponse response = alg.solve("HPPLAN-Statisch");
+            HPPlanStatischResponse response = alg.solve("HPPLAN-Statisch", "src/resources/");
             alg.printResult();
 
         } catch (Exception e) {

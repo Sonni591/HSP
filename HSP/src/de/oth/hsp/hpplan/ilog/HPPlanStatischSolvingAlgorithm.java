@@ -71,12 +71,12 @@ public class HPPlanStatischSolvingAlgorithm {
         }
     }
 
-    public HPPlanStatischResponse solve(String pathToDatFile) throws NotSolvableException {
+    public HPPlanStatischResponse solve(String pathToDatFile, String pathToDatDir) throws NotSolvableException {
 
         try {
             model = new HPPlanStatischModel(getModelName());
             model.setUseDatFile(true);
-            isSolvable = model.solve(getModelName(), pathToDatFile);
+            isSolvable = model.solve(getModelName(), pathToDatFile, pathToDatDir);
 
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());

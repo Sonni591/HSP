@@ -3,6 +3,6 @@
 <properties>
 <entry key="DATDIR">src/resources/</entry>
 <entry key="MODDIR">src/resources/</entry>
-<entry key="USE_DAT">TRUE</entry>
+<entry key="USE_DAT">FALSE</entry>
 <entry key="USE_ILOG">TRUE</entry>
 </properties>
