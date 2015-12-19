@@ -6,7 +6,7 @@ import ilog.lip.framework.IloLipOutputField;
 
 import java.util.List;
 
-public class CLSPModel extends IloLipModell {
+public class CLSPModelFloat extends IloLipModell {
 
     /**
      * Input parameters
@@ -21,23 +21,23 @@ public class CLSPModel extends IloLipModell {
     private int bigNumber;
     @IloLipInputField(name = "J")
     private int numberOfResources;
-    @IloLipInputField(name = "b", benoetigt = "J,T")
+    @IloLipInputField(name = "b", benoetigt = "numberOfResources,planningHorizon")
     private float[][] capacitiesPerResource;
-    @IloLipInputField(name = "d", benoetigt = "K,T")
+    @IloLipInputField(name = "d", benoetigt = "numberOfProducts,planningHorizon")
     private int[][] demandPerPeriod;
-    @IloLipInputField(name = "h", benoetigt = "K")
+    @IloLipInputField(name = "h", benoetigt = "numberOfProducts")
     private float[] storageCosts;
-    @IloLipInputField(name = "s", benoetigt = "K")
+    @IloLipInputField(name = "s", benoetigt = "numberOfProducts")
     private float[] setUpCosts;
-    @IloLipInputField(name = "tb", benoetigt = "K,J")
+    @IloLipInputField(name = "tb", benoetigt = "numberOfProducts,numberOfResources")
     private float[][] pieceProcessingTime;
-    @IloLipInputField(name = "tr", benoetigt = "K,J")
+    @IloLipInputField(name = "tr", benoetigt = "numberOfProducts,numberOfResources")
     private float[][] setUpTimePerPeriod;
-    @IloLipInputField(name = "z", benoetigt = "K")
+    @IloLipInputField(name = "z", benoetigt = "numberOfProducts")
     private int[] minLeadTime;
-    @IloLipInputField(name = "y0", benoetigt = "K")
+    @IloLipInputField(name = "y0", benoetigt = "numberOfProducts")
     private int[] initialInventory;
-    @IloLipInputField(name = "yT", benoetigt = "K")
+    @IloLipInputField(name = "yT", benoetigt = "numberOfProducts")
     private int[] stockAtEndOfProcess;
 
     /**
@@ -48,7 +48,7 @@ public class CLSPModel extends IloLipModell {
     @IloLipOutputField(name = "y")
     private float[][] stock;
     @IloLipOutputField(name = "r")
-    private boolean[][] setUpVariables;
+    private int[][] setUpVariables;
 
     /**
      * This constructor creates a new CLSP model
@@ -56,16 +56,49 @@ public class CLSPModel extends IloLipModell {
      * @param modelName
      *            The name of the model (usually this will be Modell)
      */
-    public CLSPModel(String modelName) {
+    public CLSPModelFloat(String modelName) {
         super(modelName);
+        initializeOutputFields();
     }
+    
+//    private void initializeModelVariables(float epgap, int planningHorizon,
+//    		int numberOfProducts, int bigNumber, int numberOfResources,
+//    		float[][] capacitiesPerResource, int[][] demandPerPeriod,
+//    		float[] storageCosts, float[] setUpCosts,
+//    		float[][] pieceProcessingTime, float[][] setUpTimePerPeriod,
+//    		int[] minLeadTime, int[] initialInventory, int[] stockAtEndOfProcess) {
+//        this.epgap = epgap;
+//        this.planningHorizon = planningHorizon;
+//        this.bigNumber = bigNumber;
+//        this.numberOfProducts = numberOfProducts;
+//        this.numberOfResources = capacitiesPerResource.length;
+//
+//        // Initialize the input fields
+//        this.capacitiesPerResource = capacitiesPerResource;
+//
+//        this.demandPerPeriod = demandPerPeriod;
+//        this.pieceProcessingTime = pieceProcessingTime;
+//        this.setUpTimePerPeriod = setUpTimePerPeriod;
+//        
+//        this.storageCosts = storageCosts;
+//        this.setUpCosts = setUpCosts;
+//        this.initialInventory = initialInventory;
+//        this.stockAtEndOfProcess = stockAtEndOfProcess;
+//        this.minLeadTime = minLeadTime;
+//
+//        initializeOutputFields();
+//
+//    }
+    
 
-    public CLSPModel(String modelName, List<Product> products, float epgap, int planningHorizon, int bigNumber,
+    public CLSPModelFloat(String modelName, List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
         super(modelName);
         initializeModelVariables(products, epgap, planningHorizon, bigNumber, capacitiesPerResource);
 
     }
+    
+    
 
     private void initializeModelVariables(List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
@@ -106,26 +139,65 @@ public class CLSPModel extends IloLipModell {
             minLeadTime[i] = product.getMinLeadTime();
         }
 
-        // Initialize OutputFields
+        initializeOutputFields();
+
+    }
+    
+//    public CLSPModel(String arg0, float epgap, int planningHorizon,
+//		int numberOfProducts, int bigNumber, int numberOfResources,
+//		float[][] capacitiesPerResource, int[][] demandPerPeriod,
+//		float[] storageCosts, float[] setUpCosts,
+//		float[][] pieceProcessingTime, float[][] setUpTimePerPeriod,
+//		int[] minLeadTime, int[] initialInventory, int[] stockAtEndOfProcess) {
+//	super(arg0);
+//	this.epgap = epgap;
+//	this.planningHorizon = planningHorizon;
+//	this.numberOfProducts = numberOfProducts;
+//	this.bigNumber = bigNumber;
+//	this.numberOfResources = numberOfResources;
+//	this.capacitiesPerResource = capacitiesPerResource;
+//	this.demandPerPeriod = demandPerPeriod;
+//	this.storageCosts = storageCosts;
+//	this.setUpCosts = setUpCosts;
+//	this.pieceProcessingTime = pieceProcessingTime;
+//	this.setUpTimePerPeriod = setUpTimePerPeriod;
+//	this.minLeadTime = minLeadTime;
+//	this.initialInventory = initialInventory;
+//	this.stockAtEndOfProcess = stockAtEndOfProcess;
+//}
+
+	private void initializeOutputFields(){
+    	  // Initialize OutputFields
         this.lotsPerPeriod = new float[numberOfProducts][planningHorizon];
         this.stock = new float[numberOfProducts][planningHorizon + 1];
-        this.setUpVariables = new boolean[numberOfProducts][planningHorizon];
-
+        this.setUpVariables = new int[numberOfProducts][planningHorizon];
     }
 
     /**
      * Getter for the output parameters
      */
-    public float[][] getLotsPerPeriod() {
-        return lotsPerPeriod;
-    }
-
-    public float[][] getStock() {
-        return stock;
-    }
-
-    public boolean[][] getSetUpVariables() {
+    public int[][] getSetUpVariables() {
         return setUpVariables;
     }
 
+	public float[][] getLotsPerPeriod() {
+		return lotsPerPeriod;
+	}
+
+	public float[][] getStock() {
+		return stock;
+	}
+
+	
+	/**
+	 * Getter for numberOfProducts and planningHorizon
+	 */
+	
+	public int getPlanningHorizon() {
+		return planningHorizon;
+	}
+
+	public int getNumberOfProducts() {
+		return numberOfProducts;
+	}
 }

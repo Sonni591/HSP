@@ -4,6 +4,8 @@ import java.util.List;
 
 import de.oth.hsp.clsp.model.ClspDatFile;
 
+// import de.oth.hsp.clsp.model.ClspDatFile;
+
 public class CLSPRequest {
 
     private List<Product> products;
@@ -23,7 +25,10 @@ public class CLSPRequest {
     }
 
     public CLSPRequest(ClspDatFile clspModel) {
-        // TODO Auto-generated constructor stub
+        this.epgap = (float) clspModel.getEpgap();
+        this.planningHorizon = clspModel.getT();
+        this.bigNumber = clspModel.getM();
+        // TODO: restliche Werte setzen!
     }
 
     public List<Product> getProducts() {

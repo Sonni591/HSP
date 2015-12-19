@@ -15,7 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import de.oth.hsp.clsp.ilog.CLSPRequest;
 import de.oth.hsp.clsp.ilog.CLSPResponse;
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithm;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
 import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.dat.DatFileParser;
 import de.oth.hsp.common.dat.parser.DatParseException;
@@ -234,7 +234,7 @@ public class RootLayoutController {
         if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
             tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
         }
-        CLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithm();
+        CLSPSolvingAlgorithmFloat alg = new CLSPSolvingAlgorithmFloat();
         CLSPRequest request = new CLSPRequest(clspModel);
         try {
             showResult(alg.solve(request));

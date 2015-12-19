@@ -3,13 +3,13 @@ package de.oth.hsp.clsp.ilog;
 import de.oth.hsp.common.ilog.exception.ILogSolvingException;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
 
-public class CLSPSolvingAlgorithm {
+public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm{
 
-    private CLSPModel model;
+    private CLSPModelInt model;
     private boolean isSolvable = false;
 
     private static String getModelName() {
-        return "ModellCLSP";
+        return "CLSPInt";
     }
 
     public CLSPResponse solve(CLSPRequest request) throws NotSolvableException {
@@ -17,37 +17,26 @@ public class CLSPSolvingAlgorithm {
         if (request.getBigNumber() == 0) {
             throw new IllegalArgumentException("Big Number ist 0.");
         }
-        if (request.getEpgap() == 0) {
-            throw new IllegalArgumentException("EPGAP ist 0.");
-        }
-        if (request.getPlanningHorizon() == 0) {
-            throw new IllegalArgumentException("Planungshorizont ist 0.");
-        }
-        if (request.getCapacitiesPerResource() == null || request.getCapacitiesPerResource().length == 0) {
-            throw new IllegalArgumentException("KapazitÃ¤t pro Resource muss angelegt werden.");
-        }
         if (request.getProducts() == null || request.getProducts().size() == 0) {
             throw new IllegalArgumentException("Mindestens ein Produkt muss angelegt werden.");
         }
 
-        model = new CLSPModel(getModelName(), request.getProducts(), request.getEpgap(), request.getPlanningHorizon(),
+        model = new CLSPModelInt(getModelName(), request.getProducts(), request.getEpgap(), request.getPlanningHorizon(),
                 request.getBigNumber(), request.getCapacitiesPerResource());
-
+        
         // Try to solve the model
         try {
-
+        	model.setUseDatFile(false);
             isSolvable = model.solve();
             System.out.println("[INFO] Solved: " + isSolvable);
 
             // If the problem is not solvable, throw an exception
-            if (isSolvable) {
-                model.printResult();
-            } else {
+            if (!isSolvable) {
                 throw new NotSolvableException();
             }
 
             if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-                throw new ILogSolvingException("Fehler beim LÃ¶sen des PLSP-Problems. Die LÃ¶sung enthÃ¤lt 'null'-Werte. ");
+                throw new ILogSolvingException("Fehler beim Lösen des CLSP-Problems. Die Lösung enthält 'null'-Werte. ");
             }
 
             // Build the response object
@@ -66,11 +55,12 @@ public class CLSPSolvingAlgorithm {
         }
     }
 
-    public CLSPResponse solve(String pathToDatFile, String pathToModFile) throws NotSolvableException {
+    public CLSPResponse solve(String pathToDatFile, String pathToDatDir) throws NotSolvableException {
 
-        model = new CLSPModel(getModelName());
+        model = new CLSPModelInt(getModelName());
         try {
-            isSolvable = model.solve(pathToModFile, pathToDatFile);
+        	model.setUseDatFile(true);
+            isSolvable = model.solve(getModelName(), pathToDatFile, pathToDatDir);
 
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
@@ -86,26 +76,38 @@ public class CLSPSolvingAlgorithm {
 
     private CLSPResponse prepareResponse() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-            throw new IllegalArgumentException("Das gelÃ¶ste Modell enthÃ¤lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
+        }
+        
+        int[][] setUp = model.getSetUpVariables();
+        boolean[][] setUpVariables = new boolean[model.getNumberOfProducts()][model.getPlanningHorizon()];
+        for(int i = 0; i < model.getNumberOfProducts(); i++){
+        	for(int j = 0; j < model.getPlanningHorizon(); j++){
+        		if(setUp[i][j] == 1){
+        			setUpVariables[i][j] = true;
+        		}else{
+        			setUpVariables[i][j] = false;
+        		}
+        	}
         }
         CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
-                model.getSetUpVariables());
+        		setUpVariables);
 
         return response;
     }
 
     public void printResult() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-            throw new IllegalArgumentException("Das gelÃ¶ste Modell enthÃ¤lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
         try {
             model.printResult();
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Das gelÃ¶ste Modell enthÃ¤lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("Das gelÃ¶ste Modell enthÃ¤lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         } catch (Exception e) {
-            throw new IllegalArgumentException("Das gelÃ¶ste Modell enthÃ¤lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
     }
 }

@@ -2,7 +2,9 @@
 int T = ...;                                  // Planungszeitraum.
 int K = ...;                                  // Produkte.
 int J = ...;                                  // Ressource.
-int M = ...;                                  // Grosse Zahl.   
+int M = ...;                                  // Grosse Zahl. 
+
+float CPLEX_EPGAP = ...;					  // EPGAP (relative Optimalitätslücke)  
 
 // Wertebereiche:
 range Produkt = 1..K;
@@ -24,6 +26,14 @@ float tb[Produkt][Ressource] = ...;           // Stueckbearbeitungszeiten.
 float tr[Produkt][Ressource] = ...;           // Ruestzeiten. 
 int z[Produkt] = ...;                         // Mindestvorlaufzeiten.
 int y0[Produkt] = ...;                        // Anfangslagerbestaende.
+int yT[Produkt] = ...;                        // Endlagerbestaende.
+
+//EPGAP for solution finding
+execute CPX_PARAM {
+  cplex.epgap = CPLEX_EPGAP;      
+  cplex.tilim = 100;
+}
+ 
 
 // Minimierung der Gesamtkosten
 minimize                          
@@ -50,6 +60,7 @@ constraints {
 	}
 	// Lageranfangs- und Lagerendbestaende:
 	forall(k in Produkt){							
-		y[k][0] == y0[k];	
+		y[k][0] == y0[k];
+		y[k][T] == yT[k];	
 	}
 };
