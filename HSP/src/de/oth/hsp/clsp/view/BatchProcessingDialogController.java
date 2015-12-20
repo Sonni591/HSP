@@ -96,7 +96,18 @@ public class BatchProcessingDialogController {
 
                             // TODO call batch processing
                             // TODO save results in folders
-                            Thread.sleep(5000);
+                            //Thread.sleep(5000);
+                            
+                            ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();                            
+                            for(int i=0; i<directories.size(); i++){
+                            	String datName = choosenDatFiles.get(i).getName();
+                            	String datPathName = choosenDatFiles.get(i).getAbsolutePath();
+                            	String datPath = datPathName.substring(0,datPathName.lastIndexOf(File.separator));
+                            	
+                                CLSPResponse response = alg.solve(datPath, datName);
+                                alg.exportExcel(directories.get(i).getAbsolutePath());
+                            }
+
                             // directories
                             // choosenDatFiles
                             piBatchProcessingProgress.setVisible(false);
