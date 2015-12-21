@@ -4,7 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.oth.hsp.clsp.ilog.CLSPResponse;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
+import de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm;
 import de.oth.hsp.common.utils.FileOperations;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -83,45 +87,44 @@ public class BatchProcessingDialogController {
                     file.mkdir();
                 }
 
-                batchProcess = new Thread(new Runnable() {
+                Task<Void> batchTask = new Task<Void>() {
 
                     @Override
-                    public void run() {
-                        try {
-                            btnStart.setDisable(true);
-                            btnChooseDatFiles.setDisable(true);
-                            btnChooseDestination.setDisable(true);
-                            txtDestination.setEditable(false);
-                            piBatchProcessingProgress.setVisible(true);
+                    protected Void call() throws Exception {
+                        btnStart.setDisable(true);
+                        btnChooseDatFiles.setDisable(true);
+                        btnChooseDestination.setDisable(true);
+                        txtDestination.setEditable(false);
+                        piBatchProcessingProgress.setVisible(true);
 
-                            // TODO call batch processing
-                            // TODO save results in folders
-                            //Thread.sleep(5000);
-                            
-                            ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();                            
-                            for(int i=0; i<directories.size(); i++){
-                            	String datName = choosenDatFiles.get(i).getName();
-                            	String datPathName = choosenDatFiles.get(i).getAbsolutePath();
-                            	String datPath = datPathName.substring(0,datPathName.lastIndexOf(File.separator));
-                            	
-                                CLSPResponse response = alg.solve(datPath, datName);
-                                alg.exportExcel(directories.get(i).getAbsolutePath());
-                            }
+                        // TODO call batch processing
+                        // TODO save results in folders
+                        // Thread.sleep(5000);
 
-                            // directories
-                            // choosenDatFiles
-                            piBatchProcessingProgress.setVisible(false);
-                            btnStart.setDisable(false);
-                            btnChooseDatFiles.setDisable(false);
-                            btnChooseDestination.setDisable(false);
-                            txtDestination.setEditable(true);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
+                        for (int i = 0; i < directories.size(); i++) {
+                            String datName = choosenDatFiles.get(i).getName();
+                            String datPathName = choosenDatFiles.get(i).getAbsolutePath();
+                            String datPath = datPathName.substring(0, datPathName.lastIndexOf(File.separator));
+
+                            CLSPResponse response = alg.solve(datPath, datName);
+                            // alg.exportExcel(directories.get(i).getAbsolutePath());
+
+                            updateProgress(i, directories.size());
                         }
 
+                        // directories
+                        // choosenDatFiles
+                        piBatchProcessingProgress.setVisible(false);
+                        btnStart.setDisable(false);
+                        btnChooseDatFiles.setDisable(false);
+                        btnChooseDestination.setDisable(false);
+                        txtDestination.setEditable(true);
+                        return null;
                     }
-                });
+                };
 
+                batchProcess = new Thread(batchTask);
                 batchProcess.start();
 
             } else {
