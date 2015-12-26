@@ -103,12 +103,14 @@ public class BatchProcessingDialogController {
 
                         ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
                         for (int i = 0; i < directories.size(); i++) {
-                            String datName = choosenDatFiles.get(i).getName();
-                            String datPathName = choosenDatFiles.get(i).getAbsolutePath();
-                            String datPath = datPathName.substring(0, datPathName.lastIndexOf(File.separator));
+                            String datFileName = choosenDatFiles.get(i).getName();
+                            datFileName = datFileName.substring(0, datFileName.length() - 4);
+                            String datPathAndName = choosenDatFiles.get(i).getAbsolutePath();
+                            String datPath = datPathAndName.substring(0,
+                                    datPathAndName.lastIndexOf(File.separator) + 1);
 
-                            CLSPResponse response = alg.solve(datPath, datName);
-                            // alg.exportExcel(directories.get(i).getAbsolutePath());
+                            CLSPResponse response = alg.solve(datFileName, datPath,
+                                    directories.get(i).getAbsolutePath() + "/");
 
                             updateProgress(i, directories.size());
                         }

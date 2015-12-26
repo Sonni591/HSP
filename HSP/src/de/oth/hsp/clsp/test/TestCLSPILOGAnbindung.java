@@ -35,7 +35,6 @@ public class TestCLSPILOGAnbindung {
     public static void computeCLSPFloatWithDATFile() {
 
         try {
-
             // Aufruf des Algoritmus
             ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
             CLSPResponse response = alg.solve("CLSP", "src/resources/");
