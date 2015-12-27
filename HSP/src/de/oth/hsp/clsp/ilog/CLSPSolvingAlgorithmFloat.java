@@ -37,8 +37,7 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
             }
 
             if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-                throw new ILogSolvingException(
-                        "Fehler beim L�sen des CLSP-Problems. Die L�sung enth�lt 'null'-Werte. ");
+                throw new ILogSolvingException("Fehler beim L�sen des CLSP-Problems. Die L�sung enth�lt 'null'-Werte. ");
             }
 
             // Build the response object
@@ -85,6 +84,7 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
         try {
             model.setUseDatFile(true);
             isSolvable = model.solve(getModelName(), pathToDatFile, pathToDatDir);
+            model.setAllowExcelExport(true);
             model.exportExcel(pathExcelExport);
 
         } catch (Exception e) {
@@ -115,8 +115,7 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
                 }
             }
         }
-        CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
-                setUpVariables);
+        CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(), setUpVariables);
 
         return response;
     }

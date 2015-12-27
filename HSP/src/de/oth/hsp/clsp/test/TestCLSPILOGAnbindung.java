@@ -18,18 +18,21 @@ public class TestCLSPILOGAnbindung {
 
         // Fall 1: Verwendung der .dat-Datei; Darstellung der Ergebnisse als
         // Float
-        computeCLSPFloatWithDATFile();
+        // computeCLSPFloatWithDATFile();
 
         // Fall 2: Verwenden der Daten aus Eingabe; Darstellung der Ergebnisse
         // als Float
-        computeCLSPFloatWithParameters();
+        // computeCLSPFloatWithParameters();
 
         // Fall 1: Verwendung der .dat-Datei; Darstellung der Ergebnisse als Int
-        computeCLSPIntWithDATFile();
+        // computeCLSPIntWithDATFile();
 
         // Fall 2: Verwenden der Daten aus Eingabe; Darstellung der Ergebnisse
         // als Int
-        computeCLSPIntWithParameters();
+        // computeCLSPIntWithParameters();
+
+        // Fall 3: Verenden einer .dat-Datei mit Excel-Export
+        computeCLSPFloatWithDATFileAndExcelExport();
     }
 
     public static void computeCLSPFloatWithDATFile() {
@@ -38,6 +41,20 @@ public class TestCLSPILOGAnbindung {
             // Aufruf des Algoritmus
             ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
             CLSPResponse response = alg.solve("CLSP", "src/resources/");
+            alg.printResult();
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static void computeCLSPFloatWithDATFileAndExcelExport() {
+
+        try {
+            // Aufruf des Algoritmus
+            ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
+            CLSPResponse response = alg.solve("CLSP", "src/resources/", "src/resources/");
             alg.printResult();
 
         } catch (Exception e) {

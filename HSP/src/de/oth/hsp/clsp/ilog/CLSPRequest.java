@@ -28,6 +28,7 @@ public class CLSPRequest {
         this.epgap = (float) clspModel.getEpgap();
         this.planningHorizon = clspModel.getT();
         this.bigNumber = clspModel.getM();
+        // this.capacitiesPerResource = clspModel.
         // TODO: restliche Werte setzen!
     }
 
