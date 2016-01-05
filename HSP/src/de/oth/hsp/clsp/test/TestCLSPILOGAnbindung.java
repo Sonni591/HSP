@@ -54,7 +54,7 @@ public class TestCLSPILOGAnbindung {
         try {
             // Aufruf des Algoritmus
             ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
-            CLSPResponse response = alg.solve("CLSP", "src/resources/", "src/resources/");
+            CLSPResponse response = alg.solve("CLSP", "src/resources/", "r im CLSPsrc/resources/");
             alg.printResult();
 
         } catch (Exception e) {
