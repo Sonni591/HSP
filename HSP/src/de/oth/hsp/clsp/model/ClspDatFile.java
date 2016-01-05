@@ -123,12 +123,20 @@ public class ClspDatFile extends AbstractDatFile {
         return b.getContent().getValues();
     }
 
+    public int[][] getBAsIntArray() {
+        return b.getContent().getIntValues();
+    }
+
     public void setB(Number[][] b) {
         this.b.getContent().setValues(b);
     }
 
     public Number[][] getD() {
         return d.getContent().getValues();
+    }
+
+    public int[][] getDAsIntArray() {
+        return d.getContent().getIntValues();
     }
 
     public void setD(Number[][] d) {
@@ -139,12 +147,20 @@ public class ClspDatFile extends AbstractDatFile {
         return h.getContent().getValues();
     }
 
+    public int[] getHAsIntArray() {
+        return h.getContent().getIntValues();
+    }
+
     public void setH(Number[] h) {
         this.h.getContent().setValues(h);
     }
 
     public Number[] getS() {
         return s.getContent().getValues();
+    }
+
+    public int[] getSAsIntArray() {
+        return s.getContent().getIntValues();
     }
 
     public void setS(Number[] s) {
@@ -155,12 +171,20 @@ public class ClspDatFile extends AbstractDatFile {
         return tb.getContent().getValues();
     }
 
+    public int[][] getTbAsIntArray() {
+        return tb.getContent().getIntValues();
+    }
+
     public void setTb(Number[][] tb) {
         this.tb.getContent().setValues(tb);
     }
 
     public Number[][] getTr() {
         return tr.getContent().getValues();
+    }
+
+    public int[][] getTrAsIntArray() {
+        return tr.getContent().getIntValues();
     }
 
     public void setTr(Number[][] tr) {
@@ -171,6 +195,10 @@ public class ClspDatFile extends AbstractDatFile {
         return z.getContent().getValues();
     }
 
+    public int[] getZAsIntArray() {
+        return z.getContent().getIntValues();
+    }
+
     public void setZ(Number[] y0) {
         this.z.getContent().setValues(y0);
     }
@@ -179,12 +207,20 @@ public class ClspDatFile extends AbstractDatFile {
         return y0.getContent().getValues();
     }
 
+    public int[] getY0AsIntArray() {
+        return y0.getContent().getIntValues();
+    }
+
     public void setY0(Number[] y0) {
         this.y0.getContent().setValues(y0);
     }
 
     public Number[] getYT() {
         return yT.getContent().getValues();
+    }
+
+    public int[] getYTAsIntArray() {
+        return yT.getContent().getIntValues();
     }
 
     public void setYT(Number[] yT) {
