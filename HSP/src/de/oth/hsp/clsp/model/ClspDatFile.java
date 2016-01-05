@@ -15,6 +15,7 @@ import de.oth.hsp.common.dat.constraint.TwoDimRowConstraint;
 import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
+import de.oth.hsp.common.utils.ArrayConverter;
 
 /**
  * Describes a <i>dat</i> file for CLSP problem solving.
@@ -127,6 +128,10 @@ public class ClspDatFile extends AbstractDatFile {
         return b.getContent().getIntValues();
     }
 
+    public float[][] getBAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(b.getContent().getDoubleValues());
+    }
+
     public void setB(Number[][] b) {
         this.b.getContent().setValues(b);
     }
@@ -137,6 +142,10 @@ public class ClspDatFile extends AbstractDatFile {
 
     public int[][] getDAsIntArray() {
         return d.getContent().getIntValues();
+    }
+
+    public float[][] getDAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(d.getContent().getDoubleValues());
     }
 
     public void setD(Number[][] d) {
@@ -151,6 +160,10 @@ public class ClspDatFile extends AbstractDatFile {
         return h.getContent().getIntValues();
     }
 
+    public float[] getHAsFloatArray() {
+        return ArrayConverter.convertOneDimArray(h.getContent().getDoubleValues());
+    }
+
     public void setH(Number[] h) {
         this.h.getContent().setValues(h);
     }
@@ -161,6 +174,10 @@ public class ClspDatFile extends AbstractDatFile {
 
     public int[] getSAsIntArray() {
         return s.getContent().getIntValues();
+    }
+
+    public float[] getSAsFloatArray() {
+        return ArrayConverter.convertOneDimArray(s.getContent().getDoubleValues());
     }
 
     public void setS(Number[] s) {
@@ -175,6 +192,10 @@ public class ClspDatFile extends AbstractDatFile {
         return tb.getContent().getIntValues();
     }
 
+    public float[][] getTbAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(tb.getContent().getDoubleValues());
+    }
+
     public void setTb(Number[][] tb) {
         this.tb.getContent().setValues(tb);
     }
@@ -185,6 +206,10 @@ public class ClspDatFile extends AbstractDatFile {
 
     public int[][] getTrAsIntArray() {
         return tr.getContent().getIntValues();
+    }
+
+    public float[][] getTrAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(tr.getContent().getDoubleValues());
     }
 
     public void setTr(Number[][] tr) {
@@ -199,6 +224,10 @@ public class ClspDatFile extends AbstractDatFile {
         return z.getContent().getIntValues();
     }
 
+    public float[] getZAsFloatArray() {
+        return ArrayConverter.convertOneDimArray(z.getContent().getDoubleValues());
+    }
+
     public void setZ(Number[] y0) {
         this.z.getContent().setValues(y0);
     }
@@ -211,6 +240,10 @@ public class ClspDatFile extends AbstractDatFile {
         return y0.getContent().getIntValues();
     }
 
+    public float[] getY0AsFloatArray() {
+        return ArrayConverter.convertOneDimArray(y0.getContent().getDoubleValues());
+    }
+
     public void setY0(Number[] y0) {
         this.y0.getContent().setValues(y0);
     }
@@ -221,6 +254,10 @@ public class ClspDatFile extends AbstractDatFile {
 
     public int[] getYTAsIntArray() {
         return yT.getContent().getIntValues();
+    }
+
+    public float[] getYTAsFloatArray() {
+        return ArrayConverter.convertOneDimArray(yT.getContent().getDoubleValues());
     }
 
     public void setYT(Number[] yT) {
