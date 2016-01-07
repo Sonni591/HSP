@@ -55,9 +55,7 @@ public class Tab2Controller extends AbstractTableViewPage {
             setTableData(tableLotsPerPeriod, clspResponse.getLotsPerPeriodNumberArr(), "", "", new Decimals(2));
             setTableData(tableStockAtEndOfPeriod, clspResponse.getStockAtEndOfPeriodNumberArr(), "", "",
                     new Decimals(2));
-            // setTableData(tableSetUpVariables,
-            // clspResponse.getSetUpVariablesNumberArr(), "", "", new
-            // Decimals(2));
+            setTableData(tableSetUpVariables, clspResponse.getSetUpVariablesNumberArr(), "", "", new Decimals(2));
 
             root.tabPaneSwitchToTab(1); // switch to Tab 2
 
