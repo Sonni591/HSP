@@ -7,10 +7,9 @@ public class CLSPResponse {
     private float[][] stockAtEndOfPeriodFloat;
     private int[][] lotsPerPeriodInt;
     private int[][] stockAtEndOfPeriodInt;
-    private boolean[][] setUpVariables;
+    private int[][] setUpVariables;
 
-    public CLSPResponse(boolean solvable, float[][] lotsPerPeriod, float[][] stockAtEndOfPeriod,
-            boolean[][] setUpVariables) {
+    public CLSPResponse(boolean solvable, float[][] lotsPerPeriod, float[][] stockAtEndOfPeriod, int[][] setUpVariables) {
         super();
         this.solvable = solvable;
 
@@ -19,7 +18,7 @@ public class CLSPResponse {
         this.setUpVariables = setUpVariables;
     }
 
-    public CLSPResponse(boolean solvable, int[][] lotsPerPeriod, int[][] stockAtEndOfPeriod, boolean[][] setUpVariables) {
+    public CLSPResponse(boolean solvable, int[][] lotsPerPeriod, int[][] stockAtEndOfPeriod, int[][] setUpVariables) {
         super();
         this.solvable = solvable;
 
@@ -32,7 +31,7 @@ public class CLSPResponse {
         return solvable;
     }
 
-    public boolean[][] getSetUpVariables() {
+    public int[][] getSetUpVariables() {
         return setUpVariables;
     }
 
@@ -77,15 +76,11 @@ public class CLSPResponse {
     }
 
     public Number[][] getSetUpVariablesNumberArr() {
-        Number[][] arr = new Number[setUpVariables.length][setUpVariables[0].length];
+        Number[][] arr;
+        arr = new Number[setUpVariables.length][setUpVariables[0].length];
         for (int i = 0; i < setUpVariables.length; i++) {
-            for (int j = 0; j < setUpVariables[i].length; j++) {
-                if (setUpVariables[i][j]) {
-                    arr[i][j] = 0;
-                } else {
-                    arr[i][j] = 1;
-                }
-
+            for (int j = 0; j < setUpVariables[0].length; j++) {
+                arr[i][j] = setUpVariables[i][j];
             }
         }
         return arr;

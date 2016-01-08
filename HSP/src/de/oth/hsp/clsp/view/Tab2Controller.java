@@ -74,7 +74,7 @@ public class Tab2Controller extends AbstractTableViewPage {
     public void setDummyData() {
 
         CLSPResponse clspResponse = new CLSPResponse(true, createdDummyMatrix(3, 3), createdDummyMatrix(4, 4),
-                createdDummyMatrixBoolean(5, 5));
+                createdDummyMatrixInt(5, 5));
         setResultData(clspResponse);
 
     }
@@ -91,13 +91,13 @@ public class Tab2Controller extends AbstractTableViewPage {
         return matrix;
     }
 
-    public boolean[][] createdDummyMatrixBoolean(int dim1, int dim2) {
-        boolean[][] matrix = new boolean[dim1][dim2];
-        boolean t = true;
+    public int[][] createdDummyMatrixInt(int dim1, int dim2) {
+        int[][] matrix = new int[dim1][dim2];
+        int t = 0;
         for (int i = 0; i < dim1; i++) {
             for (int j = 0; j < dim2; j++) {
                 matrix[i][j] = t;
-                t = t ? false : true;
+                // t = t ? false : true;
             }
         }
         return matrix;

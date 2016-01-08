@@ -37,8 +37,7 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
             }
 
             if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-                throw new ILogSolvingException(
-                        "Fehler beim L�sen des CLSP-Problems. Die L�sung enth�lt 'null'-Werte. ");
+                throw new ILogSolvingException("Fehler beim L�sen des CLSP-Problems. Die L�sung enth�lt 'null'-Werte. ");
             }
 
             // Build the response object
@@ -103,19 +102,8 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
             throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
         }
 
-        int[][] setUp = model.getSetUpVariables();
-        boolean[][] setUpVariables = new boolean[model.getNumberOfProducts()][model.getPlanningHorizon()];
-        for (int i = 0; i < model.getNumberOfProducts(); i++) {
-            for (int j = 0; j < model.getPlanningHorizon(); j++) {
-                if (setUp[i][j] == 1) {
-                    setUpVariables[i][j] = true;
-                } else {
-                    setUpVariables[i][j] = false;
-                }
-            }
-        }
         CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
-                setUpVariables);
+                model.getSetUpVariables());
 
         return response;
     }
