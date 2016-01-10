@@ -65,6 +65,9 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
         // save the given epgap number into the model by converting the German
         // number format into a double
 
+        // to have correct format: replace dots with commas
+        epgap.setText(epgap.getText().replaceAll("\\.", ","));
+
         @SuppressWarnings("resource")
         Scanner scanner = new Scanner(epgap.getText()).useLocale(Locale.GERMAN);
         double epgapHelp = scanner.nextDouble();
@@ -96,10 +99,9 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
         outEvent(); // write all Data from this page into the clspModel
 
-        System.out.println(root.getClspModel());
+        // System.out.println(root.getClspModel());
 
-        // TODO: ensure correct data and start calculation
-
+        // start calculation
         root.calculateCLSP();
 
     }

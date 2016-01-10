@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -16,6 +17,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import de.oth.hsp.clsp.ilog.CLSPRequest;
 import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmInt;
 import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.dat.DatFileParser;
 import de.oth.hsp.common.dat.parser.DatParseException;
@@ -41,6 +43,12 @@ public class RootLayoutController {
     @FXML
     private MenuBar menuBar;
 
+    @FXML
+    private RadioMenuItem algorithmNumberSettingInt;
+
+    @FXML
+    private RadioMenuItem algorithmNumberSettingFloat;
+
     // References the CLSPModel
     private ClspDatFile clspModel = new ClspDatFile();
 
@@ -64,6 +72,8 @@ public class RootLayoutController {
         // Init all controller first
         tab1Controller.init(this);
         tab2Controller.init(this);
+
+        setAlgorithmNumberSetting();
 
     }
 
@@ -234,18 +244,38 @@ public class RootLayoutController {
         if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
             tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
         }
-        CLSPSolvingAlgorithmFloat alg = new CLSPSolvingAlgorithmFloat();
-        CLSPRequest request = new CLSPRequest(clspModel);
-        try {
-            showResult(alg.solve(request));
-        } catch (NotSolvableException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle(e.getTitle());
-            alert.setHeaderText("Nicht lösbar!");
-            alert.setContentText(e.getText());
-            alert.showAndWait();
+
+        if (algorithmNumberSettingInt.isSelected()) {
+            CLSPSolvingAlgorithmInt alg = new CLSPSolvingAlgorithmInt();
+            CLSPRequest request = new CLSPRequest(clspModel);
+            try {
+                showResult(alg.solve(request));
+            } catch (NotSolvableException e) {
+                showAlertAlgorithmNotSolvable(e);
+            }
+        } else if (algorithmNumberSettingFloat.isSelected()) {
+            CLSPSolvingAlgorithmFloat alg = new CLSPSolvingAlgorithmFloat();
+            CLSPRequest request = new CLSPRequest(clspModel);
+            try {
+                showResult(alg.solve(request));
+            } catch (NotSolvableException e) {
+                showAlertAlgorithmNotSolvable(e);
+            }
         }
 
+    }
+
+    /**
+     * Shows an error dialog, that indicates that the algorithm isn't solvable
+     * 
+     * @param e
+     */
+    private void showAlertAlgorithmNotSolvable(NotSolvableException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(e.getTitle());
+        alert.setHeaderText("Nicht lösbar!");
+        alert.setContentText(e.getText());
+        alert.showAndWait();
     }
 
     /**
@@ -280,6 +310,16 @@ public class RootLayoutController {
         alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
         alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
+    }
+
+    /**
+     * In case no value for the algorithm number setting is set, float will be
+     * set as default option
+     */
+    private void setAlgorithmNumberSetting() {
+        if (algorithmNumberSettingInt.isSelected() == false && algorithmNumberSettingFloat.isSelected() == false) {
+            algorithmNumberSettingFloat.setSelected(true);
+        }
     }
 
     /**

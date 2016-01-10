@@ -37,6 +37,20 @@
 						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Schließen" />
 					</items>
 				</Menu>
+            <Menu mnemonicParsing="false" text="Optionen">
+              <items>
+                  <Menu mnemonicParsing="false" text="Algorithmuseinstellung">
+                    <items>
+                        <RadioMenuItem fx:id="algorithmNumberSettingInt" mnemonicParsing="false" text="Ganzzahl">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="algorithmNumberSetting" />
+                           </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem fx:id="algorithmNumberSettingFloat" mnemonicParsing="false" selected="true" text="Kommazahl" toggleGroup="$algorithmNumberSetting" />
+                    </items>
+                  </Menu>
+              </items>
+            </Menu>
 				<Menu mnemonicParsing="false" text="Hilfe">
 					<items>
 						<MenuItem mnemonicParsing="false" onAction="#onActionHelpAbout" text="Über" />
