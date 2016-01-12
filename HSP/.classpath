@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.10-FINAL-20140208.jar"/>
-	<classpathentry kind="lib" path="lib/LIP_ILOG-Framework_.jar"/>
+	<classpathentry kind="lib" path="lib/LIP_ILOG-Framework_1_3_0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

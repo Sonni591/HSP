@@ -97,7 +97,6 @@ public class Tab2Controller extends AbstractTableViewPage {
         for (int i = 0; i < dim1; i++) {
             for (int j = 0; j < dim2; j++) {
                 matrix[i][j] = t;
-                // t = t ? false : true;
             }
         }
         return matrix;
