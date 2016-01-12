@@ -16,7 +16,7 @@
                      <children>
                         <AnchorPane>
                            <children>
-                              <Label text="lotsPerPeriod" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <Label text="Losgröße des Produkts k in Periode t" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
                               <TableView fx:id="tableLotsPerPeriod" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -26,7 +26,7 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Label text="stockAtEndOfPeriod" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <Label text="Lagerbestand für Produkt k am Ende der Periode t" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
                               <TableView fx:id="tableStockAtEndOfPeriod" layoutY="27.0" prefHeight="175.0" prefWidth="247.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -36,7 +36,7 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Label text="setUpVariables" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <Label text="Binäre Rüstungsvariable für Produkt k" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
                               <TableView fx:id="tableSetUpVariables" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
