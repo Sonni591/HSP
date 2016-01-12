@@ -23,7 +23,7 @@ public class CLSPResponse {
         this.solvable = solvable;
 
         this.lotsPerPeriodInt = lotsPerPeriod;
-        this.lotsPerPeriodInt = stockAtEndOfPeriod;
+        this.stockAtEndOfPeriodInt = stockAtEndOfPeriod;
         this.setUpVariables = setUpVariables;
     }
 

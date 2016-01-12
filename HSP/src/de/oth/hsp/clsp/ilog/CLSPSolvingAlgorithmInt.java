@@ -63,7 +63,6 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
         try {
             model.setUseDatFile(true);
             isSolvable = model.solve(getModelName(), pathToDatFile, pathToDatDir);
-
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
             throw new NotSolvableException();
@@ -99,7 +98,7 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
 
     private CLSPResponse prepareResponse() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
 
         CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
@@ -111,7 +110,7 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
     @Override
     public void printResult() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enth�lt 'null'-Werte. ");
         }
         try {
             model.printResult();
