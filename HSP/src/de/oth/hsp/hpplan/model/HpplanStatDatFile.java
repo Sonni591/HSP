@@ -19,6 +19,7 @@ import de.oth.hsp.common.dat.value.ArrayContent;
 import de.oth.hsp.common.dat.value.SingleContent;
 import de.oth.hsp.common.dat.value.ThreeDimFieldContent;
 import de.oth.hsp.common.dat.value.TwoDimFieldContent;
+import de.oth.hsp.common.utils.ArrayConverter;
 
 /**
  * Describes a <i>dat</i> file for HPPLAN-Stat problem solving.
@@ -41,8 +42,8 @@ public class HpplanStatDatFile extends AbstractDatFile {
     private final DatEntry<ThreeDimFieldContent> f = new DatEntry<>("f", new ThreeDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<TwoDimFieldContent> d = new DatEntry<>("d", new TwoDimFieldContent(NumericalType.INTEGER));
     private final DatEntry<ArrayContent> h = new DatEntry<>("h", new ArrayContent(NumericalType.FLOAT));
-    private final DatEntry<TwoDimFieldContent> uMax = new DatEntry<>("Umax", new TwoDimFieldContent(
-            NumericalType.INTEGER));
+    private final DatEntry<TwoDimFieldContent> uMax = new DatEntry<>("Umax",
+            new TwoDimFieldContent(NumericalType.INTEGER));
     private final DatEntry<TwoDimFieldContent> u = new DatEntry<>("u", new TwoDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<ArrayContent> iInit = new DatEntry<>("Iinit", new ArrayContent(NumericalType.INTEGER));
 
@@ -114,8 +115,21 @@ public class HpplanStatDatFile extends AbstractDatFile {
         return b.getContent().getValues();
     }
 
-    public void setB(Number[][] b) {
-        this.b.getContent().setValues(b);
+    public int[][] getBAsIntArray() {
+        return b.getContent().getIntValues();
+
+    }
+
+    public float[][] getBAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(b.getContent().getDoubleValues());
+    }
+
+    public int[][][] getFAsIntArray() {
+        return f.getContent().getIntValues();
+    }
+
+    public float[][][] getFAsFloatArray() {
+        return ArrayConverter.convertThreeDimArray(f.getContent().getDoubleValues());
     }
 
     public Number[][][] getF() {
@@ -126,12 +140,28 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.f.getContent().setValues(f);
     }
 
+    public float[][] getDAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(d.getContent().getDoubleValues());
+    }
+
+    public int[][] getDAsIntArray() {
+        return d.getContent().getIntValues();
+    }
+
     public Number[][] getD() {
         return d.getContent().getValues();
     }
 
     public void setD(Number[][] d) {
         this.d.getContent().setValues(d);
+    }
+
+    public int[] getHAsIntArray() {
+        return h.getContent().getIntValues();
+    }
+
+    public float[] getHAsFloatArray() {
+        return ArrayConverter.convertOneDimArray(h.getContent().getDoubleValues());
     }
 
     public Number[] getH() {
@@ -142,6 +172,14 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.h.getContent().setValues(h);
     }
 
+    public float[][] getUMaxAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(uMax.getContent().getDoubleValues());
+    }
+
+    public int[][] getuMaxAsIntArray() {
+        return uMax.getContent().getIntValues();
+    }
+
     public Number[][] getuMax() {
         return uMax.getContent().getValues();
     }
@@ -150,12 +188,32 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.uMax.getContent().setValues(uMax);
     }
 
+    public float[][] getUAsFloatArray() {
+        return ArrayConverter.convertTwoDimArray(u.getContent().getDoubleValues());
+    }
+
+    public int[][] getUAsIntArray() {
+        return u.getContent().getIntValues();
+    }
+
+    public double[][] getUAsDoubleArray() {
+        return u.getContent().getDoubleValues();
+    }
+
     public Number[][] getU() {
         return u.getContent().getValues();
     }
 
     public void setU(Number[][] u) {
         this.u.getContent().setValues(u);
+    }
+
+    public float[] getIInitAsFloatArray() {
+        return ArrayConverter.convertOneDimArray(iInit.getContent().getDoubleValues());
+    }
+
+    public int[] getiInitAsIntArray() {
+        return iInit.getContent().getIntValues();
     }
 
     public Number[] getiInit() {
@@ -169,6 +227,10 @@ public class HpplanStatDatFile extends AbstractDatFile {
     @Override
     public List<DatEntry<?>> getEntries() {
         return Collections.unmodifiableList(Arrays.asList(epgap, j, k, t, zMax, b, f, d, h, uMax, u, iInit));
+    }
+
+    public void setB(Number[][] b) {
+        this.b.getContent().setValues(b);
     }
 
     @Override
@@ -188,4 +250,5 @@ public class HpplanStatDatFile extends AbstractDatFile {
     public void setEpgap(Number epgap) {
         this.epgap.getContent().setValue(epgap);
     }
+
 }

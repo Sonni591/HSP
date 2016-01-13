@@ -31,7 +31,7 @@ public class ArrayConverter {
      * 
      * @param array
      *            source two dimensional double array
-     * @return converted two dimen
+     * @return converted two dimensional array
      */
 
     public static float[][] convertTwoDimArray(double[][] array) {
@@ -43,6 +43,29 @@ public class ArrayConverter {
                 result[row][col] = (int) array[row][col];
             }
         }
+        return result;
+    }
+
+    /**
+     * Converts a given three dimensional double array to a three dimensional
+     * float array
+     * 
+     * @param array
+     *            source three dimensional double array
+     * @return converted three dimensional array
+     */
+    public static float[][][] convertThreeDimArray(double[][][] array) {
+
+        float[][][] result = new float[array.length][array[0].length][array[0][0].length];
+
+        for (int field = 0; field < result.length; field++) {
+            for (int row = 0; row < result[0].length; row++) {
+                for (int col = 0; col < result[0][0].length; col++) {
+                    result[field][row][col] = (float) array[field][row][col];
+                }
+            }
+        }
+
         return result;
     }
 }
