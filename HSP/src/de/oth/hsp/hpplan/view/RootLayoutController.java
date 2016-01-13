@@ -3,6 +3,7 @@ package de.oth.hsp.hpplan.view;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,7 +18,6 @@ import de.oth.hsp.common.dat.DatFileParser;
 import de.oth.hsp.common.dat.parser.DatParseException;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
 import de.oth.hsp.common.io.WorkspaceManager;
-import de.oth.hsp.common.utils.FileOperations;
 import de.oth.hsp.hpplan.ilog.HPPlanStatischRequest;
 import de.oth.hsp.hpplan.ilog.HPPlanStatischResponse;
 import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
@@ -147,7 +147,8 @@ public class RootLayoutController {
 
         File choosenFile = fileChooser.showSaveDialog(null);
         // set the path to the WorkspaceManager
-        WorkspaceManager.setWorkspace(FileOperations.getPathOfFile(choosenFile));
+        Path workspace = choosenFile.toPath().getParent();
+        WorkspaceManager.setWorkspace(workspace);
         return choosenFile;
     }
 
@@ -169,7 +170,8 @@ public class RootLayoutController {
         }
         File choosenFile = fileChooser.showOpenDialog(null);
         // set the path to the WorkspaceManager
-        WorkspaceManager.setWorkspace(FileOperations.getPathOfFile(choosenFile));
+        Path workspace = choosenFile.toPath().getParent();
+        WorkspaceManager.setWorkspace(workspace);
         return choosenFile;
     }
 
