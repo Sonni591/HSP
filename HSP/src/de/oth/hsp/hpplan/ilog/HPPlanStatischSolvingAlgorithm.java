@@ -1,9 +1,11 @@
 package de.oth.hsp.hpplan.ilog;
 
+import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
 import de.oth.hsp.common.ilog.exception.ILogSolvingException;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
 
-public class HPPlanStatischSolvingAlgorithm {
+public class HPPlanStatischSolvingAlgorithm implements
+        ILogSolvingAlgorithm<HPPlanStatischRequest, HPPlanStatischResponse> {
 
     private HPPlanStatischModel model;
     private boolean isSolvable = false;
@@ -12,6 +14,7 @@ public class HPPlanStatischSolvingAlgorithm {
         return "HPPLAN-Statisch";
     }
 
+    @Override
     public HPPlanStatischResponse solve(HPPlanStatischRequest request) throws NotSolvableException {
 
         if (request.getEpgap() == 0) {
@@ -71,6 +74,7 @@ public class HPPlanStatischSolvingAlgorithm {
         }
     }
 
+    @Override
     public HPPlanStatischResponse solve(String pathToDatFile, String pathToDatDir) throws NotSolvableException {
 
         try {
@@ -116,6 +120,13 @@ public class HPPlanStatischSolvingAlgorithm {
         } catch (Exception e) {
             throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
         }
+    }
+
+    @Override
+    public HPPlanStatischResponse solve(String pathToDatFile, String pathToDatDir, String pathExcelExport)
+            throws NotSolvableException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

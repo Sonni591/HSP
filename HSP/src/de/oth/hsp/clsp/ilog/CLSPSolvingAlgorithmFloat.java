@@ -88,6 +88,7 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
             model.exportExcel(pathExcelExport);
 
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("[ERROR] " + e.getMessage());
             throw new NotSolvableException();
         }

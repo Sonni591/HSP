@@ -1,6 +1,8 @@
 package de.oth.hsp.clsp.ilog;
 
-public class CLSPResponse {
+import de.oth.hsp.common.ilog.ILogResponse;
+
+public class CLSPResponse implements ILogResponse {
 
     private boolean solvable;
     private float[][] lotsPerPeriodFloat;

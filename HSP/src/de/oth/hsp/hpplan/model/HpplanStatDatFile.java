@@ -118,8 +118,8 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.b.getContent().setValues(b);
     }
 
-    public double[][][] getF() {
-        return f.getContent().getDoubleValues();
+    public Number[][][] getF() {
+        return f.getContent().getValues();
     }
 
     public void setF(Number[][][] f) {
