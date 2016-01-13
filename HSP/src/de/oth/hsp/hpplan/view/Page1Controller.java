@@ -150,6 +150,9 @@ public class Page1Controller implements IPageController {
                 root.getHpplanModel().setJ(jHelp);
                 root.getHpplanModel().setzMax(zHelp);
                 root.getHpplanModel().ensureConstraints();
+
+                root.getTab1Controller().getPaginationController().getPage3Controller().initChoiceBox();
+
             } catch (ConstraintException e) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Falsche Werte");

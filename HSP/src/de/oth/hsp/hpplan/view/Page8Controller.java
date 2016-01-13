@@ -100,7 +100,7 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
         outEvent(); // write all Data from this page into the clspModel
 
-        // System.out.println(root.getClspModel());
+        System.out.println(root.getHpplanModel());
 
         // start calculation
         root.calculateHPPLAN();

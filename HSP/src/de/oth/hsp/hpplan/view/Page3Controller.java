@@ -65,7 +65,10 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-
+        Number[][][] f = root.getHpplanModel().getF();
+        Number[][] temp = TableUtils.convertOListTo2DArray(table1.getItems());
+        f[boxJ.getValue()] = temp;
+        root.getHpplanModel().setF(f);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -78,30 +81,36 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
         // add a column with row numbers
         addColumnWithRowNumber(table1, "");
 
-        // get the data from the model and add it to the TableView
-        for (int i = 0; i < root.getHpplanModel().getJ().intValue(); i++) {
-            boxJ.getItems().add(i);
-        }
-
-        boxJ.getSelectionModel().selectFirst();
-
         Number[][][] f = root.getHpplanModel().getF();
         Number[][] temp = f[0];
         setTableData(table1, temp, "j: ", "t: ", new Decimals(2));
 
+        boxJ.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * 
+     */
+    public void initChoiceBox() {
+
+        for (int i = 0; i < root.getHpplanModel().getJ().intValue(); i++) {
+            boxJ.getItems().add(i);
+        }
+
         boxJ.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue ov, Integer t, Integer t1) {
-                System.out.println(t);
-                System.out.println(t1);
-                Number[][][] f = root.getHpplanModel().getF();
-                Number[][] temp = TableUtils.convertOListTo2DArray(table1.getItems());
-                f[t] = temp;
-                root.getHpplanModel().setF(f);
-                Number[][][] f1 = root.getHpplanModel().getF();
-                Number[][] temp1 = f[t1];
-                setTableData(table1, temp1, "j: ", "t: ", new Decimals(2));
-
+                if (boxJ.getItems() != null && table1.getItems() != null && t1 != null && t != null) {
+                    System.out.println(t);
+                    System.out.println(t1);
+                    Number[][][] f = root.getHpplanModel().getF();
+                    Number[][] temp = TableUtils.convertOListTo2DArray(table1.getItems());
+                    f[t] = temp;
+                    root.getHpplanModel().setF(f);
+                    Number[][][] f1 = root.getHpplanModel().getF();
+                    Number[][] temp1 = f1[t1];
+                    setTableData(table1, temp1, "j: ", "t: ", new Decimals(2));
+                }
             }
         });
     }
