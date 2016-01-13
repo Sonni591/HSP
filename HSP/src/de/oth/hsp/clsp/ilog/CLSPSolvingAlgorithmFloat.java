@@ -102,13 +102,36 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
 
     private CLSPResponse prepareResponse() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
-            throw new IllegalArgumentException("Das gel�ste Modell enth�lt 'null'-Werte. ");
+            throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
 
-        CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
-                model.getSetUpVariables());
+        Number[][] lotsPerPeriodAsNumber = floatArrayToNumberArray(model.getLotsPerPeriod());
+        Number[][] stock = floatArrayToNumberArray(model.getStock());
+        Number[][] setUpVariables = intArrayToNumberArray(model.getSetUpVariables());
+
+        CLSPResponse response = new CLSPResponse(isSolvable, lotsPerPeriodAsNumber, stock, setUpVariables);
 
         return response;
+    }
+
+    private Number[][] floatArrayToNumberArray(float[][] floatArray) {
+        Number[][] numberArray = new Number[floatArray.length][floatArray[1].length];
+        for (int i = 0; i < floatArray.length; i++) {
+            for (int j = 0; j < floatArray[i].length; j++) {
+                numberArray[i][j] = floatArray[i][j];
+            }
+        }
+        return numberArray;
+    }
+
+    private Number[][] intArrayToNumberArray(int[][] intArray) {
+        Number[][] numberArray = new Number[intArray.length][intArray[1].length];
+        for (int i = 0; i < intArray.length; i++) {
+            for (int j = 0; j < intArray[0].length; j++) {
+                numberArray[i][j] = intArray[i][j];
+            }
+        }
+        return numberArray;
     }
 
     @Override

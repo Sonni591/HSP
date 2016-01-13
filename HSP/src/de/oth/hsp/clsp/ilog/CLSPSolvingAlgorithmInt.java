@@ -101,10 +101,23 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
             throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
 
-        CLSPResponse response = new CLSPResponse(isSolvable, model.getLotsPerPeriod(), model.getStock(),
-                model.getSetUpVariables());
+        Number[][] lotsPerPeriodAsNumber = intArrayToNumberArray(model.getLotsPerPeriod());
+        Number[][] stock = intArrayToNumberArray(model.getStock());
+        Number[][] setUpVariables = intArrayToNumberArray(model.getSetUpVariables());
+
+        CLSPResponse response = new CLSPResponse(isSolvable, lotsPerPeriodAsNumber, stock, setUpVariables);
 
         return response;
+    }
+
+    private Number[][] intArrayToNumberArray(int[][] intArray) {
+        Number[][] numberArray = new Number[intArray.length][intArray[1].length];
+        for (int i = 0; i < intArray.length; i++) {
+            for (int j = 0; j < intArray[0].length; j++) {
+                numberArray[i][j] = intArray[i][j];
+            }
+        }
+        return numberArray;
     }
 
     @Override

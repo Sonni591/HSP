@@ -111,29 +111,6 @@ public class CLSPModelFloat extends IloLipModell {
 
     }
 
-    // public CLSPModel(String arg0, float epgap, int planningHorizon,
-    // int numberOfProducts, int bigNumber, int numberOfResources,
-    // float[][] capacitiesPerResource, int[][] demandPerPeriod,
-    // float[] storageCosts, float[] setUpCosts,
-    // float[][] pieceProcessingTime, float[][] setUpTimePerPeriod,
-    // int[] minLeadTime, int[] initialInventory, int[] stockAtEndOfProcess) {
-    // super(arg0);
-    // this.epgap = epgap;
-    // this.planningHorizon = planningHorizon;
-    // this.numberOfProducts = numberOfProducts;
-    // this.bigNumber = bigNumber;
-    // this.numberOfResources = numberOfResources;
-    // this.capacitiesPerResource = capacitiesPerResource;
-    // this.demandPerPeriod = demandPerPeriod;
-    // this.storageCosts = storageCosts;
-    // this.setUpCosts = setUpCosts;
-    // this.pieceProcessingTime = pieceProcessingTime;
-    // this.setUpTimePerPeriod = setUpTimePerPeriod;
-    // this.minLeadTime = minLeadTime;
-    // this.initialInventory = initialInventory;
-    // this.stockAtEndOfProcess = stockAtEndOfProcess;
-    // }
-
     private void initializeOutputFields() {
         // Initialize OutputFields
         this.lotsPerPeriod = new float[numberOfProducts][planningHorizon];
