@@ -12,24 +12,20 @@ public class FileOperations {
      * @return filename without extension or null
      */
     public static String getNameWithoutExtension(File file) {
-        String fileName = null;
-        // Check whether file is not null,
-        // is a normal file
-        // the first sign is not a dot
-        if (file != null && file.isFile() && !file.getName().startsWith(".")) {
-            // if there are no dots in the string, just set the fileName
-            if (file.getName().contains(".")) {
-                fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
-            } else {
-                fileName = file.getName();
-            }
+        return getNameWithoutExtension(file.toPath());
+    }
+
+    public static String getNameWithoutExtension(Path path) {
+        String filename = path.getFileName().toString();
+
+        if (filename.contains(".")) {
+            filename = filename.substring(0, filename.lastIndexOf("."));
         }
 
-        return fileName;
+        return filename;
     }
 
-    public static Path getPathOfFile(File file) {
-        return new File(file.toString().substring(0, file.toString().lastIndexOf(File.separator))).toPath();
+    public static String canonicalize(Path path) {
+        return path.normalize().toAbsolutePath().toString();
     }
-
 }

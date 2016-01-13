@@ -1,13 +1,13 @@
 package de.oth.hsp.clsp.view;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oth.hsp.clsp.ilog.CLSPResponse;
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
-import de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm;
-import de.oth.hsp.common.utils.FileOperations;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,6 +20,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
+import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
+import de.oth.hsp.common.utils.FileOperations;
 
 public class BatchProcessingDialogController {
 
@@ -71,81 +74,102 @@ public class BatchProcessingDialogController {
      */
     @FXML
     public void onActionStart() {
-        if (!lvChoosenDatFiles.getItems().isEmpty()) {
-            if (new File(txtDestination.getText()).exists()) {
-
-                List<File> directories = new ArrayList<File>();
-                List<File> choosenDatFiles = new ArrayList<File>();
-                for (File file : lvChoosenDatFiles.getItems()) {
-                    choosenDatFiles.add(file);
-                    directories.add(new File(
-                            txtDestination.getText() + File.separator + FileOperations.getNameWithoutExtension(file)));
-                }
-
-                // create for each result a directory
-                for (File file : directories) {
-                    file.mkdir();
-                }
-
-                Task<Void> batchTask = new Task<Void>() {
-
-                    @Override
-                    protected Void call() throws Exception {
-                        btnStart.setDisable(true);
-                        btnChooseDatFiles.setDisable(true);
-                        btnChooseDestination.setDisable(true);
-                        txtDestination.setEditable(false);
-                        piBatchProcessingProgress.setVisible(true);
-
-                        // TODO call batch processing
-                        // TODO save results in folders
-                        // Thread.sleep(5000);
-
-                        ICLSPSolvingAlgorithm alg = new CLSPSolvingAlgorithmFloat();
-                        for (int i = 0; i < directories.size(); i++) {
-                            String datFileName = choosenDatFiles.get(i).getName();
-                            datFileName = datFileName.substring(0, datFileName.length() - 4);
-                            String datPathAndName = choosenDatFiles.get(i).getAbsolutePath();
-                            String datPath = datPathAndName.substring(0,
-                                    datPathAndName.lastIndexOf(File.separator) + 1);
-
-                            CLSPResponse response = alg.solve(datFileName, datPath,
-                                    directories.get(i).getAbsolutePath() + "/");
-
-                            updateProgress(i, directories.size());
-                        }
-
-                        // directories
-                        // choosenDatFiles
-                        piBatchProcessingProgress.setVisible(false);
-                        btnStart.setDisable(false);
-                        btnChooseDatFiles.setDisable(false);
-                        btnChooseDestination.setDisable(false);
-                        txtDestination.setEditable(true);
-                        return null;
-                    }
-                };
-
-                batchProcess = new Thread(batchTask);
-                batchProcess.start();
-
-            } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Fehler");
-                alert.setHeaderText("Fehler beim Zielort");
-                alert.setContentText("Der angegebene Zielort existiert nicht, bitte wählen Sie einen anderen.");
-
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Fehler");
-            alert.setHeaderText("Fehler bei den Eingabedateien");
-            alert.setContentText(
-                    "Es wurden keine Eingabedateien angegeben, bitte wählen Sie mindestens eine Datei aus.");
-
-            alert.showAndWait();
+        if (lvChoosenDatFiles.getItems().isEmpty()) {
+            alertNoInput();
+            return;
         }
+
+        Path destinationDirectory = Paths.get(txtDestination.getText());
+        if (!Files.exists(destinationDirectory)) {
+            alertNoDestination();
+            return;
+        }
+
+        List<Path> datPaths = new ArrayList<Path>();
+        List<Path> outputDirectories = new ArrayList<Path>();
+
+        lvChoosenDatFiles.getItems().stream().map(f -> f.toPath()).forEach(p -> {
+            datPaths.add(p);
+            String filename = FileOperations.getNameWithoutExtension(p);
+            outputDirectories.add(destinationDirectory.resolve(filename));
+        });
+
+        // create for each result a directory
+        for (Path dir : outputDirectories) {
+            if (!Files.isDirectory(dir)) {
+                try {
+                    Files.createDirectory(dir);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    alertDirectoryExists();
+                    return;
+                }
+            }
+        }
+
+        Task<Void> batchTask = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                btnStart.setDisable(true);
+                btnChooseDatFiles.setDisable(true);
+                btnChooseDestination.setDisable(true);
+                txtDestination.setEditable(false);
+                piBatchProcessingProgress.setVisible(true);
+
+                // TODO call batch processing
+                // TODO save results in folders
+                // Thread.sleep(5000);
+
+                ILogSolvingAlgorithm<?, ?> algo = new CLSPSolvingAlgorithmFloat();
+                for (int i = 0; i < datPaths.size(); i++) {
+                    Path datPath = datPaths.get(i);
+                    Path datDirectory = datPath.getParent();
+                    Path outputDirectory = outputDirectories.get(i);
+
+                    String datName = FileOperations.getNameWithoutExtension(datPath);
+                    algo.solve(datName, FileOperations.canonicalize(datDirectory) + File.separator,
+                            FileOperations.canonicalize(outputDirectory) + File.separator);
+
+                    updateProgress(i, datPaths.size());
+                }
+
+                // directories
+                // choosenDatFiles
+                piBatchProcessingProgress.setVisible(false);
+                btnStart.setDisable(false);
+                btnChooseDatFiles.setDisable(false);
+                btnChooseDestination.setDisable(false);
+                txtDestination.setEditable(true);
+                return null;
+            }
+        };
+
+        batchProcess = new Thread(batchTask);
+        batchProcess.start();
+    }
+
+    private void alertDirectoryExists() {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void alertNoInput() {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Fehler");
+        alert.setHeaderText("Fehler bei den Eingabedateien");
+        alert.setContentText("Es wurden keine Eingabedateien angegeben, bitte wählen Sie mindestens eine Datei aus.");
+
+        alert.showAndWait();
+    }
+
+    private void alertNoDestination() {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Fehler");
+        alert.setHeaderText("Fehler beim Zielort");
+        alert.setContentText("Der angegebene Zielort existiert nicht, bitte wählen Sie einen anderen.");
+
+        alert.showAndWait();
     }
 
     /**

@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.ilog.ILogRequest;
 
 // import de.oth.hsp.clsp.model.ClspDatFile;
 
-public class CLSPRequest {
+public class CLSPRequest implements ILogRequest {
 
     private List<Product> products;
     private float epgap;

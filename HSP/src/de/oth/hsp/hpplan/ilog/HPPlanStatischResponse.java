@@ -1,6 +1,8 @@
 package de.oth.hsp.hpplan.ilog;
 
-public class HPPlanStatischResponse {
+import de.oth.hsp.common.ilog.ILogResponse;
+
+public class HPPlanStatischResponse implements ILogResponse {
 
     private boolean solvable;
     private float[][] usedAdditionalCapacityPerPeriod;

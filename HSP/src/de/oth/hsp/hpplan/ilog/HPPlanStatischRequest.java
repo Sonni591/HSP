@@ -2,7 +2,9 @@ package de.oth.hsp.hpplan.ilog;
 
 import java.util.List;
 
-public class HPPlanStatischRequest {
+import de.oth.hsp.common.ilog.ILogRequest;
+
+public class HPPlanStatischRequest implements ILogRequest {
 
     private float epgap;
     private List<Product> products;
