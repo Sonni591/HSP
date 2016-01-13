@@ -39,8 +39,8 @@ public class HpplanStatDatFile extends AbstractDatFile {
     private final DatEntry<ThreeDimFieldContent> f = new DatEntry<>("f", new ThreeDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<TwoDimFieldContent> d = new DatEntry<>("d", new TwoDimFieldContent(NumericalType.INTEGER));
     private final DatEntry<ArrayContent> h = new DatEntry<>("h", new ArrayContent(NumericalType.FLOAT));
-    private final DatEntry<TwoDimFieldContent> uMax = new DatEntry<>("Umax",
-            new TwoDimFieldContent(NumericalType.INTEGER));
+    private final DatEntry<TwoDimFieldContent> uMax = new DatEntry<>("Umax", new TwoDimFieldContent(
+            NumericalType.INTEGER));
     private final DatEntry<TwoDimFieldContent> u = new DatEntry<>("u", new TwoDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<ArrayContent> iInit = new DatEntry<>("Iinit", new ArrayContent(NumericalType.INTEGER));
 
@@ -108,8 +108,8 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.zMax.getContent().setValue(zMax);
     }
 
-    public int[][] getB() {
-        return b.getContent().getIntValues();
+    public Number[][] getB() {
+        return b.getContent().getValues();
     }
 
     public void setB(Number[][] b) {
@@ -124,16 +124,16 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.f.getContent().setValues(f);
     }
 
-    public int[][] getD() {
-        return d.getContent().getIntValues();
+    public Number[][] getD() {
+        return d.getContent().getValues();
     }
 
     public void setD(Number[][] d) {
         this.d.getContent().setValues(d);
     }
 
-    public double[] getH() {
-        return h.getContent().getDoubleValues();
+    public Number[] getH() {
+        return h.getContent().getValues();
     }
 
     public void setH(Number[] h) {
@@ -156,8 +156,8 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.u.getContent().setValues(u);
     }
 
-    public int[] getiInit() {
-        return iInit.getContent().getIntValues();
+    public Number[] getiInit() {
+        return iInit.getContent().getValues();
     }
 
     public void setiInit(Number[] iInit) {

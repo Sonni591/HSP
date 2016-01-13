@@ -26,7 +26,7 @@ public class HPPLANMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("HPPLAN");
+        this.primaryStage.setTitle("Hauptproduktionsprogrammplanung");
         this.primaryStage.getIcons().add(new Image("/de/oth/hsp/common/resources/images/Logo-OTH-128x128.png"));
         initRootLayout();
 

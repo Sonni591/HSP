@@ -1,7 +1,12 @@
 package de.oth.hsp.hpplan.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
 public class Page4Controller extends AbstractTableViewPage implements IPageController {
@@ -9,12 +14,16 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableLks; // Lagerkostensatz für eine Einheit
-                                          // von Produkt k
+    private TableView<Number[]> tableH; // Lagerkostensatz für eine Einheit
+                                        // von Produkt k
 
     @FXML
-    private TableView<Number[]> tableAb; // Anfangsbestand für eine Einheit von
-                                         // Produkt k
+    private TableView<Number[]> tableiInit; // Anfangsbestand für eine Einheit
+                                            // von
+                                            // Produkt k
+
+    private ObservableList<Number[]> dataListH = FXCollections.observableArrayList();
+    private ObservableList<Number[]> dataListiIinit = FXCollections.observableArrayList();
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -33,8 +42,8 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableLks);
-        initTable(tableAb);
+        initTable(tableH, true);
+        initTable(tableiInit, true);
     }
 
     /**
@@ -60,39 +69,25 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
     }
 
     @Override
-    public void outEvent() {
-
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void inEvent() {
-
-        /*
-         * Table Lagerkostensatz
-         */
-        tableLks.getItems().clear();
-        tableLks.getColumns().clear();
-
-        // add a column with row numbers
-        addColumnWithRowNumber(tableLks, "k: ");
-
-        // get the data from the model and add it to the TableView
-
-        /*
-         * Table Anfangslagerbestand
-         */
-        tableAb.getItems().clear();
-        tableAb.getColumns().clear();
-
-        // add a column with row numbers
-        addColumnWithRowNumber(tableAb, "k: ");
-
-        // get the data from the model and add it to the TableView
-    }
-
-    @Override
     public boolean checkInput() {
         return true;
     }
+
+    @Override
+    public void outEvent() {
+        root.getHpplanModel().setH(TableUtils.convertOListToArray(tableH.getItems()));
+        root.getHpplanModel().setiInit(TableUtils.convertOListToArray(tableiInit.getItems()));
+
+    }
+
+    @Override
+    public void inEvent() {
+
+        Decimals decimals = new Decimals(2);
+
+        setTableData(tableH, root.getHpplanModel().getH(), "", "k: ", decimals, dataListH);
+        setTableData(tableiInit, root.getHpplanModel().getiInit(), "", "k: ", decimals, dataListiIinit);
+
+    }
+
 }

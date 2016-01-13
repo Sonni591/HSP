@@ -2,6 +2,7 @@ package de.oth.hsp.hpplan.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
 public class Page6Controller extends AbstractTableViewPage implements IPageController {
@@ -30,7 +31,7 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableZk);
+        initTable(tableZk, true);
 
     }
 

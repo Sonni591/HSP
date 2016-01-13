@@ -3,7 +3,6 @@ package de.oth.hsp.clsp.view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import de.oth.hsp.common.utils.Decimals;
@@ -15,23 +14,12 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     // References to elements of the FXML Layout of Page2
 
-    // @FXML
-    // private TableView<DoubleProperty[]> tableTb; // Bearbeitungszeit für eine
-    // // Einheit
-    // // von Produkt K auf Station J
-    //
-    // private ObservableList<DoubleProperty[]> dataListTb =
-    // FXCollections.observableArrayList();
-
     @FXML
     private TableView<Number[]> tableTb; // Bearbeitungszeit für eine
     // Einheit
     // von Produkt K auf Station J
 
     private ObservableList<Number[]> dataListTb = FXCollections.observableArrayList();
-
-    @FXML
-    private Label labelTb; // Label: Stueckbearbeitungszeiten
 
     @FXML
     private TextField tableValue;
@@ -90,24 +78,9 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void inEvent() {
+
         Decimals decimals = new Decimals(2);
         setTableData(tableTb, root.getClspModel().getTb(), "j: ", "k: ", decimals);
-
-        // Number[][] tb = root.getClspModel().getTb();
-        // DoubleProperty[][] dproparr = new
-        // DoubleProperty[tb.length][tb[0].length];
-        // for (int i = 0; i < tb.length; i++) {
-        // for (int j = 0; j < tb[0].length; j++) {
-        // dproparr[i][j] = new SimpleDoubleProperty((double) tb[i][j]);
-        // }
-        // }
-        //
-        // dataListTb.addAll(dproparr);
-        //
-        // // dataListTb.addAll(Arrays.asList(root.getClspModel().getTb()));
-        // // tableTb.setItems(dataListTb);
-        //
-        // setTableData(tableTb, dproparr, "j: ", "k: ", decimals, dataListTb);
 
     }
 

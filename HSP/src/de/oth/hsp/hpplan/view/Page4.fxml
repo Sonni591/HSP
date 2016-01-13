@@ -17,22 +17,25 @@
                         <AnchorPane>
                            <children>
                               <Label text="Lagerkostensatz" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
-                              <TableView fx:id="tableLks" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
+                              <TableView fx:id="tableH" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
                            </children>
-                    	</AnchorPane>
+                        </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Label text="Anfangsbestand" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
-                              <TableView fx:id="tableAb" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
+                              <Label text="Anfangslagerbestand" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <TableView fx:id="tableiInit" layoutY="27.0" prefHeight="175.0" prefWidth="247.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
                         </AnchorPane>
                      </children>
                   </VBox>

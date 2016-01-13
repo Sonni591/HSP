@@ -1,8 +1,11 @@
 package de.oth.hsp.hpplan.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
+import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
 public class Page5Controller extends AbstractTableViewPage implements IPageController {
@@ -10,11 +13,10 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableN; // Rüstzeit für ein Prudukt K an
-                                        // Station J
+    private TableView<Number[]> tableD; // Nachfrage
 
     @FXML
-    private Label labelTr; // Label: Rüstzeiten
+    private TextField tableValue;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -34,7 +36,7 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
     @FXML
     private void initialize() {
 
-        initTable(tableN);
+        initTable(tableD, true);
     }
 
     /**
@@ -61,26 +63,35 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void inEvent() {
-
-        tableN.getItems().clear();
-        tableN.getColumns().clear();
-
-        // add a column with row numbers
-
-        addColumnWithRowNumber(tableN, "j: ");
-
-        // get the data from the model and add it to the TableView
-
+        root.getHpplanModel().setD(TableUtils.convertOListTo2DArray(tableD.getItems()));
     }
 
     @Override
     public boolean checkInput() {
         return true;
     }
+
+    @Override
+    public void inEvent() {
+
+        Decimals decimals = new Decimals(2);
+        setTableData(tableD, root.getHpplanModel().getD(), "j: ", "k: ", decimals);
+
+    }
+
+    public void insertTableValues() {
+
+        Number value = Integer.valueOf(tableValue.getText());
+
+        Number[][] d = root.getHpplanModel().getD();
+        for (int i = 0; i < d.length; i++) {
+            for (int j = 0; j < d[0].length; j++) {
+                d[i][j] = value;
+            }
+        }
+
+        setTableData(tableD, d, "t: ", "k: ", new Decimals(2));
+
+    }
+
 }

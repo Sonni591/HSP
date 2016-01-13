@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import de.oth.hsp.common.dat.ConstraintException;
 import de.oth.hsp.common.view.IPageController;
 
 public class Page1Controller implements IPageController {
@@ -138,35 +139,25 @@ public class Page1Controller implements IPageController {
 
     @Override
     public void outEvent() {
-        try {
-            if (checkInput()) {
-                int kHelp = (int) Double.parseDouble(K.getText());
-                int tHelp = (int) Double.parseDouble(T.getText());
-                int jHelp = (int) Double.parseDouble(J.getText());
-                int zHelp = (int) Double.parseDouble(Z.getText());
-
-                if ((kHelp != 0) && (tHelp != 0) && (jHelp != 0) && (zHelp != 0)) {
-                    root.getHpplanModel().setK(kHelp);
-                    root.getHpplanModel().setT(tHelp);
-                    root.getHpplanModel().setJ(jHelp);
-                    root.getHpplanModel().setzMax(zHelp);
-                    root.getHpplanModel().ensureConstraints();
-                } else {
-                    throw new Exception();
-                }
+        if (checkInput()) {
+            int kHelp = (int) Double.parseDouble(K.getText());
+            int tHelp = (int) Double.parseDouble(T.getText());
+            int jHelp = (int) Double.parseDouble(J.getText());
+            int zHelp = (int) Double.parseDouble(Z.getText());
+            try {
+                root.getHpplanModel().setK(kHelp);
+                root.getHpplanModel().setT(tHelp);
+                root.getHpplanModel().setJ(jHelp);
+                root.getHpplanModel().setzMax(zHelp);
+                root.getHpplanModel().ensureConstraints();
+            } catch (ConstraintException e) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Falsche Werte");
+                alert.setHeaderText("Werte nicht korrekt");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+                root.getTab1Controller().getPagination().setCurrentPageIndex(0);
             }
-        }
-
-        catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Falsche Werte");
-            alert.setHeaderText("Werte nicht korrekt");
-            alert.setContentText(
-                    "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
-
-            alert.showAndWait();
-            root.getTab1Controller().getPagination().setCurrentPageIndex(0);
         }
     }
 
@@ -174,8 +165,7 @@ public class Page1Controller implements IPageController {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Falsche Werte");
         alert.setHeaderText("Werte nicht korrekt");
-        alert.setContentText(
-                "Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
+        alert.setContentText("Die Eingabewerte sind nicht zulässig. Es dürfen nur ganze Zahlen eingegeben werden, die größer 0 sind. Außerdem darf keines der Felder leer sein!");
 
         alert.showAndWait();
         root.getTab1Controller().getPagination().setCurrentPageIndex(0);
