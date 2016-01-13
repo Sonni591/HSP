@@ -13,17 +13,17 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane fx:id="rootBorderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.RootLayoutController">
-	<top>
+<top>
 		<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
 			<menus>
-				<Menu mnemonicParsing="false" text="Menu_File">
+				<Menu mnemonicParsing="false" text="Datei">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#onActionFileOpen" text="Menu_File_Open">
+						<MenuItem mnemonicParsing="false" onAction="#onActionFileOpen" text="Öffnen">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem mnemonicParsing="false" onAction="#onActionFileSave" text="Menu_File_Save">
+						<MenuItem mnemonicParsing="false" onAction="#onActionFileSave" text="Speichern">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
@@ -33,65 +33,18 @@
 								<KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Menu_File_Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#onActionBatchProcessing" text="Stapelverarbeitung" />
+						<MenuItem mnemonicParsing="false" onAction="#onActionFileExit" text="Schließen" />
 					</items>
 				</Menu>
-				<Menu fx:id="menuZoom" mnemonicParsing="false" text="Zoom">
+				<Menu mnemonicParsing="false" text="Hilfe">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Hineinzoomen">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="PLUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Herauszoomen">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="MINUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-						<MenuItem mnemonicParsing="false" text="Zoom zurücksetzen">
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="DIGIT0" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Menu_Help">
-					<items>
-						<MenuItem mnemonicParsing="false" onAction="#onActionHelpAbout" text="Menu_Help_About" />
+						<MenuItem mnemonicParsing="false" onAction="#onActionHelpAbout" text="Über" />
 					</items>
 				</Menu>
 			</menus>
 		</MenuBar>
 	</top>
-	<bottom>
-		<VBox BorderPane.alignment="CENTER">
-			<children>
-				<Separator prefWidth="200.0" />
-				<HBox id="HBox" alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="600.0" spacing="5.0">
-					<children>
-						<Label fx:id="lblLeftStatus" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
-							<!-- <font> <Font size="11.0" fx:id="x3" /> </font> -->
-							<textFill>
-								<Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
-							</textFill>
-						</Label>
-						<Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-						<!-- <Label fx:id="lblZoom" font="$x3" maxWidth="-1.0" text="Zoom" 
-							textFill="$x4" HBox.hgrow="NEVER" /> -->
-						<Label fx:id="lblZoom" maxWidth="-1.0" text="Zoom" textFill="$x4" HBox.hgrow="NEVER" />
-						<Button fx:id="btnZoomMinus" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" text="-" />
-						<Button fx:id="btnZoomPlus" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" text="+" />
-					</children>
-					<padding>
-						<Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-					</padding>
-					<VBox.margin>
-						<Insets />
-					</VBox.margin>
-				</HBox>
-			</children>
-		</VBox>
-	</bottom>
    <center>
 				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" BorderPane.alignment="CENTER">
 					<children>

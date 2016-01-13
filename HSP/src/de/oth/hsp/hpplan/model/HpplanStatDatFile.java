@@ -29,6 +29,8 @@ import de.oth.hsp.common.dat.value.TwoDimFieldContent;
 public class HpplanStatDatFile extends AbstractDatFile {
     private static final String MOD_NAME = "HPPLAN-Statisch";
 
+    private final DatEntry<SingleContent> epgap = new DatEntry<>("CPLEX_EPGAP", new SingleContent(NumericalType.FLOAT));
+
     private final DatEntry<SingleContent> j = new DatEntry<>("J", new SingleContent(NumericalType.INTEGER));
     private final DatEntry<SingleContent> k = new DatEntry<>("K", new SingleContent(NumericalType.INTEGER));
     private final DatEntry<SingleContent> t = new DatEntry<>("T", new SingleContent(NumericalType.INTEGER));
@@ -140,16 +142,16 @@ public class HpplanStatDatFile extends AbstractDatFile {
         this.h.getContent().setValues(h);
     }
 
-    public int[][] getuMax() {
-        return uMax.getContent().getIntValues();
+    public Number[][] getuMax() {
+        return uMax.getContent().getValues();
     }
 
     public void setuMax(Number[][] uMax) {
         this.uMax.getContent().setValues(uMax);
     }
 
-    public double[][] getU() {
-        return u.getContent().getDoubleValues();
+    public Number[][] getU() {
+        return u.getContent().getValues();
     }
 
     public void setU(Number[][] u) {
@@ -166,7 +168,7 @@ public class HpplanStatDatFile extends AbstractDatFile {
 
     @Override
     public List<DatEntry<?>> getEntries() {
-        return Collections.unmodifiableList(Arrays.asList(j, k, t, zMax, b, f, d, h, uMax, u, iInit));
+        return Collections.unmodifiableList(Arrays.asList(epgap, j, k, t, zMax, b, f, d, h, uMax, u, iInit));
     }
 
     @Override
@@ -177,5 +179,13 @@ public class HpplanStatDatFile extends AbstractDatFile {
     @Override
     protected String getModName() {
         return MOD_NAME;
+    }
+
+    public double getEpgap() {
+        return epgap.getContent().getDoubleValue();
+    }
+
+    public void setEpgap(Number epgap) {
+        this.epgap.getContent().setValue(epgap);
     }
 }

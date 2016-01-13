@@ -2,6 +2,9 @@ package de.oth.hsp.hpplan.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import de.oth.hsp.common.utils.Decimals;
+import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
@@ -10,9 +13,11 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
     // References to elements of the FXML Layout of Page2
 
     @FXML
-    private TableView<Number[]> tableZk; // verfügbare Kapazität an der Station
-                                         // j
-                                         // in Periode t
+    private TableView<Number[]> tableuMax; // verfügbare Kapazität an der
+                                           // Station j in Periode t
+
+    @FXML
+    private TextField tableValue;
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -31,7 +36,7 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
      */
     @FXML
     private void initialize() {
-        initTable(tableZk, true);
+        initTable(tableuMax, true);
 
     }
 
@@ -59,20 +64,7 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
 
     @Override
     public void outEvent() {
-
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void inEvent() {
-
-        tableZk.getItems().clear();
-        tableZk.getColumns().clear();
-
-        // add a column with row numbers
-        addColumnWithRowNumber(tableZk, "j: ");
-
-        // get the data from the model and add it to the TableView
+        root.getHpplanModel().setuMax(TableUtils.convertOListTo2DArray(tableuMax.getItems()));
 
     }
 
@@ -80,4 +72,27 @@ public class Page6Controller extends AbstractTableViewPage implements IPageContr
     public boolean checkInput() {
         return true;
     }
+
+    @Override
+    public void inEvent() {
+
+        Decimals decimals = new Decimals(2);
+        setTableData(tableuMax, root.getHpplanModel().getuMax(), "j: ", "t: ", decimals);
+
+    }
+
+    public void insertTableValues() {
+        Number value = Integer.valueOf(tableValue.getText());
+
+        Number[][] uMax = root.getHpplanModel().getuMax();
+        for (int i = 0; i < uMax.length; i++) {
+            for (int j = 0; j < uMax[0].length; j++) {
+                uMax[i][j] = value;
+            }
+        }
+
+        setTableData(tableuMax, uMax, "j: ", "t: ", new Decimals(2));
+
+    }
+
 }

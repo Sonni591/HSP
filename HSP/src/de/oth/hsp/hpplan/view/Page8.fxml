@@ -8,13 +8,16 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.Page8Controller">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="399.0" prefWidth="466.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <AnchorPane>
                <children>
-                  <Button fx:id="calculateButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="141.0" text="Berechnen" />
+                  <Label layoutX="25.0" layoutY="37.0" prefHeight="25.0" prefWidth="302.0" text="ILOG Parameter: relative Optimalitätslücke" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <TextField fx:id="epgap" layoutX="76.0" layoutY="54.0" prefHeight="26.0" prefWidth="86.0" text="0.0001" AnchorPane.leftAnchor="76.0" />
+                  <Label layoutX="24.0" layoutY="59.0" text="EPGAP" AnchorPane.leftAnchor="25.0" />
+                  <Button fx:id="calculateButton" layoutX="25.0" layoutY="123.0" mnemonicParsing="false" onAction="#onActionCalculate" prefHeight="40.0" prefWidth="155.0" text="Berechnung starten" />
                </children>
-            </StackPane>
+            </AnchorPane>
          </content>
       </ScrollPane>
    </children>

@@ -95,7 +95,7 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
     }
 
     public void onActionCalculate() {
-        System.out.println("Page7 berechnen Button");
+        System.out.println("Page8 berechnen Button");
 
         outEvent(); // write all Data from this page into the clspModel
 

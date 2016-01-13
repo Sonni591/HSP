@@ -94,7 +94,7 @@ public class Page7Controller extends AbstractTableViewPage implements IPageContr
             }
         }
 
-        setTableData(tableB, b, "t: ", "k: ", new Decimals(2));
+        setTableData(tableB, b, "j: ", "t: ", new Decimals(2));
 
     }
 

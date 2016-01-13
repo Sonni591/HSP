@@ -52,8 +52,6 @@ public class RootLayoutController {
     // References the CLSPModel
     private ClspDatFile clspModel = new ClspDatFile();
 
-    // private CLSPResponse clspResponse = null;
-
     /**
      * The constructor. The constructor is called before the initialize()
      * method.
@@ -141,7 +139,7 @@ public class RootLayoutController {
     }
 
     /**
-     * Opens a SaveDialog for dat files.
+     * Opens a SaveDifialog for dat files.
      *
      * @return selected File
      */
@@ -363,20 +361,5 @@ public class RootLayoutController {
     public void setClspModel(ClspDatFile clspModel) {
         this.clspModel = clspModel;
     }
-
-    // /**
-    // * @return the clspResponse
-    // */
-    // public CLSPResponse getClspResponse() {
-    // return clspResponse;
-    // }
-    //
-    // /**
-    // * @param clspResponse
-    // * the clspResponse to set
-    // */
-    // public void setClspResponse(CLSPResponse clspResponse) {
-    // this.clspResponse = clspResponse;
-    // }
 
 }

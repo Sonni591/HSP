@@ -6,4 +6,52 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="313.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.Tab2Controller" />
+<AnchorPane prefHeight="313.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.Tab2Controller" >
+<children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane>
+               <children>
+                  <VBox prefHeight="339.0" prefWidth="311.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <Label text="Zusatzkapazitäten pro Periode" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <TableView fx:id="usedAdditionalCapacityPerPeriod" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Label text="Losgröße des Produkts k in Periode t" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <TableView fx:id="lotSizePerPeriod" layoutY="27.0" prefHeight="175.0" prefWidth="247.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Label text="Lagerbestand für Produkt k am Ende der Periode t" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <TableView fx:id="stockAtEndOfPeriod" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

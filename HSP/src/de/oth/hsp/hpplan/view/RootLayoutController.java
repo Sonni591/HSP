@@ -1,19 +1,26 @@
 package de.oth.hsp.hpplan.view;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.ilog.exception.NotSolvableException;
+import de.oth.hsp.common.io.WorkspaceManager;
+import de.oth.hsp.common.utils.FileOperations;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischRequest;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischResponse;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
 import de.oth.hsp.hpplan.model.HpplanStatDatFile;
 
 public class RootLayoutController {
@@ -29,16 +36,6 @@ public class RootLayoutController {
     private Tab2Controller tab2Controller;
 
     // References all GUI elements
-    @FXML
-    private Label lblLeftStatus;
-    @FXML
-    private Label lblZoom;
-    @FXML
-    private Button btnZoomPlus;
-    @FXML
-    private Button btnZoomMinus;
-    @FXML
-    private Menu menuZoom;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -74,40 +71,125 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionFileOpen() {
-        FileChooser fileChooser = new FileChooser();
+        try {
+            File selectedFile;
+            if ((selectedFile = openFileChooserDialog()) != null) {
+                hpplanModel = loadDataFromFile(selectedFile);
+                // not elegant but it works
+                int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
+                getTab1Controller().getPaginationController().getPageControllerMap().get(curPIndex).inEvent();
+            }
+        } catch (DatParseException e) {
+            e.printStackTrace();
+        }
+    }
 
-        fileChooser.setTitle("Datei laden");
-
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat", "*.dat"));
-
-        File selectedDatFile = fileChooser.showOpenDialog(null);
-
-        // TODO load data from loaded file.
+    /**
+     * Loads the data from selechtedFile to the GUI
+     *
+     * @param selectedFile
+     * @throws DatParseException
+     */
+    private HpplanStatDatFile loadDataFromFile(File selectedFile) throws DatParseException {
+        return DatFileParser.parseHpplanStat(selectedFile.toPath());
     }
 
     /**
      * Calls a method to save the current data in a file. Method is called in
-     * the menu bar.
+     * the menu bar. Opens a FileChooser.
      */
     @FXML
     private void onActionFileSave() {
+        saveDataToFile(createNewFile(openSaveDialog()));
+
+    }
+
+    /**
+     * Saves the data from the GUI to the selectedFile.
+     *
+     * @param selectedFile
+     */
+    private void saveDataToFile(File selectedFile) {
+        if (selectedFile != null && selectedFile.exists()) {
+            try {
+                FileWriter fw = new FileWriter(selectedFile);
+                int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
+                // call out Event of current page to save the data from the GUI
+                // to the hpplanModel
+                if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
+                    tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
+                    fw.write(hpplanModel.toString());
+                    fw.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * Opens a SaveDifialog for dat files.
+     *
+     * @return selected File
+     */
+    private File openSaveDialog() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Datei speichern");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
 
-        File selectedFile = fileChooser.showSaveDialog(null);
+        // set the last used path or the default path, or none if there is no
+        // defaultPath
+        if (WorkspaceManager.getWorkspace() != null) {
+            fileChooser.setInitialDirectory(WorkspaceManager.getWorkspace().toFile());
+        }
 
-        // Create the new file. If there is already one, delete it.
+        File choosenFile = fileChooser.showSaveDialog(null);
+        // set the path to the WorkspaceManager
+        WorkspaceManager.setWorkspace(FileOperations.getPathOfFile(choosenFile));
+        return choosenFile;
+    }
+
+    /**
+     * Opens a FileChooser Dialog for dat files.
+     *
+     * @return selected File
+     */
+    private File openFileChooserDialog() {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Datei speichern");
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Dat Datei", "*.dat"));
+
+        // set the last used path or the default path, or none if there is no
+        // defaultPath
+        if (WorkspaceManager.getWorkspace() != null) {
+            fileChooser.setInitialDirectory(WorkspaceManager.getWorkspace().toFile());
+        }
+        File choosenFile = fileChooser.showOpenDialog(null);
+        // set the path to the WorkspaceManager
+        WorkspaceManager.setWorkspace(FileOperations.getPathOfFile(choosenFile));
+        return choosenFile;
+    }
+
+    /**
+     * Create the new file. If there is already one, it will be deleted.
+     *
+     * @param selectedFile
+     */
+    private File createNewFile(File selectedFile) {
+        File file = null;
         try {
-            if (!selectedFile.createNewFile()) {
-                if (selectedFile.delete()) {
-                    selectedFile.createNewFile();
+            if (selectedFile != null && !selectedFile.createNewFile()) {
+                if (selectedFile.delete() && selectedFile.createNewFile()) {
+                    file = selectedFile;
                 } else {
                     throw new Exception(
-                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht l�schen l�sst.");
+                            "Die Datei konnte nicht gespeichert werden. Es existiert bereits eine Datei mit diesem Namen, welche sich nicht löschen lasst.");
                 }
             }
+            file = selectedFile;
         } catch (Exception e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Fehler");
@@ -116,8 +198,7 @@ public class RootLayoutController {
 
             alert.showAndWait();
         }
-
-        // TODO Save data in created file.
+        return file;
     }
 
     /**
@@ -126,10 +207,63 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionCalculate() {
-        // TODO 1. ask user if he wants to save the changes
-        // 2. ask user, where he wants to save the result
-        // 3. call ILog Framework
-        System.out.println("Calculate");
+        calculateHPPLAN();
+    }
+
+    private void showResult(HPPlanStatischResponse hpplanResponse) {
+        tab2Controller.setResultData(hpplanResponse);
+    }
+
+    /**
+     * calculates and shows the result in tab2
+     *
+     * @return
+     * @throws NotSolvableException
+     */
+    public void calculateHPPLAN() {
+
+        // ensure correct data and save them to clspModel
+        int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
+        // call out Event of current page to save the data from the GUI
+        // to the hpplanModel
+        if (tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).checkInput()) {
+            tab1Controller.getPaginationController().getPageControllerMap().get(curPIndex).outEvent();
+        }
+
+        HPPlanStatischSolvingAlgorithm alg = new HPPlanStatischSolvingAlgorithm();
+        HPPlanStatischRequest request = new HPPlanStatischRequest(hpplanModel);
+        try {
+            showResult(alg.solve(request));
+        } catch (NotSolvableException e) {
+            showAlertAlgorithmNotSolvable(e);
+        }
+
+    }
+
+    /**
+     * Shows an error dialog, that indicates that the algorithm isn't solvable
+     * 
+     * @param e
+     */
+    private void showAlertAlgorithmNotSolvable(NotSolvableException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(e.getTitle());
+        alert.setHeaderText("Nicht lösbar!");
+        alert.setContentText(e.getText());
+        alert.showAndWait();
+    }
+
+    /**
+     * Switch to the tab using the index
+     */
+    public void tabPaneSwitchToTab(int index) {
+        tabPane.getSelectionModel().select(index);
+    }
+
+    @FXML
+    private void onActionBatchProcessing() {
+        // BatchProcessingDialog dia = new BatchProcessingDialog(this);
+        // dia.showAndWait();
     }
 
     /**
@@ -146,7 +280,11 @@ public class RootLayoutController {
      */
     @FXML
     private void onActionHelpAbout() {
-        System.out.println("About");
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.showAndWait();
     }
 
     /**

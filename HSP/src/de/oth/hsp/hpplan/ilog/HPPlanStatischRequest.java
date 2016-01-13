@@ -2,6 +2,8 @@ package de.oth.hsp.hpplan.ilog;
 
 import java.util.List;
 
+import de.oth.hsp.hpplan.model.HpplanStatDatFile;
+
 public class HPPlanStatischRequest {
 
     private float epgap;
@@ -20,6 +22,10 @@ public class HPPlanStatischRequest {
         this.planningHorizon = planningHorizon;
         ZMax = zMax;
         this.capacityUtilizationOfProductPerPeriod = capacityUtilizationOfProductPerPeriod;
+    }
+
+    public HPPlanStatischRequest(HpplanStatDatFile hpplanModel) {
+        // TODO Auto-generated constructor stub
     }
 
     public List<Product> getProducts() {

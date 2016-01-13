@@ -17,11 +17,13 @@
                         <AnchorPane>
                            <children>
                               <Label prefHeight="17.0" prefWidth="259.0" text="Kosten für eine Einheit der Zusatzkapazität an Produktionssegment j in Periode t" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
-                              <TableView fx:id="tableKzk" layoutY="22.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="47.0">
+                              <TableView fx:id="tableU" layoutX="25.0" layoutY="87.0" prefHeight="175.0" prefWidth="261.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="87.0">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
+                              <TextField fx:id="tableValue" layoutX="25.0" layoutY="50.0" prefHeight="25.0" prefWidth="114.0" />
+                  <Button layoutX="149.0" layoutY="51.0" mnemonicParsing="false" onAction="#insertTableValues" text="Für alle übernehmen" />
                            </children>
                         </AnchorPane>
                         <AnchorPane />
