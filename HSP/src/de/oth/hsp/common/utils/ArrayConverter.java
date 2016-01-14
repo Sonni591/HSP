@@ -40,7 +40,8 @@ public class ArrayConverter {
 
         for (int row = 0; row < result.length; row++) {
             for (int col = 0; col < result[0].length; col++) {
-                result[row][col] = (int) array[row][col];
+                // result[row][col] = (int) array[row][col];
+                result[row][col] = (float) array[row][col];
             }
         }
         return result;

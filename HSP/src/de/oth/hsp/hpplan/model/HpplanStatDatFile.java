@@ -42,8 +42,8 @@ public class HpplanStatDatFile extends AbstractDatFile {
     private final DatEntry<ThreeDimFieldContent> f = new DatEntry<>("f", new ThreeDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<TwoDimFieldContent> d = new DatEntry<>("d", new TwoDimFieldContent(NumericalType.INTEGER));
     private final DatEntry<ArrayContent> h = new DatEntry<>("h", new ArrayContent(NumericalType.FLOAT));
-    private final DatEntry<TwoDimFieldContent> uMax = new DatEntry<>("Umax",
-            new TwoDimFieldContent(NumericalType.INTEGER));
+    private final DatEntry<TwoDimFieldContent> uMax = new DatEntry<>("Umax", new TwoDimFieldContent(
+            NumericalType.INTEGER));
     private final DatEntry<TwoDimFieldContent> u = new DatEntry<>("u", new TwoDimFieldContent(NumericalType.FLOAT));
     private final DatEntry<ArrayContent> iInit = new DatEntry<>("Iinit", new ArrayContent(NumericalType.INTEGER));
 
@@ -98,6 +98,10 @@ public class HpplanStatDatFile extends AbstractDatFile {
         return num;
     }
 
+    public int getTAsIntValue() {
+        return t.getContent().getIntValue();
+    }
+
     public void setT(int t) {
         this.t.getContent().setValue(t);
     }
@@ -105,6 +109,10 @@ public class HpplanStatDatFile extends AbstractDatFile {
     public Number getzMax() {
         Number num = zMax.getContent().getIntValue();
         return num;
+    }
+
+    public int getzMaxAsIntValue() {
+        return zMax.getContent().getIntValue();
     }
 
     public void setzMax(int zMax) {

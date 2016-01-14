@@ -1,6 +1,9 @@
 package de.oth.hsp.hpplan.ilog;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.oth.hsp.common.ilog.ILogRequest;
 import de.oth.hsp.hpplan.model.HpplanStatDatFile;
@@ -21,36 +24,44 @@ public class HPPlanStatischRequest implements ILogRequest {
         this.products = products;
         this.segments = segments;
         this.planningHorizon = planningHorizon;
-        ZMax = zMax;
+        this.ZMax = zMax;
         this.capacityUtilizationOfProductPerPeriod = capacityUtilizationOfProductPerPeriod;
     }
 
     public HPPlanStatischRequest(HpplanStatDatFile hpplanModel) {
-        // // this.epgap = hpplanModel.g;
-        // this.products = products;
-        // this.segments = segments;
-        // this.planningHorizon = planningHorizon;
-        // ZMax = zMax;
-        // this.capacityUtilizationOfProductPerPeriod =
-        // capacityUtilizationOfProductPerPeriod;
-        //
-        // List<Product> products = new ArrayList<>();
-        // for (int numberOfProd = 0; numberOfProd < 5; numberOfProd++) {
-        // Map<Integer, Integer> demand = new HashMap<>();
-        // for (int i = 0; i < d[numberOfProd].length; i++) {
-        // demand.put(i, d[numberOfProd][i]);
-        // }
-        // Product product = new Product(demand, h[numberOfProd],
-        // Iinit[numberOfProd]);
-        // products.add(product);
-        // }
-        //
-        // List<Productionsegment> segments = new ArrayList<>();
-        // for (int numberOfSeg = 0; numberOfSeg < 4; numberOfSeg++) {
-        // Productionsegment segment = new Productionsegment(b[numberOfSeg],
-        // Umax[numberOfSeg], u[numberOfSeg]);
-        // segments.add(segment);
-        // }
+        this.epgap = (float) hpplanModel.getEpgap();
+        this.planningHorizon = hpplanModel.getTAsIntValue();
+        this.ZMax = hpplanModel.getzMaxAsIntValue();
+        this.capacityUtilizationOfProductPerPeriod = hpplanModel.getFAsFloatArray();
+
+        int[][] demandPerPeriod = hpplanModel.getDAsIntArray();
+        int[] initialInventory = hpplanModel.getiInitAsIntArray();
+        float[] storageCostsPerPeriod = hpplanModel.getHAsFloatArray();
+
+        List<Product> products = new ArrayList<>();
+        for (int numberOfProd = 0; numberOfProd < hpplanModel.getK().intValue(); numberOfProd++) {
+            Map<Integer, Integer> demand = new HashMap<>();
+            for (int i = 0; i < demandPerPeriod[numberOfProd].length; i++) {
+                demand.put(i, demandPerPeriod[numberOfProd][i]);
+            }
+            Product product = new Product(demand, storageCostsPerPeriod[numberOfProd], initialInventory[numberOfProd]);
+            products.add(product);
+        }
+        this.products = products;
+
+        int[][] productCapacityPerPeriod = hpplanModel.getBAsIntArray();
+        int[][] maxAdditionalCapacityPerPeriod = hpplanModel.getuMaxAsIntArray();
+        float[][] additionalCapacityCostsPerPeriod = hpplanModel.getUAsFloatArray();
+
+        List<Productionsegment> segments = new ArrayList<>();
+        for (int numberOfSeg = 0; numberOfSeg < hpplanModel.getJ().intValue(); numberOfSeg++) {
+            Productionsegment segment = new Productionsegment(productCapacityPerPeriod[numberOfSeg],
+                    maxAdditionalCapacityPerPeriod[numberOfSeg], additionalCapacityCostsPerPeriod[numberOfSeg]);
+            segments.add(segment);
+        }
+
+        this.segments = segments;
+
     }
 
     public List<Product> getProducts() {
@@ -75,5 +86,9 @@ public class HPPlanStatischRequest implements ILogRequest {
 
     public float getEpgap() {
         return epgap;
+    }
+
+    public void print() {
+
     }
 }

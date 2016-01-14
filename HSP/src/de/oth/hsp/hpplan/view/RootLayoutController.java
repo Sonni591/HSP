@@ -234,7 +234,9 @@ public class RootLayoutController {
 
         HPPlanStatischSolvingAlgorithm alg = new HPPlanStatischSolvingAlgorithm();
         HPPlanStatischRequest request = new HPPlanStatischRequest(hpplanModel);
+
         try {
+            // response.
             showResult(alg.solve(request));
         } catch (NotSolvableException e) {
             showAlertAlgorithmNotSolvable(e);

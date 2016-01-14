@@ -16,7 +16,7 @@ public class TestHPPlanILOGAnbindung {
 
     public static void main(String[] args) {
         // Fall 1: Verwendung der .dat-Datei
-        // computeHPPlanWithDATFile();
+        computeHPPlanWithDATFile();
 
         // Fall 2: Verwenden der Daten aus Eingabe
         computeHPPlanWithParameters();

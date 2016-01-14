@@ -45,6 +45,7 @@ public class HPPlanStatischSolvingAlgorithm implements
         try {
 
             isSolvable = model.solve();
+            model.printResult();
             System.out.println("[INFO] Solved: " + isSolvable);
 
             // If the problem is not solvable, throw an exception
@@ -81,6 +82,7 @@ public class HPPlanStatischSolvingAlgorithm implements
             model = new HPPlanStatischModel(getModelName());
             model.setUseDatFile(true);
             isSolvable = model.solve(getModelName(), pathToDatFile, pathToDatDir);
+            model.printResult();
 
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
@@ -125,8 +127,23 @@ public class HPPlanStatischSolvingAlgorithm implements
     @Override
     public HPPlanStatischResponse solve(String pathToDatFile, String pathToDatDir, String pathExcelExport)
             throws NotSolvableException {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            model = new HPPlanStatischModel(getModelName());
+            model.setUseDatFile(true);
+            isSolvable = model.solve(getModelName(), pathToDatFile, pathToDatDir);
+            model.exportExcel(pathExcelExport);
+            model.printResult();
+
+        } catch (Exception e) {
+            System.out.println("[ERROR] " + e.getMessage());
+            throw new NotSolvableException();
+        }
+
+        // Build the response object
+        HPPlanStatischResponse response = prepareResponse();
+
+        return response;
+
     }
 
 }
