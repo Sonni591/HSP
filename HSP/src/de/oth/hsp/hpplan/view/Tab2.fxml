@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="313.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.Tab2Controller" >
+<AnchorPane prefHeight="313.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oth.hsp.hpplan.view.Tab2Controller">
 <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -17,7 +17,7 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label text="Gesamtkosten" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
-                              <TextField fx:id="totalCosts" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="47.0" />
+                              <TextField fx:id="totalCosts" editable="false" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="47.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane>

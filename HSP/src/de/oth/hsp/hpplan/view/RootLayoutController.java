@@ -76,7 +76,12 @@ public class RootLayoutController {
             File selectedFile;
             if ((selectedFile = openFileChooserDialog()) != null) {
                 hpplanModel = loadDataFromFile(selectedFile);
-                // not elegant but it works
+
+                // update choicebox for 3-dim array
+                getTab1Controller().getPaginationController().getPage3Controller().initChoiceBox();
+
+                // call inevent of current tab to show the actual data from the
+                // model
                 int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
                 getTab1Controller().getPaginationController().getPageControllerMap().get(curPIndex).inEvent();
             }

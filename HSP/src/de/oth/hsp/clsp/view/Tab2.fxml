@@ -18,7 +18,7 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label text="Gesamtkosten" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
-                              <TextField fx:id="totalCosts" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="47.0" />
+                              <TextField fx:id="totalCosts" editable="false" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="47.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane>

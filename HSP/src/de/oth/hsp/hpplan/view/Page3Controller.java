@@ -93,6 +93,7 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
      */
     public void initChoiceBox() {
 
+        boxJ.getItems().clear();
         for (int i = 0; i < root.getHpplanModel().getJ().intValue(); i++) {
             boxJ.getItems().add(i);
         }
@@ -101,8 +102,6 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
             @Override
             public void changed(ObservableValue ov, Integer t, Integer t1) {
                 if (boxJ.getItems() != null && table1.getItems() != null && t1 != null && t != null) {
-                    System.out.println(t);
-                    System.out.println(t1);
                     Number[][][] f = root.getHpplanModel().getF();
                     Number[][] temp = TableUtils.convertOListTo2DArray(table1.getItems());
                     f[t] = temp;

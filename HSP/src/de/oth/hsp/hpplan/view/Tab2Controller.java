@@ -54,6 +54,8 @@ public class Tab2Controller extends AbstractTableViewPage {
         // vorliegt
         if (hpplanResponse != null && hpplanResponse.isSolvable()) {
 
+            totalCosts.setText(Double.toString(hpplanResponse.getResult().doubleValue()));
+
             setTableData(usedAdditionalCapacityPerPeriod, hpplanResponse.getUsedAdditionalCapacityPerPeriodNumberArr(),
                     "t", "k", new Decimals(2));
             setTableData(lotSizePerPeriod, hpplanResponse.getLotSizePerPeriodNumberArr(), "t", "k", new Decimals(2));

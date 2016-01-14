@@ -55,6 +55,8 @@ public class Tab2Controller extends AbstractTableViewPage {
         // vorliegt
         if (clspResponse != null && clspResponse.isSolvable()) {
 
+            totalCosts.setText(Double.toString(clspResponse.getResult().doubleValue()));
+
             setTableData(tableLotsPerPeriod, clspResponse.getLotsPerPeriodNumberArr(), "t", "k", new Decimals(2));
             setTableData(tableStockAtEndOfPeriod, clspResponse.getStockAtEndOfPeriodNumberArr(), "t", "k",
                     new Decimals(2));

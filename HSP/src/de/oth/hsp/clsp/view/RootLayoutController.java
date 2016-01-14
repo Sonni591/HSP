@@ -86,7 +86,7 @@ public class RootLayoutController {
             File selectedFile;
             if ((selectedFile = openFileChooserDialog()) != null) {
                 clspModel = loadDataFromFile(selectedFile);
-                // not elegant but it works
+
                 int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
                 getTab1Controller().getPaginationController().getPageControllerMap().get(curPIndex).inEvent();
             }
