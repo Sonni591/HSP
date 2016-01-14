@@ -77,7 +77,7 @@ public class Tab2Controller extends AbstractTableViewPage {
     public void setDummyData() {
 
         CLSPResponse clspResponse = new CLSPResponse(true, createdDummyMatrix(3, 3), createdDummyMatrix(4, 4),
-                createdDummyMatrix(5, 5));
+                createdDummyMatrix(5, 5), 0);
         setResultData(clspResponse);
 
     }

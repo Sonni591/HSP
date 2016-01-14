@@ -5,17 +5,19 @@ import de.oth.hsp.common.ilog.ILogResponse;
 public class CLSPResponse implements ILogResponse {
 
     private boolean solvable;
+    private Number result;
     private Number[][] lotsPerPeriod;
     private Number[][] stockAtEndOfPeriod;
     private Number[][] setUpVariables;
 
     public CLSPResponse(boolean solvable, Number[][] lotsPerPeriod, Number[][] stockAtEndOfPeriod,
-            Number[][] setUpVariables) {
+            Number[][] setUpVariables, Number result) {
         super();
         this.solvable = solvable;
         this.lotsPerPeriod = lotsPerPeriod;
         this.stockAtEndOfPeriod = stockAtEndOfPeriod;
         this.setUpVariables = setUpVariables;
+        this.result = result;
     }
 
     public boolean isSolvable() {
@@ -32,6 +34,10 @@ public class CLSPResponse implements ILogResponse {
 
     public Number[][] getSetUpVariablesNumberArr() {
         return setUpVariables;
+    }
+
+    public Number getResult() {
+        return result;
     }
 
 }

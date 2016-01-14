@@ -76,7 +76,7 @@ public class Tab2Controller extends AbstractTableViewPage {
     public void setDummyData() {
 
         HPPlanStatischResponse hpplanResponse = new HPPlanStatischResponse(true, createdDummyMatrix(3, 3),
-                createdDummyMatrix(4, 4), createdDummyMatrix(5, 5));
+                createdDummyMatrix(4, 4), createdDummyMatrix(5, 5), 0);
         setResultData(hpplanResponse);
 
     }

@@ -109,7 +109,8 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
         Number[][] stock = floatArrayToNumberArray(model.getStock());
         Number[][] setUpVariables = intArrayToNumberArray(model.getSetUpVariables());
 
-        CLSPResponse response = new CLSPResponse(isSolvable, lotsPerPeriodAsNumber, stock, setUpVariables);
+        CLSPResponse response = new CLSPResponse(isSolvable, lotsPerPeriodAsNumber, stock, setUpVariables,
+                model.getResult());
 
         return response;
     }

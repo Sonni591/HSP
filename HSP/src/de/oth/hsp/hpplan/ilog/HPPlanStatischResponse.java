@@ -8,14 +8,16 @@ public class HPPlanStatischResponse implements ILogResponse {
     private float[][] usedAdditionalCapacityPerPeriod;
     private float[][] lotSizePerPeriod;
     private float[][] stockAtEndOfPeriod;
+    private Number result;
 
     public HPPlanStatischResponse(boolean solvable, float[][] usedAdditionalCapacityPerPeriod,
-            float[][] lotSizePerPeriod, float[][] stockAtEndOfPeriod) {
+            float[][] lotSizePerPeriod, float[][] stockAtEndOfPeriod, Number result) {
         super();
         this.solvable = solvable;
         this.usedAdditionalCapacityPerPeriod = usedAdditionalCapacityPerPeriod;
         this.lotSizePerPeriod = lotSizePerPeriod;
         this.stockAtEndOfPeriod = stockAtEndOfPeriod;
+        this.result = result;
     }
 
     public boolean isSolvable() {
@@ -71,6 +73,10 @@ public class HPPlanStatischResponse implements ILogResponse {
             }
         }
         return arr;
+    }
+
+    public Number getResult() {
+        return result;
     }
 
 }

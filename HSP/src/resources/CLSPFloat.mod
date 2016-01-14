@@ -15,7 +15,7 @@ range PlanungszeitraumNull = 0..T;
 // Variablen:
 dvar float+ q[Produkt][Planungszeitraum];     // Losgroessen. 
 dvar float+ y[Produkt][PlanungszeitraumNull]; // Lagerbestaende.
-dvar boolean r[Produkt][Planungszeitraum];    // Ruestvariablen. 
+dvar boolean r[Produkt][Planungszeitraum];    // Ruestvariablen.
 
 // Parameter, Teil 2:
 float b[Ressource][Planungszeitraum] = ...;   // Kapazitaeten. 
@@ -37,7 +37,7 @@ execute CPX_PARAM {
 
 // Minimierung der Gesamtkosten
 minimize                          
-   sum (k in Produkt, t in Planungszeitraum) 
+  sum (k in Produkt, t in Planungszeitraum) 
 		(s[k]*r[k][t] + h[k]*y[k][t]);
    
 constraints {

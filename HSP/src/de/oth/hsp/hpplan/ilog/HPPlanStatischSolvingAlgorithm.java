@@ -103,7 +103,8 @@ public class HPPlanStatischSolvingAlgorithm implements
         }
 
         HPPlanStatischResponse response = new HPPlanStatischResponse(isSolvable,
-                model.getUsedAdditionalCapacityPerPeriod(), model.getLotSizePerPeriod(), model.getStockAtEndOfPeriod());
+                model.getUsedAdditionalCapacityPerPeriod(), model.getLotSizePerPeriod(), model.getStockAtEndOfPeriod(),
+                model.getResult());
 
         return response;
     }
