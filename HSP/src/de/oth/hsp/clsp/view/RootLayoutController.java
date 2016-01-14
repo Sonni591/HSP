@@ -5,6 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import de.oth.hsp.clsp.ilog.CLSPRequest;
+import de.oth.hsp.clsp.ilog.CLSPResponse;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmInt;
+import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.ilog.exception.NotSolvableException;
+import de.oth.hsp.common.io.WorkspaceManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -16,15 +25,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import de.oth.hsp.clsp.ilog.CLSPRequest;
-import de.oth.hsp.clsp.ilog.CLSPResponse;
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmInt;
-import de.oth.hsp.clsp.model.ClspDatFile;
-import de.oth.hsp.common.dat.DatFileParser;
-import de.oth.hsp.common.dat.parser.DatParseException;
-import de.oth.hsp.common.ilog.exception.NotSolvableException;
-import de.oth.hsp.common.io.WorkspaceManager;
 
 public class RootLayoutController {
 
@@ -158,8 +158,10 @@ public class RootLayoutController {
 
         File choosenFile = fileChooser.showSaveDialog(null);
         // set the path to the WorkspaceManager
-        Path workspace = choosenFile.toPath().getParent();
-        WorkspaceManager.setWorkspace(workspace);
+        if (choosenFile != null) {
+            Path workspace = choosenFile.toPath().getParent();
+            WorkspaceManager.setWorkspace(workspace);
+        }
         return choosenFile;
     }
 
@@ -181,9 +183,10 @@ public class RootLayoutController {
         }
         File choosenFile = fileChooser.showOpenDialog(null);
         // set the path to the WorkspaceManager
-
-        Path workspace = choosenFile.toPath().getParent();
-        WorkspaceManager.setWorkspace(workspace);
+        if (choosenFile != null) {
+            Path workspace = choosenFile.toPath().getParent();
+            WorkspaceManager.setWorkspace(workspace);
+        }
         return choosenFile;
     }
 
@@ -273,7 +276,7 @@ public class RootLayoutController {
 
     /**
      * Shows an error dialog, that indicates that the algorithm isn't solvable
-     * 
+     *
      * @param e
      */
     private void showAlertAlgorithmNotSolvable(NotSolvableException e) {
@@ -313,8 +316,10 @@ public class RootLayoutController {
     private void onActionHelpAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("");
-        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
-        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.setHeaderText(
+                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText(
+                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
     }
 

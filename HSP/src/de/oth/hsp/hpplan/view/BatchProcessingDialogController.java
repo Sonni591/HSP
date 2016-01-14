@@ -1,4 +1,4 @@
-package de.oth.hsp.clsp.view;
+package de.oth.hsp.hpplan.view;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,10 +8,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
 import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
 import de.oth.hsp.common.io.WorkspaceManager;
 import de.oth.hsp.common.utils.FileOperations;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -118,11 +118,7 @@ public class BatchProcessingDialogController {
                 txtDestination.setEditable(false);
                 piBatchProcessingProgress.setVisible(true);
 
-                // TODO call batch processing
-                // TODO save results in folders
-                // Thread.sleep(5000);
-
-                ILogSolvingAlgorithm<?, ?> algo = new CLSPSolvingAlgorithmFloat();
+                ILogSolvingAlgorithm<?, ?> algo = new HPPlanStatischSolvingAlgorithm();
                 for (int i = 0; i < datPaths.size(); i++) {
                     Path datPath = datPaths.get(i);
                     Path datDirectory = datPath.getParent();
