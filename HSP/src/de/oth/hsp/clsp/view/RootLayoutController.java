@@ -7,6 +7,7 @@ import java.nio.file.Path;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuBar;
@@ -235,6 +236,8 @@ public class RootLayoutController {
      */
     public void calculateCLSP() {
 
+        rootBorderPane.setCursor(Cursor.WAIT);
+
         // set some dummy data just for Test
         // tab2Controller.setDummyData();
 
@@ -263,6 +266,8 @@ public class RootLayoutController {
                 showAlertAlgorithmNotSolvable(e);
             }
         }
+
+        rootBorderPane.setCursor(Cursor.DEFAULT);
 
     }
 

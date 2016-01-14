@@ -7,6 +7,7 @@ import java.nio.file.Path;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuBar;
@@ -224,6 +225,8 @@ public class RootLayoutController {
      */
     public void calculateHPPLAN() {
 
+        rootBorderPane.setCursor(Cursor.WAIT);
+
         // ensure correct data and save them to clspModel
         int curPIndex = tab1Controller.getPagination().getCurrentPageIndex();
         // call out Event of current page to save the data from the GUI
@@ -241,6 +244,8 @@ public class RootLayoutController {
         } catch (NotSolvableException e) {
             showAlertAlgorithmNotSolvable(e);
         }
+
+        rootBorderPane.setCursor(Cursor.DEFAULT);
 
     }
 

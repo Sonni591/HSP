@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -14,6 +15,12 @@
                <children>
                   <VBox prefHeight="339.0" prefWidth="311.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Gesamtkosten" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <TextField fx:id="totalCosts" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="47.0" />
+                           </children>
+                        </AnchorPane>
                         <AnchorPane>
                            <children>
                               <Label text="Losgröße des Produkts k in Periode t" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />

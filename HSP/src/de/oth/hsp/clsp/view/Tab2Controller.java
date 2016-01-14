@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.AbstractTableViewPage;
@@ -17,6 +18,8 @@ public class Tab2Controller extends AbstractTableViewPage {
     private TableView<Number[]> tableStockAtEndOfPeriod;
     @FXML
     private TableView<Number[]> tableSetUpVariables;
+    @FXML
+    private TextField totalCosts;
 
     private RootLayoutController root;
 

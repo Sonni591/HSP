@@ -14,6 +14,12 @@
                <children>
                   <VBox prefHeight="339.0" prefWidth="311.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Gesamtkosten" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                              <TextField fx:id="totalCosts" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="47.0" />
+                           </children>
+                        </AnchorPane>
                         <AnchorPane>
                            <children>
                               <Label text="Zusatzkapazitäten pro Periode" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
