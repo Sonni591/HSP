@@ -6,6 +6,11 @@ import ilog.lip.framework.IloLipOutputField;
 
 import java.util.List;
 
+/**
+ * Used to describe the CLSP .mod file with the input and output parameters,
+ * which are passed to ilog The output parameters are of the type float
+ *
+ */
 public class CLSPModelFloat extends IloLipModell {
 
     /**
@@ -61,6 +66,17 @@ public class CLSPModelFloat extends IloLipModell {
         initializeOutputFields();
     }
 
+    /**
+     * This constructor creates a new CLSP model
+     * 
+     * @param modelName
+     *            The name of the model (usually this will be Modell)
+     * @param products
+     * @param epgap
+     * @param planningHorizon
+     * @param bigNumber
+     * @param capacitiesPerResource
+     */
     public CLSPModelFloat(String modelName, List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
         super(modelName);
@@ -68,6 +84,17 @@ public class CLSPModelFloat extends IloLipModell {
 
     }
 
+    /**
+     * 
+     * This method sets the input fields of the model to the parameters of the
+     * method it also initializes the output fields
+     * 
+     * @param products
+     * @param epgap
+     * @param planningHorizon
+     * @param bigNumber
+     * @param capacitiesPerResource
+     */
     private void initializeModelVariables(List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
         this.epgap = epgap;
@@ -111,6 +138,11 @@ public class CLSPModelFloat extends IloLipModell {
 
     }
 
+    /**
+     * This method initializes the output fields The output fields must be
+     * correctly initialized; otherwise ilog cannot fill in the values
+     * 
+     */
     private void initializeOutputFields() {
         // Initialize OutputFields
         this.lotsPerPeriod = new float[numberOfProducts][planningHorizon];

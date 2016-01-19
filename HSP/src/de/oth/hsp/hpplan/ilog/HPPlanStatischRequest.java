@@ -8,6 +8,11 @@ import java.util.Map;
 import de.oth.hsp.common.ilog.ILogRequest;
 import de.oth.hsp.hpplan.model.HpplanStatDatFile;
 
+/**
+ * This Class is used as a request to the HPPlanStatisch model; it contains the
+ * data which is necessary for the computation of the model
+ *
+ */
 public class HPPlanStatischRequest implements ILogRequest {
 
     private float epgap;
@@ -17,6 +22,17 @@ public class HPPlanStatischRequest implements ILogRequest {
     private int ZMax;
     private float[][][] capacityUtilizationOfProductPerPeriod;
 
+    /**
+     * This constructor creates a new HPPlanStatischRequest from the given
+     * parameters
+     * 
+     * @param epgap
+     * @param products
+     * @param segments
+     * @param planningHorizon
+     * @param zMax
+     * @param capacityUtilizationOfProductPerPeriod
+     */
     public HPPlanStatischRequest(float epgap, List<Product> products, List<Productionsegment> segments,
             int planningHorizon, int zMax, float[][][] capacityUtilizationOfProductPerPeriod) {
         super();
@@ -28,6 +44,12 @@ public class HPPlanStatischRequest implements ILogRequest {
         this.capacityUtilizationOfProductPerPeriod = capacityUtilizationOfProductPerPeriod;
     }
 
+    /**
+     * This constructor creates a new HPPlanStatischRequest from the fields of a
+     * given HpplanStatDatFile
+     * 
+     * @param hpplanModel
+     */
     public HPPlanStatischRequest(HpplanStatDatFile hpplanModel) {
         this.epgap = (float) hpplanModel.getEpgap();
         this.planningHorizon = hpplanModel.getTAsIntValue();
@@ -88,7 +110,4 @@ public class HPPlanStatischRequest implements ILogRequest {
         return epgap;
     }
 
-    public void print() {
-
-    }
 }

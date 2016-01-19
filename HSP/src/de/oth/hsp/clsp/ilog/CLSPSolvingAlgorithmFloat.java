@@ -2,7 +2,13 @@ package de.oth.hsp.clsp.ilog;
 
 import de.oth.hsp.common.ilog.exception.ILogSolvingException;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
+import de.oth.hsp.common.utils.ArrayConverter;
 
+/**
+ * This class is used to request the computation of a model from ilog; the
+ * output fields are of the type float, corresponding to the underlaying model
+ *
+ */
 public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
 
     private CLSPModelFloat model;
@@ -12,6 +18,13 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
         return "CLSPFloat";
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#solve(de.oth.hsp.clsp.ilog
+     * .CLSPRequest)
+     */
     @Override
     public CLSPResponse solve(CLSPRequest request) throws NotSolvableException {
 
@@ -56,6 +69,12 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#solve(java.lang.String,
+     * java.lang.String)
+     */
     @Override
     public CLSPResponse solve(String pathToDatFile, String pathToDatDir) throws NotSolvableException {
 
@@ -76,6 +95,12 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#solve(java.lang.String,
+     * java.lang.String, java.lang.String)
+     */
     @Override
     public CLSPResponse solve(String pathToDatFile, String pathToDatDir, String pathExcelExport)
             throws NotSolvableException {
@@ -100,14 +125,21 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
 
     }
 
+    /**
+     * This method creates a new CLSPResponse and initializes it with the output
+     * values from ilog
+     * 
+     * @return returns a CLSPResponse containing the output values of the ilog
+     *         computation
+     */
     private CLSPResponse prepareResponse() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
             throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
 
-        Number[][] lotsPerPeriodAsNumber = floatArrayToNumberArray(model.getLotsPerPeriod());
-        Number[][] stock = floatArrayToNumberArray(model.getStock());
-        Number[][] setUpVariables = intArrayToNumberArray(model.getSetUpVariables());
+        Number[][] lotsPerPeriodAsNumber = ArrayConverter.floatArrayToNumberArray(model.getLotsPerPeriod());
+        Number[][] stock = ArrayConverter.floatArrayToNumberArray(model.getStock());
+        Number[][] setUpVariables = ArrayConverter.intArrayToNumberArray(model.getSetUpVariables());
 
         CLSPResponse response = new CLSPResponse(isSolvable, lotsPerPeriodAsNumber, stock, setUpVariables,
                 model.getResult());
@@ -115,26 +147,11 @@ public class CLSPSolvingAlgorithmFloat implements ICLSPSolvingAlgorithm {
         return response;
     }
 
-    private Number[][] floatArrayToNumberArray(float[][] floatArray) {
-        Number[][] numberArray = new Number[floatArray.length][floatArray[1].length];
-        for (int i = 0; i < floatArray.length; i++) {
-            for (int j = 0; j < floatArray[i].length; j++) {
-                numberArray[i][j] = floatArray[i][j];
-            }
-        }
-        return numberArray;
-    }
-
-    private Number[][] intArrayToNumberArray(int[][] intArray) {
-        Number[][] numberArray = new Number[intArray.length][intArray[1].length];
-        for (int i = 0; i < intArray.length; i++) {
-            for (int j = 0; j < intArray[0].length; j++) {
-                numberArray[i][j] = intArray[i][j];
-            }
-        }
-        return numberArray;
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#printResult()
+     */
     @Override
     public void printResult() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {

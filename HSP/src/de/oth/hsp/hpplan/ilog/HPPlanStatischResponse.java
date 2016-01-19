@@ -2,6 +2,11 @@ package de.oth.hsp.hpplan.ilog;
 
 import de.oth.hsp.common.ilog.ILogResponse;
 
+/**
+ * This class is used as a container for the output values of ilog and whether
+ * the model was solvable or not
+ *
+ */
 public class HPPlanStatischResponse implements ILogResponse {
 
     private boolean solvable;
@@ -10,6 +15,16 @@ public class HPPlanStatischResponse implements ILogResponse {
     private float[][] stockAtEndOfPeriod;
     private Number result;
 
+    /**
+     * 
+     * This method creates a new HPPlanStatischResponse from the given parameter
+     * 
+     * @param solvable
+     * @param usedAdditionalCapacityPerPeriod
+     * @param lotSizePerPeriod
+     * @param stockAtEndOfPeriod
+     * @param result
+     */
     public HPPlanStatischResponse(boolean solvable, float[][] usedAdditionalCapacityPerPeriod,
             float[][] lotSizePerPeriod, float[][] stockAtEndOfPeriod, Number result) {
         super();

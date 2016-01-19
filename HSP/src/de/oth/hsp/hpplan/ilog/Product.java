@@ -3,6 +3,11 @@ package de.oth.hsp.hpplan.ilog;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class contains the values of a product which are necessary for the
+ * computation with ilog
+ *
+ */
 public class Product {
 
     private Map<Integer, Integer> demandPerPeriod = new HashMap<Integer, Integer>();

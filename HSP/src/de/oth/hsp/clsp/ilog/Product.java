@@ -3,6 +3,11 @@ package de.oth.hsp.clsp.ilog;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class contains the values of a product which are necessary for the
+ * computation with ilog
+ *
+ */
 public class Product {
 
     private Map<Integer, Integer> demandPerPeriod = new HashMap<Integer, Integer>();
@@ -14,6 +19,18 @@ public class Product {
     private int stockAtEndOfProcess;
     private int initialInventory;
 
+    /**
+     * This method creates a new Product from the given parameters
+     * 
+     * @param demandPerPeriod
+     * @param storageCosts
+     * @param setUpCosts
+     * @param pieceProcessingTime
+     * @param setUpTimePerPeriod
+     * @param initialInventory
+     * @param minLeadTime
+     * @param stockAtEndOfProcess
+     */
     public Product(Map<Integer, Integer> demandPerPeriod, float storageCosts, float setUpCosts,
             Map<Integer, Float> pieceProcessingTime, Map<Integer, Float> setUpTimePerPeriod, int initialInventory,
             int minLeadTime, int stockAtEndOfProcess) {

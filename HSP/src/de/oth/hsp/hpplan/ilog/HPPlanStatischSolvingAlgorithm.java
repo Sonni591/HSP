@@ -4,6 +4,10 @@ import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
 import de.oth.hsp.common.ilog.exception.ILogSolvingException;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
 
+/**
+ * This class is used to request the computation of a model from ilog.
+ *
+ */
 public class HPPlanStatischSolvingAlgorithm implements
         ILogSolvingAlgorithm<HPPlanStatischRequest, HPPlanStatischResponse> {
 
@@ -14,6 +18,13 @@ public class HPPlanStatischSolvingAlgorithm implements
         return "HPPLAN-Statisch";
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.oth.hsp.common.ilog.ILogSolvingAlgorithm#solve(de.oth.hsp.common.ilog
+     * .ILogRequest)
+     */
     @Override
     public HPPlanStatischResponse solve(HPPlanStatischRequest request) throws NotSolvableException {
 
@@ -75,6 +86,12 @@ public class HPPlanStatischSolvingAlgorithm implements
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.common.ilog.ILogSolvingAlgorithm#solve(java.lang.String,
+     * java.lang.String)
+     */
     @Override
     public HPPlanStatischResponse solve(String pathToDatFile, String pathToDatDir) throws NotSolvableException {
 
@@ -96,6 +113,13 @@ public class HPPlanStatischSolvingAlgorithm implements
 
     }
 
+    /**
+     * This method creates a new HPPlanStatischResponse and initializes it with
+     * the output values from ilog
+     * 
+     * @return returns a HPPlanStatischResponse containing the output values of
+     *         the ilog computation
+     */
     private HPPlanStatischResponse prepareResponse() {
         if (model.getLotSizePerPeriod() == null || model.getStockAtEndOfPeriod() == null
                 || model.getUsedAdditionalCapacityPerPeriod() == null) {
@@ -109,6 +133,9 @@ public class HPPlanStatischSolvingAlgorithm implements
         return response;
     }
 
+    /**
+     * This method prints the results of the ilog computation
+     */
     public void printResult() {
         if (model.getLotSizePerPeriod() == null || model.getStockAtEndOfPeriod() == null
                 || model.getUsedAdditionalCapacityPerPeriod() == null) {
@@ -125,6 +152,12 @@ public class HPPlanStatischSolvingAlgorithm implements
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.common.ilog.ILogSolvingAlgorithm#solve(java.lang.String,
+     * java.lang.String, java.lang.String)
+     */
     @Override
     public HPPlanStatischResponse solve(String pathToDatFile, String pathToDatDir, String pathExcelExport)
             throws NotSolvableException {

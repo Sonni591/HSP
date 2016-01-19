@@ -6,6 +6,11 @@ import ilog.lip.framework.IloLipOutputField;
 
 import java.util.List;
 
+/**
+ * Used to describe the HPPlan .mod file with the input and output parameters,
+ * which are passed to ilog
+ *
+ */
 public class HPPlanStatischModel extends IloLipModell {
 
     /**
@@ -64,6 +69,17 @@ public class HPPlanStatischModel extends IloLipModell {
         super(modelName);
     }
 
+    /**
+     * This method sets the input fields of the model to the parameters of the
+     * method. It also initializes the output fields
+     * 
+     * @param products
+     * @param segments
+     * @param epgap
+     * @param planningHorizon
+     * @param ZMax
+     * @param capacityUtilizationOfProductPerPeriod
+     */
     private void initializeModelVariables(List<Product> products, List<Productionsegment> segments, float epgap,
             int planningHorizon, int ZMax, float[][][] capacityUtilizationOfProductPerPeriod) {
         this.epgap = epgap;

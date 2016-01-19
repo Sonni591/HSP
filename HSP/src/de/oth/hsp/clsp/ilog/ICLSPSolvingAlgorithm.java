@@ -3,6 +3,10 @@ package de.oth.hsp.clsp.ilog;
 import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
 
+/**
+ * This interface defines the methods of the different CLSP solving algorithms
+ *
+ */
 public interface ICLSPSolvingAlgorithm extends ILogSolvingAlgorithm<CLSPRequest, CLSPResponse> {
 
     @Override

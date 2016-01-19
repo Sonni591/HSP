@@ -2,7 +2,13 @@ package de.oth.hsp.clsp.ilog;
 
 import de.oth.hsp.common.ilog.exception.ILogSolvingException;
 import de.oth.hsp.common.ilog.exception.NotSolvableException;
+import de.oth.hsp.common.utils.ArrayConverter;
 
+/**
+ * This class is used to request the computation of a model from ilog; the
+ * output fields are of the type int, corresponding to the underlaying model
+ *
+ */
 public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
 
     private CLSPModelInt model;
@@ -12,6 +18,13 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
         return "CLSPInt";
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#solve(de.oth.hsp.clsp.ilog
+     * .CLSPRequest)
+     */
     @Override
     public CLSPResponse solve(CLSPRequest request) throws NotSolvableException {
 
@@ -56,6 +69,12 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#solve(java.lang.String,
+     * java.lang.String)
+     */
     @Override
     public CLSPResponse solve(String pathToDatFile, String pathToDatDir) throws NotSolvableException {
 
@@ -75,6 +94,12 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#solve(java.lang.String,
+     * java.lang.String, java.lang.String)
+     */
     @Override
     public CLSPResponse solve(String pathToDatFile, String pathToDatDir, String pathExcelExport)
             throws NotSolvableException {
@@ -96,14 +121,21 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
         return response;
     }
 
+    /**
+     * This method creates a new CLSPResponse and initializes it with the output
+     * values from ilog
+     * 
+     * @return returns a CLSPResponse containing the output values of the ilog
+     *         computation
+     */
     private CLSPResponse prepareResponse() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {
             throw new IllegalArgumentException("Das gelöste Modell enthält 'null'-Werte. ");
         }
 
-        Number[][] lotsPerPeriodAsNumber = intArrayToNumberArray(model.getLotsPerPeriod());
-        Number[][] stock = intArrayToNumberArray(model.getStock());
-        Number[][] setUpVariables = intArrayToNumberArray(model.getSetUpVariables());
+        Number[][] lotsPerPeriodAsNumber = ArrayConverter.intArrayToNumberArray(model.getLotsPerPeriod());
+        Number[][] stock = ArrayConverter.intArrayToNumberArray(model.getStock());
+        Number[][] setUpVariables = ArrayConverter.intArrayToNumberArray(model.getSetUpVariables());
 
         CLSPResponse response = new CLSPResponse(isSolvable, lotsPerPeriodAsNumber, stock, setUpVariables,
                 model.getResult());
@@ -111,16 +143,11 @@ public class CLSPSolvingAlgorithmInt implements ICLSPSolvingAlgorithm {
         return response;
     }
 
-    private Number[][] intArrayToNumberArray(int[][] intArray) {
-        Number[][] numberArray = new Number[intArray.length][intArray[1].length];
-        for (int i = 0; i < intArray.length; i++) {
-            for (int j = 0; j < intArray[0].length; j++) {
-                numberArray[i][j] = intArray[i][j];
-            }
-        }
-        return numberArray;
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.oth.hsp.clsp.ilog.ICLSPSolvingAlgorithm#printResult()
+     */
     @Override
     public void printResult() {
         if (model.getLotsPerPeriod() == null || model.getSetUpVariables() == null || model.getStock() == null) {

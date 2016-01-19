@@ -8,8 +8,11 @@ import java.util.Map;
 import de.oth.hsp.clsp.model.ClspDatFile;
 import de.oth.hsp.common.ilog.ILogRequest;
 
-// import de.oth.hsp.clsp.model.ClspDatFile;
-
+/**
+ * This Class is used as a request to the CLSP model; it contains the data which
+ * is necessary for the computation of the model
+ *
+ */
 public class CLSPRequest implements ILogRequest {
 
     private List<Product> products;
@@ -18,6 +21,15 @@ public class CLSPRequest implements ILogRequest {
     private int bigNumber;
     private float[][] capacitiesPerResource;
 
+    /**
+     * This constructor creates a new CLSPRequest from the given parameters
+     * 
+     * @param products
+     * @param epgap
+     * @param planningHorizon
+     * @param bigNumber
+     * @param capacitiesPerResource
+     */
     public CLSPRequest(List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
         super();
@@ -28,6 +40,12 @@ public class CLSPRequest implements ILogRequest {
         this.capacitiesPerResource = capacitiesPerResource;
     }
 
+    /**
+     * This constructor creates a new CLSPRequest from the fields of a given
+     * CLSPDatFile
+     * 
+     * @param clspModel
+     */
     public CLSPRequest(ClspDatFile clspModel) {
         this.epgap = (float) clspModel.getEpgap();
         this.planningHorizon = clspModel.getT();

@@ -69,4 +69,38 @@ public class ArrayConverter {
 
         return result;
     }
+
+    /**
+     * This method converts a float array to a corresponding Number array
+     * 
+     * @param floatArray
+     *            the float array that needs to be converted
+     * @return returns a Number array build from the floatArray
+     */
+    public static Number[][] floatArrayToNumberArray(float[][] floatArray) {
+        Number[][] numberArray = new Number[floatArray.length][floatArray[1].length];
+        for (int i = 0; i < floatArray.length; i++) {
+            for (int j = 0; j < floatArray[i].length; j++) {
+                numberArray[i][j] = floatArray[i][j];
+            }
+        }
+        return numberArray;
+    }
+
+    /**
+     * This method converts a int array to a corresponding Number array
+     * 
+     * @param intArray
+     *            the int array that needs to be converted
+     * @return returns a Number array build from the intArray
+     */
+    public static Number[][] intArrayToNumberArray(int[][] intArray) {
+        Number[][] numberArray = new Number[intArray.length][intArray[1].length];
+        for (int i = 0; i < intArray.length; i++) {
+            for (int j = 0; j < intArray[0].length; j++) {
+                numberArray[i][j] = intArray[i][j];
+            }
+        }
+        return numberArray;
+    }
 }

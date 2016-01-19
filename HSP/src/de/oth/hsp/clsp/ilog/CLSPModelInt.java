@@ -6,6 +6,11 @@ import ilog.lip.framework.IloLipOutputField;
 
 import java.util.List;
 
+/**
+ * Used to describe the CLSP .mod file with the input and output parameters,
+ * which are passed to ilog The output parameters are of the type int
+ *
+ */
 public class CLSPModelInt extends IloLipModell {
 
     /**
@@ -60,17 +65,36 @@ public class CLSPModelInt extends IloLipModell {
         super(modelName);
         initializeOutputFields();
     }
-    
 
+    /**
+     * This constructor creates a new CLSP model
+     * 
+     * @param modelName
+     *            The name of the model (usually this will be Modell)
+     * @param products
+     * @param epgap
+     * @param planningHorizon
+     * @param bigNumber
+     * @param capacitiesPerResource
+     */
     public CLSPModelInt(String modelName, List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
         super(modelName);
         initializeModelVariables(products, epgap, planningHorizon, bigNumber, capacitiesPerResource);
 
     }
-    
-    
 
+    /**
+     * 
+     * This method sets the input fields of the model to the parameters of the
+     * method it also initializes the output fields
+     * 
+     * @param products
+     * @param epgap
+     * @param planningHorizon
+     * @param bigNumber
+     * @param capacitiesPerResource
+     */
     private void initializeModelVariables(List<Product> products, float epgap, int planningHorizon, int bigNumber,
             float[][] capacitiesPerResource) {
         this.epgap = epgap;
@@ -114,8 +138,13 @@ public class CLSPModelInt extends IloLipModell {
 
     }
 
-	private void initializeOutputFields(){
-    	  // Initialize OutputFields
+    /**
+     * This method initializes the output fields The output fields must be
+     * correctly initialized; otherwise ilog cannot fill in the values
+     * 
+     */
+    private void initializeOutputFields() {
+        // Initialize OutputFields
         this.lotsPerPeriod = new int[numberOfProducts][planningHorizon];
         this.stock = new int[numberOfProducts][planningHorizon + 1];
         this.setUpVariables = new int[numberOfProducts][planningHorizon];
@@ -128,24 +157,23 @@ public class CLSPModelInt extends IloLipModell {
         return setUpVariables;
     }
 
-	public int[][] getLotsPerPeriod() {
-		return lotsPerPeriod;
-	}
+    public int[][] getLotsPerPeriod() {
+        return lotsPerPeriod;
+    }
 
-	public int[][] getStock() {
-		return stock;
-	}
+    public int[][] getStock() {
+        return stock;
+    }
 
-	
-	/**
-	 * Getter for numberOfProducts and planningHorizon
-	 */
-	
-	public int getPlanningHorizon() {
-		return planningHorizon;
-	}
+    /**
+     * Getter for numberOfProducts and planningHorizon
+     */
 
-	public int getNumberOfProducts() {
-		return numberOfProducts;
-	}
+    public int getPlanningHorizon() {
+        return planningHorizon;
+    }
+
+    public int getNumberOfProducts() {
+        return numberOfProducts;
+    }
 }

@@ -1,5 +1,10 @@
 package de.oth.hsp.hpplan.ilog;
 
+/**
+ * This class contains the values of a production segment which are necessary
+ * for the computation with ilog
+ *
+ */
 public class Productionsegment {
 
     private int[] productCapacityPerPeriod;

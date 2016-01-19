@@ -1,5 +1,9 @@
 package de.oth.hsp.common.ilog.exception;
 
+/**
+ * Exception class for ilog exceptions
+ *
+ */
 public class ILogSolvingException extends Exception {
 
     private static final long serialVersionUID = 1L;
