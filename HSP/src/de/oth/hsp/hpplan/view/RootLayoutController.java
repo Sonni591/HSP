@@ -5,14 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import de.oth.hsp.common.dat.DatFileParser;
-import de.oth.hsp.common.dat.parser.DatParseException;
-import de.oth.hsp.common.ilog.exception.NotSolvableException;
-import de.oth.hsp.common.io.WorkspaceManager;
-import de.oth.hsp.hpplan.ilog.HPPlanStatischRequest;
-import de.oth.hsp.hpplan.ilog.HPPlanStatischResponse;
-import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
-import de.oth.hsp.hpplan.model.HpplanStatDatFile;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -23,26 +15,45 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.ilog.exception.NotSolvableException;
+import de.oth.hsp.common.io.WorkspaceManager;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischRequest;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischResponse;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
+import de.oth.hsp.hpplan.model.HpplanStatDatFile;
 
+/**
+ * class does define the root layout controller of the application
+ */
 public class RootLayoutController {
 
-    // reference to the BorderPane of the application
+    /**
+     * reference to the BorderPane of the application
+     */
     @FXML
     private BorderPane rootBorderPane;
 
-    // References to all Controllers
+    /**
+     * References to all Controllers
+     */
     @FXML
     private Tab1Controller tab1Controller;
     @FXML
     private Tab2Controller tab2Controller;
 
-    // References all GUI elements
+    /**
+     * References all GUI elements
+     */
     @FXML
     private TabPane tabPane;
     @FXML
     private MenuBar menuBar;
 
-    // References the HPPLANModel
+    /**
+     * References the HPPLANModel
+     */
     private HpplanStatDatFile hpplanModel = new HpplanStatDatFile();
 
     /**
@@ -223,6 +234,11 @@ public class RootLayoutController {
         calculateHPPLAN();
     }
 
+    /**
+     * @param clspResponse
+     *            triggers a method to show the results of the algorithm in the
+     *            tab 2
+     */
     private void showResult(HPPlanStatischResponse hpplanResponse) {
         tab2Controller.setResultData(hpplanResponse);
     }
@@ -279,6 +295,9 @@ public class RootLayoutController {
         tabPane.getSelectionModel().select(index);
     }
 
+    /**
+     * show a dialog with the batch processing options
+     */
     @FXML
     private void onActionBatchProcessing() {
         BatchProcessingDialog dia = new BatchProcessingDialog(this);
@@ -301,10 +320,8 @@ public class RootLayoutController {
     private void onActionHelpAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("");
-        alert.setHeaderText(
-                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
-        alert.setContentText(
-                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
     }
 

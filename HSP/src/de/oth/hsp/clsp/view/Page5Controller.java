@@ -10,19 +10,21 @@ import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables for the lot scheduling problem
+ */
 public class Page5Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page2
-
+    /**
+     * References to elements of the FXML Layout of Page2
+     */
     @FXML
     private TableView<Number[]> tableTb; // Bearbeitungszeit für eine
-    // Einheit
-    // von Produkt K auf Station J
-
-    private ObservableList<Number[]> dataListTb = FXCollections.observableArrayList();
-
+    // Einheit von Produkt K auf Station J
     @FXML
     private TextField tableValue;
+
+    private ObservableList<Number[]> dataListTb = FXCollections.observableArrayList();
 
     private PaginationController paginationController;
     private RootLayoutController root;
@@ -66,16 +68,25 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
         this.paginationController = paginationController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
         root.getClspModel().setTb(TableUtils.convertOListTo2DArray(tableTb.getItems()));
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         return true;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @Override
     public void inEvent() {
 
@@ -84,6 +95,9 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
 
     }
 
+    /**
+     * method to insert the same value into every cell of the displayed table
+     */
     public void insertTableValues() {
 
         Number value = Integer.valueOf(tableValue.getText());
@@ -98,18 +112,5 @@ public class Page5Controller extends AbstractTableViewPage implements IPageContr
         setTableData(tableTb, tb, "j: ", "k: ", new Decimals(2));
 
     }
-
-    // public void testPrintout(ObservableList<Number[]> data) {
-    //
-    // for (int i = 0; i < data.size(); i++) {
-    // Number n[] = data.get(i);
-    // for (int j = 0; j < n.length; j++) {
-    // Double d = n[j].doubleValue();
-    // System.out.print(d + " ");
-    // }
-    // System.out.println("");
-    // }
-    //
-    // }
 
 }

@@ -9,9 +9,14 @@ import de.oth.hsp.clsp.ilog.CLSPResponse;
 import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 
+/**
+ * class to control the tab 2
+ */
 public class Tab2Controller extends AbstractTableViewPage {
 
-    // References for the FXML layout
+    /**
+     * References for the FXML layout
+     */
     @FXML
     private TableView<Number[]> tableLotsPerPeriod;
     @FXML
@@ -50,9 +55,12 @@ public class Tab2Controller extends AbstractTableViewPage {
         root = rootLayoutController;
     }
 
+    /**
+     * @param clspResponse
+     *            dos set the values from the CLSPResponse in the GUI
+     */
     public void setResultData(CLSPResponse clspResponse) {
-        // prüfe ob ein ClspResponse vorhanden ist und ob eine gültige Lösung
-        // vorliegt
+        // check if there is a response and it is solvable
         if (clspResponse != null && clspResponse.isSolvable()) {
 
             totalCosts.setText(Double.toString(clspResponse.getResult().doubleValue()));
@@ -76,6 +84,9 @@ public class Tab2Controller extends AbstractTableViewPage {
 
     }
 
+    /**
+     * set some dummy data
+     */
     public void setDummyData() {
 
         CLSPResponse clspResponse = new CLSPResponse(true, createdDummyMatrix(3, 3), createdDummyMatrix(4, 4),
@@ -84,6 +95,11 @@ public class Tab2Controller extends AbstractTableViewPage {
 
     }
 
+    /**
+     * @param dim1
+     * @param dim2
+     * @return creates a dummy matrix with number values
+     */
     public Number[][] createdDummyMatrix(int dim1, int dim2) {
         Number[][] matrix = new Number[dim1][dim2];
         int t = 0;

@@ -8,10 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
-import de.oth.hsp.common.io.WorkspaceManager;
-import de.oth.hsp.common.utils.FileOperations;
-import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,6 +20,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import de.oth.hsp.common.ilog.ILogSolvingAlgorithm;
+import de.oth.hsp.common.io.WorkspaceManager;
+import de.oth.hsp.common.utils.FileOperations;
+import de.oth.hsp.hpplan.ilog.HPPlanStatischSolvingAlgorithm;
 
 public class BatchProcessingDialogController {
 
@@ -85,6 +85,11 @@ public class BatchProcessingDialogController {
             alertNoDestination();
             return;
         }
+
+        // Show warning, that method may not work right now
+        // Reason: at the moment (01.2016) there are export problems with the
+        // ilog-framework
+        alertDoesNotWork();
 
         List<Path> datPaths = new ArrayList<Path>();
         List<Path> outputDirectories = new ArrayList<Path>();
@@ -169,6 +174,15 @@ public class BatchProcessingDialogController {
         alert.setTitle("Fehler");
         alert.setHeaderText("Fehler beim Zielort");
         alert.setContentText("Der angegebene Zielort existiert nicht, bitte wählen Sie einen anderen.");
+
+        alert.showAndWait();
+    }
+
+    private void alertDoesNotWork() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warnung");
+        alert.setHeaderText("Die gewählte Aktion funktioniert möglicherweise noch nicht!");
+        alert.setContentText("Aufgrund von Problemen mit einem verwendeten Framework funktioniert der Export nicht.");
 
         alert.showAndWait();
     }

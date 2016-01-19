@@ -7,9 +7,14 @@ import javafx.scene.control.TextField;
 import de.oth.hsp.common.dat.ConstraintException;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables that are needed in later pages
+ */
 public class Page1Controller implements IPageController {
 
-    // References to elements of the FXML Layout of Page1
+    /**
+     * References to elements of the FXML Layout of Page1
+     */
     @FXML
     private TextField T; // Länge des Planungszeitraums
     @FXML
@@ -91,6 +96,9 @@ public class Page1Controller implements IPageController {
         this.paginationController = paginationController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         try {
@@ -107,6 +115,9 @@ public class Page1Controller implements IPageController {
         return false;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
         if (checkInput()) {
@@ -132,6 +143,9 @@ public class Page1Controller implements IPageController {
         }
     }
 
+    /**
+     * Shows an warning alert, that the input values are false
+     */
     private void openFalseInputAlert() {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Falsche Werte");
@@ -142,9 +156,11 @@ public class Page1Controller implements IPageController {
         root.getTab1Controller().getPagination().setCurrentPageIndex(0);
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @Override
     public void inEvent() {
-
         K.setText(Integer.toString(root.getClspModel().getK()));
         T.setText(Integer.toString(root.getClspModel().getT()));
         J.setText(Integer.toString(root.getClspModel().getJ()));

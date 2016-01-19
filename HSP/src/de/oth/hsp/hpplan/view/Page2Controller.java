@@ -8,9 +8,14 @@ import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables for the lot scheduling problem
+ */
 public class Page2Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page2
+    /**
+     * References to elements of the FXML Layout of Page2
+     */
     @FXML
     private TextField tableValue;
     @FXML
@@ -44,17 +49,26 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         root = rootLayoutController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
         root.getHpplanModel().setB(TableUtils.convertOListTo2DArray(tableB.getItems()));
 
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         return true;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {
@@ -76,6 +90,9 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
         this.paginationController = paginationController;
     }
 
+    /**
+     * method to insert the same value into every cell of the displayed table
+     */
     public void insertTableValues() {
         Number value = Integer.valueOf(tableValue.getText());
 

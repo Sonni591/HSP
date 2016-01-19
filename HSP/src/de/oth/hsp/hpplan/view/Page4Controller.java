@@ -9,14 +9,17 @@ import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables for the lot scheduling problem
+ */
 public class Page4Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page2
-
+    /**
+     * References to elements of the FXML Layout of Page2
+     */
     @FXML
     private TableView<Number[]> tableH; // Lagerkostensatz für eine Einheit
                                         // von Produkt k
-
     @FXML
     private TableView<Number[]> tableiInit; // Anfangsbestand für eine Einheit
                                             // von
@@ -68,11 +71,17 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
         this.paginationController = paginationController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         return true;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
         root.getHpplanModel().setH(TableUtils.convertOListToArray(tableH.getItems()));
@@ -80,6 +89,9 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
 
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @Override
     public void inEvent() {
 

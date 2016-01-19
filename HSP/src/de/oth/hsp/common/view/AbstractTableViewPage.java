@@ -27,13 +27,20 @@ import de.oth.hsp.common.utils.EditingCell;
 public abstract class AbstractTableViewPage {
 
     /**
-     *
+     * auto constructor
      */
     public AbstractTableViewPage() {
         // TODO Auto-generated constructor stub
 
     }
 
+    /**
+     * Does init the tableView, clears its colums and contains, sets the
+     * editable status and defines the resize policy
+     * 
+     * @param tableView
+     * @param editable
+     */
     protected void initTable(TableView<?> tableView, boolean editable) {
         tableView.getColumns().clear();
         tableView.getItems().clear();
@@ -42,10 +49,9 @@ public abstract class AbstractTableViewPage {
     }
 
     /**
-     * 3
-     *
+     * Does dynamically add a new column to the tableview which does contain row
+     * numbers
      */
-    // TODO: Comment method
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void addColumnWithRowNumber(TableView<Number[]> tableView, String rowText) {
         TableColumn numberCol = new TableColumn("");
@@ -83,9 +89,11 @@ public abstract class AbstractTableViewPage {
     }
 
     /**
+     * does add the content of the inputdata (2-dimensional array) into the
+     * table view
+     * 
      * @param inputData
      */
-    // TODO: Comment method
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void addTableViewContent(Number[][] inputData, TableView<Number[]> tableView, Decimals decimals,
             String columnHeader) {
@@ -132,6 +140,12 @@ public abstract class AbstractTableViewPage {
 
     }
 
+    /**
+     * does add the content of the inputdata (1-dimensional array) into the
+     * table view
+     * 
+     * @param inputData
+     */
     protected void addTableViewContent(Number[] inputData, TableView<Number[]> tableView, Decimals decimals,
             String columnHeader) {
         Number[][] values = new Number[1][inputData.length];
@@ -139,6 +153,11 @@ public abstract class AbstractTableViewPage {
         addTableViewContent(values, tableView, decimals, columnHeader);
     }
 
+    /**
+     * custom set and resize the row height of the tableview rows
+     * 
+     * @param tableView
+     */
     protected void resizeTableRowHeight(TableView tableView) {
 
         // height of table header + (table size + 1) * height of content cell
@@ -156,6 +175,16 @@ public abstract class AbstractTableViewPage {
 
     }
 
+    /**
+     * the method is used in the pageControls to set the data (2-dimensional) in
+     * the tableview
+     * 
+     * @param tableView
+     * @param data
+     * @param rowHeader
+     * @param columnHeader
+     * @param decimals
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void setTableData(TableView tableView, Number[][] data, String rowHeader, String columnHeader,
             Decimals decimals) {
@@ -170,6 +199,16 @@ public abstract class AbstractTableViewPage {
         addTableViewContent(data, tableView, decimals, columnHeader);
     }
 
+    /**
+     * the method is used in the pageControls to set the data (2-dimensional) in
+     * the tableview
+     * 
+     * @param tableView
+     * @param data
+     * @param rowHeader
+     * @param columnHeader
+     * @param decimals
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void setTableData(TableView tableView, Number[] data, String rowHeader, String columnHeader,
             Decimals decimals, ObservableList<Number[]> dataList) {
@@ -184,6 +223,11 @@ public abstract class AbstractTableViewPage {
         addTableViewContent(data, tableView, decimals, columnHeader);
     }
 
+    /**
+     * just gives a test printout in the console
+     * 
+     * @param data
+     */
     public void testPrintout(ObservableList<Number[]> data) {
 
         for (int i = 0; i < data.size(); i++) {

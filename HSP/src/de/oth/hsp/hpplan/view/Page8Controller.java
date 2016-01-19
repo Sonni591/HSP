@@ -11,6 +11,9 @@ import javafx.scene.control.TextField;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables for the lot scheduling problem
+ */
 public class Page8Controller extends AbstractTableViewPage implements IPageController {
 
     private PaginationController paginationController;
@@ -59,6 +62,9 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
         this.paginationController = paginationController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
 
@@ -77,11 +83,17 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         return true;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @Override
     public void inEvent() {
 
@@ -95,12 +107,14 @@ public class Page8Controller extends AbstractTableViewPage implements IPageContr
 
     }
 
+    /**
+     * trigger the calculation of the CLSP algorithm
+     */
     public void onActionCalculate() {
-        System.out.println("Page8 berechnen Button");
 
         outEvent(); // write all Data from this page into the clspModel
 
-        System.out.println(root.getHpplanModel());
+        // System.out.println(root.getHpplanModel());
 
         // start calculation
         root.calculateHPPLAN();

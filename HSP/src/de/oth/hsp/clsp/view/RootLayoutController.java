@@ -5,15 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import de.oth.hsp.clsp.ilog.CLSPRequest;
-import de.oth.hsp.clsp.ilog.CLSPResponse;
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
-import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmInt;
-import de.oth.hsp.clsp.model.ClspDatFile;
-import de.oth.hsp.common.dat.DatFileParser;
-import de.oth.hsp.common.dat.parser.DatParseException;
-import de.oth.hsp.common.ilog.exception.NotSolvableException;
-import de.oth.hsp.common.io.WorkspaceManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -25,32 +16,50 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import de.oth.hsp.clsp.ilog.CLSPRequest;
+import de.oth.hsp.clsp.ilog.CLSPResponse;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmFloat;
+import de.oth.hsp.clsp.ilog.CLSPSolvingAlgorithmInt;
+import de.oth.hsp.clsp.model.ClspDatFile;
+import de.oth.hsp.common.dat.DatFileParser;
+import de.oth.hsp.common.dat.parser.DatParseException;
+import de.oth.hsp.common.ilog.exception.NotSolvableException;
+import de.oth.hsp.common.io.WorkspaceManager;
 
+/**
+ * class does define the root layout controller of the application
+ */
 public class RootLayoutController {
 
-    // reference to the BorderPane of the application
+    /**
+     * reference to the BorderPane of the application
+     */
     @FXML
     private BorderPane rootBorderPane;
 
-    // References to all Controllers
+    /**
+     * References to all Controllers
+     */
     @FXML
     private Tab1Controller tab1Controller;
     @FXML
     private Tab2Controller tab2Controller;
 
-    // References all GUI elements
+    /**
+     * References all GUI elements
+     */
     @FXML
     private TabPane tabPane;
     @FXML
     private MenuBar menuBar;
-
     @FXML
     private RadioMenuItem algorithmNumberSettingInt;
-
     @FXML
     private RadioMenuItem algorithmNumberSettingFloat;
 
-    // References the CLSPModel
+    /**
+     * References the CLSPModel
+     */
     private ClspDatFile clspModel = new ClspDatFile();
 
     /**
@@ -227,6 +236,11 @@ public class RootLayoutController {
         calculateCLSP();
     }
 
+    /**
+     * @param clspResponse
+     *            triggers a method to show the results of the algorithm in the
+     *            tab 2
+     */
     private void showResult(CLSPResponse clspResponse) {
         tab2Controller.setResultData(clspResponse);
     }
@@ -294,6 +308,9 @@ public class RootLayoutController {
         tabPane.getSelectionModel().select(index);
     }
 
+    /**
+     * show a dialog with the batch processing options
+     */
     @FXML
     private void onActionBatchProcessing() {
         BatchProcessingDialog dia = new BatchProcessingDialog(this);
@@ -316,10 +333,8 @@ public class RootLayoutController {
     private void onActionHelpAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("");
-        alert.setHeaderText(
-                "OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
-        alert.setContentText(
-                "Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
+        alert.setHeaderText("OTH Regensburg\nLabor Informationstechnik und Produktionslogistik\nWintersemester 2015/16");
+        alert.setContentText("Arnold Christiane\nButz Thomas\nDenzin Timo\nEichinger Tobias\nGais Dominik\nLiebich Johannes\nSchertler Sascha\nSonnleitner Daniel\nWagner Pilar");
         alert.showAndWait();
     }
 
@@ -367,10 +382,17 @@ public class RootLayoutController {
         // System.out.println("on tab selection changed");
     }
 
+    /**
+     * get the CLSP model
+     */
     public ClspDatFile getClspModel() {
         return clspModel;
     }
 
+    /**
+     * @param clspModel
+     *            set the CLSP model
+     */
     public void setClspModel(ClspDatFile clspModel) {
         this.clspModel = clspModel;
     }

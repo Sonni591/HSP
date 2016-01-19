@@ -9,9 +9,14 @@ import de.oth.hsp.common.utils.Decimals;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.hpplan.ilog.HPPlanStatischResponse;
 
+/**
+ * class to control the tab 2
+ */
 public class Tab2Controller extends AbstractTableViewPage {
 
-    // References for the FXML layout
+    /**
+     * References for the FXML layout
+     */
     @FXML
     private TableView<Number[]> usedAdditionalCapacityPerPeriod;
     @FXML
@@ -49,6 +54,10 @@ public class Tab2Controller extends AbstractTableViewPage {
         root = rootLayoutController;
     }
 
+    /**
+     * @param clspResponse
+     *            dos set the values from the CLSPResponse in the GUI
+     */
     public void setResultData(HPPlanStatischResponse hpplanResponse) {
         // prüfe ob ein HpplanResponse vorhanden ist und ob eine gültige Lösung
         // vorliegt
@@ -75,6 +84,9 @@ public class Tab2Controller extends AbstractTableViewPage {
 
     }
 
+    /**
+     * set some dummy data
+     */
     public void setDummyData() {
 
         HPPlanStatischResponse hpplanResponse = new HPPlanStatischResponse(true, createdDummyMatrix(3, 3),
@@ -83,6 +95,11 @@ public class Tab2Controller extends AbstractTableViewPage {
 
     }
 
+    /**
+     * @param dim1
+     * @param dim2
+     * @return creates a dummy matrix with float values
+     */
     public float[][] createdDummyMatrix(int dim1, int dim2) {
         float[][] matrix = new float[dim1][dim2];
         int t = 0;
@@ -95,6 +112,11 @@ public class Tab2Controller extends AbstractTableViewPage {
         return matrix;
     }
 
+    /**
+     * @param dim1
+     * @param dim2
+     * @return creates a dummy matrix with int values
+     */
     public int[][] createdDummyMatrixInt(int dim1, int dim2) {
         int[][] matrix = new int[dim1][dim2];
         int t = 0;

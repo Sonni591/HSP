@@ -8,13 +8,20 @@ import javafx.scene.control.Pagination;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
+/**
+ * class to control the tab 1
+ */
 public class Tab1Controller {
 
-    // References for the FXML layout
+    /**
+     * References for the FXML layout
+     */
     @FXML
     private Pagination pagination;
 
-    // References to FXML controllers
+    /**
+     * References to FXML controllers
+     */
     private RootLayoutController root;
     private PaginationController paginationController;
 

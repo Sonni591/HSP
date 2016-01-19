@@ -10,13 +10,16 @@ import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables for the lot scheduling problem
+ */
 public class Page3Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page2
-
+    /**
+     * References to elements of the FXML Layout of Page2
+     */
     @FXML
     private TableView<Number[]> table1; // Lagerkostensätze für ein Prudukt K
-
     @FXML
     private ChoiceBox<Integer> boxJ;
 
@@ -63,6 +66,9 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
         this.paginationController = paginationController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
         Number[][][] f = root.getHpplanModel().getF();
@@ -71,6 +77,9 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
         root.getHpplanModel().setF(f);
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void inEvent() {
@@ -89,7 +98,8 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
     }
 
     /**
-     * 
+     * does init the choice box, which defines the third dimension of the 3-dim
+     * HPPLAN parameter
      */
     public void initChoiceBox() {
 
@@ -114,6 +124,9 @@ public class Page3Controller extends AbstractTableViewPage implements IPageContr
         });
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         return true;

@@ -20,6 +20,13 @@ public class TableUtils {
         return result;
     }
 
+    /**
+     * Converts a ObservableList<Number[]> into a Number[]-Array, without the
+     * first column and the last row
+     *
+     * @param list
+     * @return
+     */
     public static Number[] convertOListToArray(ObservableList<Number[]> list) {
         return convertOListTo2DArray(list)[0];
     }

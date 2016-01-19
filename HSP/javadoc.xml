@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="lib/ant-launcher.jar:lib/LIP_ILOG-Framework_1_3_0.jar:/Applications/Eclipse Java 8/plugins/org.eclipse.fx.ide.css.jfx8_1.2.0.201501301049.jar:lib/antlr-runtime-4.5.1.jar:lib/ant.jar:lib/poi-3.10-FINAL-20140208.jar:lib/controlsfx-8.20.9.jar" destdir="doc" doctitle="CLSP and HPPLAN Javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="de.oth.hsp.clsp.test,de.oth.hsp.common.dat.value,de.oth.hsp.common.dat.constraint,de.oth.hsp.common.io,de.oth.hsp.hpplan.ilog,de.oth.hsp.common.view,de.oth.hsp.common.utils,de.oth.hsp.clsp.model,de.oth.hsp.clsp.view,de.oth.hsp.common.dat,de.oth.hsp.clsp.ilog,de.oth.hsp.hpplan.view,de.oth.hsp.hpplan.model,de.oth.hsp.common.dat.parser,de.oth.hsp.hpplan.test,de.oth.hsp.clsp,de.oth.hsp.common.ilog,de.oth.hsp.common.dat.parser.gen,de.oth.hsp.common,de.oth.hsp.hpplan,de.oth.hsp.common.ilog.exception" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

@@ -7,9 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * class does combine reference to the pages and pageControllers of the
+ * pagination controls used in the application
+ */
 public class PaginationController {
 
-    // Pages of the Pagination
+    /**
+     * Pages of the Pagination
+     */
     private AnchorPane pagePane1;
     private AnchorPane pagePane2;
     private AnchorPane pagePane3;
@@ -19,9 +25,10 @@ public class PaginationController {
     private AnchorPane pagePane7;
     private AnchorPane pagePane8;
 
-    // References to FXML controllers
+    /**
+     * References to FXML controllers
+     */
     private RootLayoutController root;
-
     private Page1Controller page1Controller;
     private Page2Controller page2Controller;
     private Page3Controller page3Controller;
@@ -31,15 +38,27 @@ public class PaginationController {
     private Page7Controller page7Controller;
     private Page8Controller page8Controller;
 
+    /**
+     * Hashmaps to save references of the pages and the pageControllers
+     */
     private HashMap<Integer, IPageController> pageControllerMap = new HashMap<Integer, IPageController>();
     private HashMap<Integer, AnchorPane> pageMap = new HashMap<Integer, AnchorPane>();
 
+    /**
+     * @param root
+     *            Constructor, which does initialize the pages and the
+     *            pageControllers
+     */
     public PaginationController(RootLayoutController root) {
         this.root = root;
         initializePages();
         initializePageControllers();
     }
 
+    /**
+     * the method does load the individual *.fxml definition for each page and
+     * puts these into a hashmap
+     */
     public void initializePages() {
         // load pane from fxml-definiton
         if (pagePane1 == null) {
@@ -83,6 +102,9 @@ public class PaginationController {
 
     }
 
+    /**
+     * the method does initialize all pageControllers of needed pages
+     */
     public void initializePageControllers() {
         page1Controller.setPaginationController(this);
         page1Controller.init(root);
@@ -125,7 +147,6 @@ public class PaginationController {
         }
 
         // also save a reference of the controller to PaginationController
-        // if (paginationController == null && fxmlLoader != null) {
         savePageControllers(fxmlLoader, fxmlLayout);
 
         return pane;

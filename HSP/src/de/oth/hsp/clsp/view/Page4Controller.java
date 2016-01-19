@@ -9,14 +9,17 @@ import de.oth.hsp.common.utils.TableUtils;
 import de.oth.hsp.common.view.AbstractTableViewPage;
 import de.oth.hsp.common.view.IPageController;
 
+/**
+ * Class for a page containing variables for the lot scheduling problem
+ */
 public class Page4Controller extends AbstractTableViewPage implements IPageController {
 
-    // References to elements of the FXML Layout of Page2
-
+    /**
+     * References to elements of the FXML Layout of Page2
+     */
     @FXML
     private TableView<Number[]> tableY0; // Anfangslagerbestaende für ein
                                          // Produkt K
-
     @FXML
     private TableView<Number[]> tableYT; // Endlagerbestaende für ein Produkt K
 
@@ -66,17 +69,26 @@ public class Page4Controller extends AbstractTableViewPage implements IPageContr
         this.paginationController = paginationController;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#checkInput()
+     */
     @Override
     public boolean checkInput() {
         return true;
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#outEvent()
+     */
     @Override
     public void outEvent() {
         root.getClspModel().setY0(TableUtils.convertOListToArray(tableY0.getItems()));
         root.getClspModel().setYT(TableUtils.convertOListToArray(tableYT.getItems()));
     }
 
+    /**
+     * @see de.oth.hsp.common.view.IPageController#inEvent()
+     */
     @Override
     public void inEvent() {
 
