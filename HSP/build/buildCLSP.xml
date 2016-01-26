@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<project name="HSP build CLSP" default="do-deploy" basedir="."  xmlns:fx="javafx:com.sun.javafx.tools.ant">
+	
+	<project name="Build LIP_CLSP_Solver" default="do-deploy" basedir="."  xmlns:fx="javafx:com.sun.javafx.tools.ant">
+	
+	<description>ANT build file for creating a zip package containing all files that are necessary for execution</description>
+
+	<!-- custom changes: property definitions -->
+	<property name="toolName" value="LIP_CLSP-Solver" />
+	<property name="version" value="1_0" />
+	<property name="toolVersioned" value="${toolName}_${version}" />
+	<property name="testDataName" value="CLSP.dat"/>
+	<property name="toolJar" value="${toolVersioned}.jar" />
+	<property name="toolZip" value="${toolVersioned}.zip" />
+	<property name="ilog" value="ilog"/>
+	<property name="dat" value="dat"/>
+	<property name="finalBatName" value="start_${toolVersioned}.bat"/>
+	<!-- end of custom changes -->
+	
 	<target name="init-fx-tasks">
 		<path id="fxant">
 			<filelist>
@@ -22,12 +38,32 @@
 	
 		<copy todir="externalLibs">
 			<fileset dir="${basedir}/../lib">
+				<filename name="LIP_ILOG-Framework_1_3_0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="${basedir}/../lib">
+				<filename name="ant.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="${basedir}/../lib">
+				<filename name="ant-launcher.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="${basedir}/../lib">
 				<filename name="antlr-runtime-4.5.1.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
 			<fileset dir="${basedir}/../lib">
 				<filename name="controlsfx-8.20.9.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="${basedir}/../lib">
+				<filename name="poi-3.10-FINAL-20140208.jar"/>
 			</fileset>
 		</copy>
 	
@@ -50,7 +86,11 @@
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
 				<include name="antlr-runtime-4.5.1.jar"/>
+				<include name="poi-3.10-FINAL-20140208.jar"/>
 				<include name="controlsfx-8.20.9.jar"/>
+				<include name="ant-launcher.jar"/>
+				<include name="LIP_ILOG-Framework_1_3_0.jar"/>
+				<include name="ant.jar"/>
 			</fileset>
 		</copy>
 	
@@ -95,23 +135,23 @@
 	
 	
 		<fx:resources id="appRes">
-			<fx:fileset dir="dist" includes="HSP.jar"/>
+			<fx:fileset dir="dist" includes="${toolVersioned}.jar"/>
 			<fx:fileset dir="dist" includes="libs/*"/>
 			<fx:fileset dir="dist" includes="resources/**"/>
 		</fx:resources>
-	
+
 		<fx:application id="fxApplication"
-			name="CLSP"
+			name="${toolVersioned}"
 			mainClass="de.oth.hsp.clsp.CLSPMain"
+			version="${version}"
 			toolkit="fx"
-			version="1.0"
 		/>
 	
 		<mkdir dir="build/classes/META-INF" />
 	
 	
 	
-		<fx:jar destfile="dist/HSP.jar">
+		<fx:jar destfile="dist/${toolVersioned}.jar">
 			<fx:application refid="fxApplication"/>
 			<fileset dir="build/classes">
 			</fileset>
@@ -119,8 +159,8 @@
 	
 			<manifest>
 				<attribute name="Implementation-Vendor" value="OTH Regensburg"/>
-				<attribute name="Implementation-Title" value="CLSP"/>
-				<attribute name="Implementation-Version" value="1.0"/>
+				<attribute name="Implementation-Title" value="${toolVersioned}"/>
+				<attribute name="Implementation-Version" value="${toolVersioned})"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>
@@ -134,16 +174,66 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="HSP" nativeBundles="all"
+			outfile="${toolVersioned}" nativeBundles="none"
 			updatemode="background" >
 	
 			<fx:platform basedir="${java.home}"/>
-			<fx:info title="HSP" vendor="OTH Regensburg"/>
+			<fx:info title="${toolVersioned}" vendor="OTH Regensburg"/>
 	
 			<fx:application refId="fxApplication"/>
 			<fx:resources refid="appRes"/>
 		</fx:deploy>
 	
-	
+
+
+
+
+			<!-- <copy file="${toolDistPath}" tofile="${toolFinalPath}"/>  -->
+		<copy file="${basedir}/../build/files/start_CLSPForAntBuild.bat" tofile="${basedir}/../build/dist/${finalBatName}" />
+		<copy file="${basedir}/../${dat}/${testDataName}" tofile="${basedir}/../build/dist/${dat}/${testDataName}" />
+
+		<copy todir="${basedir}/../build/dist/${ilog}">
+			<fileset dir="${basedir}/../${ilog}"/>
+		</copy>
+		
+		
+		<copy todir="${basedir}/../build/dist/JavaDoc">
+			<fileset dir="${basedir}/../build/JavaDoc"/>
+		</copy>
+
+		<!-- 
+		<copy todir="${finalLibs}">
+			<fileset dir="${libs}">
+				 we need the ant*.jar's
+				<not>
+					<filename name="ant*.jar"/>
+				</not>  
+				
+			</fileset>
+		</copy>
+		
+		
+		<copy todir="${final}/doc">
+			<fileset dir="doc"/>
+		</copy>
+		-->
+		
+		<!-- replace tool name in bat file -->
+		<replace file="${basedir}/../build/dist/${finalBatName}" token="{{toolJar}}" value="${toolJar}"/>
+		
+		<!-- ZIP everything -->
+		<zip destfile="${basedir}/../build/${toolZip}" basedir="${basedir}/../build/dist/"/>
+		
+		
+		<!-- delete unneeded files and directories -->
+		<delete dir="${basedir}/../build/build"/>
+		<delete dir="${basedir}/../build/deploy"/>
+		<delete dir="${basedir}/../build/dist"/>
+		<delete dir="${basedir}/../build/externalLibs"/>
+		<delete dir="${basedir}/../build/project"/>
+		<delete dir="${basedir}/../build/projectRefs"/>
+		
+		
 	</target>
+	
 </project>

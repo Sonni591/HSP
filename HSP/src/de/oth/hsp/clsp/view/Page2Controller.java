@@ -58,7 +58,9 @@ public class Page2Controller extends AbstractTableViewPage implements IPageContr
      */
     @Override
     public void outEvent() {
-        root.getClspModel().setD(TableUtils.convertOListTo2DArray(tableD.getItems()));
+        if (!tableD.getItems().isEmpty()) {
+            root.getClspModel().setD(TableUtils.convertOListTo2DArray(tableD.getItems()));
+        }
     }
 
     /**

@@ -82,8 +82,8 @@ public abstract class AbstractTableViewPage {
         });
 
         numberCol.setSortable(false);
-        numberCol.setMinWidth(30);
-        numberCol.setMaxWidth(30);
+        numberCol.setMinWidth(50);
+        numberCol.setMaxWidth(50);
         tableView.getColumns().add(numberCol);
 
     }
@@ -165,7 +165,7 @@ public abstract class AbstractTableViewPage {
         // annotation: using the fixedCellSizeProperty is not possible,
         // because this produced display errors in the tableView on changing
         // the dimensions
-        Number n = 28 + 24 * (tableView.getItems().size() + 1);
+        Number n = 28 + (25 * (tableView.getItems().size() + 1));
 
         ObservableValue<Number> tableSize = new ReadOnlyObjectWrapper<Number>(n);
 
