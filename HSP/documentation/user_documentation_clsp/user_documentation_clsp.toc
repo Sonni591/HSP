@@ -1,0 +1,47 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {ngerman}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Inhaltsverzeichnis}{I}{Doc-Start}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1}Einf\IeC {\"u}hrung}{1}{section.I}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Ausf\IeC {\"u}hren des Programms}{2}{section.II}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Programmablauf}{3}{section.III}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1}Algorithmuseinstellung}{3}{subsection.III.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2}Manuelle Eingabe der Daten}{4}{subsection.III.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 1}{4}{paragraph*.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 2}{4}{paragraph*.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 3}{5}{paragraph*.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 4}{7}{paragraph*.8}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 5}{8}{paragraph*.10}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 6}{8}{paragraph*.12}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 7}{9}{paragraph*.14}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Eingabe - Seite 8}{11}{paragraph*.16}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3}Funktionen des Dateimen\IeC {\"u}s}{11}{subsection.III.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.3.1}Speichern von DAT-Dateien}{12}{subsubsection.III.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.3.2}\IeC {\"O}ffnen von DAT-Dateien}{12}{subsubsection.III.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.3.3}Berechnung starten}{12}{subsubsection.III.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.3.4}Stapelverarbeitung}{12}{subsubsection.III.3.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Anzeige der L\IeC {\"o}sung}{13}{subsection.III.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4}Abbildungsverzeichnis}{14}{section.IV}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5}Abk\IeC {\"u}rzungsverzeichnis}{15}{section.V}
